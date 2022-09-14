@@ -1,4 +1,4 @@
-package com.kelaidisc;
+package com.kelaidisc.domain;
 
 public class Course {
 

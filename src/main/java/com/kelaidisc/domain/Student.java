@@ -1,6 +1,6 @@
-package com.kelaidisc;
+package com.kelaidisc.domain;
 
-public class Professor {
+public class Student {
 
     private String firstName;
     private String lastName;

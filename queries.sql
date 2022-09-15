@@ -22,3 +22,9 @@ UPDATE university.course
 SET name=''
 WHERE id=;
 -----------------------------
+DELETE FROM university.professor
+WHERE id=;
+-----------------------------
+DELETE FROM university.professor
+WHERE id in();
+-----------------------------

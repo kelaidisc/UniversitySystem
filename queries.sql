@@ -28,3 +28,15 @@ WHERE id=;
 DELETE FROM university.professor
 WHERE id in();
 -----------------------------
+DELETE FROM university.student
+WHERE id=;
+-----------------------------
+DELETE FROM university.student
+WHERE id in();
+-----------------------------
+DELETE FROM university.course
+WHERE id=;
+-----------------------------
+DELETE FROM university.course
+WHERE id in();
+-----------------------------

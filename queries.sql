@@ -40,7 +40,23 @@ VALUES(4, 'Maria', 'Papadopoulos', 'papa05mar@gmail.com', '+30 6922340599', '200
 -----------------------------
 INSERT INTO university.course
 (id, name)
-VALUES(0, '');
+VALUES(0, 'Logistics');
+-----------------------------
+INSERT INTO university.course
+(id, name)
+VALUES(1, 'Microeconomics');
+-----------------------------
+INSERT INTO university.course
+(id, name)
+VALUES(2, 'Macroeconomics');
+-----------------------------
+INSERT INTO university.course
+(id, name)
+VALUES(3, 'Sociology');
+-----------------------------
+INSERT INTO university.course
+(id, name)
+VALUES(4, 'Agricultural Economics');
 -----------------------------
 UPDATE university.professor
 SET first_name='', last_name='', email='', phone='', birthday=''

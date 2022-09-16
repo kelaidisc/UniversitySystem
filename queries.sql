@@ -1,6 +1,22 @@
 INSERT INTO university.professor
 (id, first_name, last_name, email, phone, birthday)
-VALUES(0, '', '', '', '', '');
+VALUES(0, 'John', 'Giannopoulos', 'johnnyg@gmail.com', '+30 6976770000', '1984-07-08');
+-----------------------------
+INSERT INTO university.professor
+(id, first_name, last_name, email, phone, birthday)
+VALUES(1, 'Andy', 'Mazurcak', 'andym@hotmail.com', '+30 6999030405', '1983-09-10');
+-----------------------------
+INSERT INTO university.professor
+(id, first_name, last_name, email, phone, birthday)
+VALUES(2, 'Panos', 'Bazios', 'baziospan@gmail.com', '+30 6979011011', '1988-12-03');
+-----------------------------
+INSERT INTO university.professor
+(id, first_name, last_name, email, phone, birthday)
+VALUES(3, 'Aglaia', 'Gioka', 'aiglig@gmail.com', '+30 6923040404', '1978-01-01');
+-----------------------------
+INSERT INTO university.professor
+(id, first_name, last_name, email, phone, birthday)
+VALUES(4, 'Ifigeneia', 'Polyzou', 'polifi@gmail.com', '+30 6914201420', '1979-03-03');
 -----------------------------
 INSERT INTO university.student
 (id, first_name, last_name, email, phone, birthday)

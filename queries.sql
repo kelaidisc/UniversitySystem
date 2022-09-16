@@ -1,5 +1,9 @@
 INSERT INTO university.professor
 (id, first_name, last_name, email, phone, birthday)
+VALUES(0, '', '', '', '', '');
+-----------------------------
+INSERT INTO university.professor
+(id, first_name, last_name, email, phone, birthday)
 VALUES(0, 'John', 'Giannopoulos', 'johnnyg@gmail.com', '+30 6976770000', '1984-07-08');
 -----------------------------
 INSERT INTO university.professor
@@ -20,6 +24,10 @@ VALUES(4, 'Ifigeneia', 'Polyzou', 'polifi@gmail.com', '+30 6914201420', '1979-03
 -----------------------------
 INSERT INTO university.student
 (id, first_name, last_name, email, phone, birthday)
+VALUES(0, '', '', '', '', '');
+-----------------------------
+INSERT INTO university.student
+(id, first_name, last_name, email, phone, birthday)
 VALUES(0, 'Thomas', 'Kefalas', 'kefthom@gmail.com', '+30 6994545556', '1992-03-04');
 -----------------------------
 INSERT INTO university.student
@@ -37,6 +45,10 @@ VALUES(3, 'Ioannis', 'Ioannou', 'ioannisioan@gmail.com', '+30 6991911132', '2001
 INSERT INTO university.student
 (id, first_name, last_name, email, phone, birthday)
 VALUES(4, 'Maria', 'Papadopoulos', 'papa05mar@gmail.com', '+30 6922340599', '2003-05-05');
+-----------------------------
+INSERT INTO university.course
+(id, name)
+VALUES(0, '');
 -----------------------------
 INSERT INTO university.course
 (id, name)

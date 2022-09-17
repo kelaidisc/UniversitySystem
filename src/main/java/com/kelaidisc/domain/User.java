@@ -11,4 +11,13 @@ public class User {
     private String phone;
     private LocalDate birthday;
 
+
+    //Constructor: ask from user to give firstName, lastName, email, phone, birthday
+
+    //Get an id?
+
+    //Assign prof to a course
+
+    //Show all the details of the User(Use ID)
+
 }

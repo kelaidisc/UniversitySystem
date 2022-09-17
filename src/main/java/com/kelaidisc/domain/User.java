@@ -10,6 +10,7 @@ public class User {
     private String email;
     private String phone;
     private LocalDate birthday;
+    private String courses; //could be String[]
 
 
     //Constructor: ask from user to give firstName, lastName, email, phone, birthday

@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class User {
 
-    private int id;
+    private static int id = -1;
     private String firstName;
     private String lastName;
     private String email;
@@ -36,11 +36,10 @@ public class User {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         birthday = LocalDate.parse(dobString, dtf);
 
-        System.out.println(firstName + " " + lastName + " " + email + " " + phone + " " + birthday);
+        id++;
+
+        System.out.println("ID = " + id + " " + firstName + " " + lastName + " " + email + " " + phone + " " + birthday);
     }
-
-
-    //Get an id?
 
     //Assign user to a course
 

@@ -39,16 +39,13 @@ public class User {
         id++;
     }
 
-    //Assign user to a course
-
     //Show all the details of the User(Use ID)
-    public String toString(){
-        return "Id = " + id +
+    public void printUser(int id){
+        System.out.println("Id = " + id +
                 "\nName = " + lastName + " " + firstName +
                 "\nEmail = " + email +
                 "\nPhone = " + phone +
-                "\nBirthday = " + birthday;
-
+                "\nBirthday = " + birthday);
     }
 
 }

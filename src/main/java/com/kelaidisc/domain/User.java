@@ -39,13 +39,63 @@ public class User {
         id++;
     }
 
-    //Show all the details of the User(Use ID)
-    public void printUser(int id){
-        System.out.println("Id = " + id +
+    public static int getId() {
+        return id;
+    }
+
+    public static void setId(int id) {
+        User.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    //Show all the details of the User()
+
+    public String toString(){
+        return "Id = " + id +
                 "\nName = " + lastName + " " + firstName +
                 "\nEmail = " + email +
                 "\nPhone = " + phone +
-                "\nBirthday = " + birthday);
+                "\nBirthday = " + birthday;
+
     }
 
 }

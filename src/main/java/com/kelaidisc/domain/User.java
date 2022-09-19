@@ -37,12 +37,18 @@ public class User {
         birthday = LocalDate.parse(dobString, dtf);
 
         id++;
-
-        System.out.println("ID = " + id + " " + firstName + " " + lastName + " " + email + " " + phone + " " + birthday);
     }
 
     //Assign user to a course
 
     //Show all the details of the User(Use ID)
+    public String toString(){
+        return "Id = " + id +
+                "\nName = " + lastName + " " + firstName +
+                "\nEmail = " + email +
+                "\nPhone = " + phone +
+                "\nBirthday = " + birthday;
+
+    }
 
 }

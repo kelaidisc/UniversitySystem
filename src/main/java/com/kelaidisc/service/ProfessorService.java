@@ -37,7 +37,7 @@ public class ProfessorService {
   }
 
   public Professor update(Professor professor) {
-    return professorRepository.create(professor);
+    return professorRepository.update(professor);
   }
 
   public void deleteByIds(Set<Long> ids) {

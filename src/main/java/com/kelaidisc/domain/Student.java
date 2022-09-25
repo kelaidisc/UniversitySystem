@@ -4,6 +4,6 @@ import java.time.LocalDate;
 
 public class Student extends User {
 
-    private LocalDate registrationDate;
+  private LocalDate registrationDate;
 
 }

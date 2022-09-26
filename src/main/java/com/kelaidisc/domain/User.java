@@ -17,7 +17,7 @@ public class User {
   protected @NonNull String firstName;
   protected @NonNull String lastName;
   protected @NonNull String email;
-  protected @NonNull String phone;
+  protected String phone;
   protected @NonNull LocalDate birthday;
 
 }

@@ -9,7 +9,7 @@ import lombok.*;
 
 public class Course {
 
-  private Long id;
+  private @NonNull Long id;
   private @NonNull String name;
   private String description;
 

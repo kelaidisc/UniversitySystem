@@ -13,11 +13,11 @@ public class User {
 
 
 
-  protected Long id;
-  protected @NonNull  String firstName;
+  protected @NonNull Long id;
+  protected @NonNull String firstName;
   protected @NonNull String lastName;
-  protected String email;
-  protected String phone;
-  protected LocalDate birthday;
+  protected @NonNull String email;
+  protected @NonNull String phone;
+  protected @NonNull LocalDate birthday;
 
 }

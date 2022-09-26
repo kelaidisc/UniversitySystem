@@ -1,9 +1,16 @@
 package com.kelaidisc.domain;
 
+import lombok.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 public class Course {
 
   private Long id;
-  private String name;
+  private @NonNull String name;
   private String description;
 
 }

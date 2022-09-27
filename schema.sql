@@ -1,5 +1,5 @@
 CREATE TABLE `professor` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `first_name` varchar(40) NOT NULL,
   `last_name` varchar(40) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE `professor` (
 #-----------------------------
 
 CREATE TABLE `student` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `first_name` varchar(40) NOT NULL,
   `last_name` varchar(40) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE `student` (
 #-----------------------------
 
 CREATE TABLE `course` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
   unique (name),
   PRIMARY KEY (`id`)

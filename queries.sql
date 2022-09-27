@@ -1,62 +1,62 @@
 INSERT INTO university.professor
-(id, first_name, last_name, email, phone, birthday)
-VALUES(0, 'John', 'Giannopoulos', 'johnnyg@gmail.com', '+30 6976770000', '1984-07-08');
+(first_name, last_name, email, phone, birthday)
+VALUES('John', 'Giannopoulos', 'johnnyg@gmail.com', '+30 6976770000', '1984-07-08');
 #-----------------------------
 INSERT INTO university.professor
-(id, first_name, last_name, email, phone, birthday)
-VALUES(1, 'Andy', 'Mazurcak', 'andym@hotmail.com', '+30 6999030405', '1983-09-10');
+(first_name, last_name, email, phone, birthday)
+VALUES('Andy', 'Mazurcak', 'andym@hotmail.com', '+30 6999030405', '1983-09-10');
 #-----------------------------
 INSERT INTO university.professor
-(id, first_name, last_name, email, phone, birthday)
-VALUES(2, 'Panos', 'Bazios', 'baziospan@gmail.com', '+30 6979011011', '1988-12-03');
+(first_name, last_name, email, phone, birthday)
+VALUES('Panos', 'Bazios', 'baziospan@gmail.com', '+30 6979011011', '1988-12-03');
 #-----------------------------
 INSERT INTO university.professor
-(id, first_name, last_name, email, phone, birthday)
-VALUES(3, 'Aglaia', 'Gioka', 'aiglig@gmail.com', '+30 6923040404', '1978-01-01');
+(first_name, last_name, email, phone, birthday)
+VALUES('Aglaia', 'Gioka', 'aiglig@gmail.com', '+30 6923040404', '1978-01-01');
 #-----------------------------
 INSERT INTO university.professor
-(id, first_name, last_name, email, phone, birthday)
-VALUES(4, 'Ifigeneia', 'Polyzou', 'polifi@gmail.com', '+30 6914201420', '1979-03-03');
+(first_name, last_name, email, phone, birthday)
+VALUES('Ifigeneia', 'Polyzou', 'polifi@gmail.com', '+30 6914201420', '1979-03-03');
 #-----------------------------
 INSERT INTO university.student
-(id, first_name, last_name, email, phone, birthday)
-VALUES(0, 'Thomas', 'Kefalas', 'kefthom@gmail.com', '+30 6994545556', '1992-03-04');
+(first_name, last_name, email, phone, birthday)
+VALUES('Thomas', 'Kefalas', 'kefthom@gmail.com', '+30 6994545556', '1992-03-04');
 #-----------------------------
 INSERT INTO university.student
-(id, first_name, last_name, email, phone, birthday)
-VALUES(1, 'Alexandra', 'Kelaidi', 'alexkel12@hotmail.com', '+30 6922324252', '1997-06-12');
+(first_name, last_name, email, phone, birthday)
+VALUES('Alexandra', 'Kelaidi', 'alexkel12@hotmail.com', '+30 6922324252', '1997-06-12');
 #-----------------------------
 INSERT INTO university.student
-(id, first_name, last_name, email, phone, birthday)
-VALUES(2, 'Themis', 'Pantzouris', 'themipantz@hotmail.com', '+30 6944454554', '1999-09-04');
+(first_name, last_name, email, phone, birthday)
+VALUES('Themis', 'Pantzouris', 'themipantz@hotmail.com', '+30 6944454554', '1999-09-04');
 #-----------------------------
 INSERT INTO university.student
-(id, first_name, last_name, email, phone, birthday)
-VALUES(3, 'Ioannis', 'Ioannou', 'ioannisioan@gmail.com', '+30 6991911132', '2001-02-22');
+(first_name, last_name, email, phone, birthday)
+VALUES('Ioannis', 'Ioannou', 'ioannisioan@gmail.com', '+30 6991911132', '2001-02-22');
 #-----------------------------
 INSERT INTO university.student
-(id, first_name, last_name, email, phone, birthday)
-VALUES(4, 'Maria', 'Papadopoulos', 'papa05mar@gmail.com', '+30 6922340599', '2003-05-05');
+(first_name, last_name, email, phone, birthday)
+VALUES('Maria', 'Papadopoulos', 'papa05mar@gmail.com', '+30 6922340599', '2003-05-05');
 #-----------------------------
 INSERT INTO university.course
-(id, name)
-VALUES(0, 'Logistics');
+(name)
+VALUES('Logistics');
 #-----------------------------
 INSERT INTO university.course
-(id, name)
-VALUES(1, 'Microeconomics');
+(name)
+VALUES('Microeconomics');
 #-----------------------------
 INSERT INTO university.course
-(id, name)
-VALUES(2, 'Macroeconomics');
+(name)
+VALUES('Macroeconomics');
 #-----------------------------
 INSERT INTO university.course
-(id, name)
-VALUES(3, 'Sociology');
+(name)
+VALUES('Sociology');
 #-----------------------------
 INSERT INTO university.course
-(id, name)
-VALUES(4, 'Agricultural Economics');
+(name)
+VALUES('Agricultural Economics');
 #-----------------------------
 UPDATE university.professor
 SET first_name='', last_name='', email='', phone='', birthday=''

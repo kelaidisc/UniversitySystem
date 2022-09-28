@@ -1,4 +1,4 @@
-package com.kelaidisc.repository.impl;
+package com.kelaidisc.repository;
 
 import com.kelaidisc.domain.Course;
 import com.kelaidisc.domain.Professor;

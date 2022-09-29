@@ -21,7 +21,7 @@ public class MysqlProfessorRepositoryImpl implements ProfessorRepository {
   @Override
   public List<Professor> findAll () {
     String query = "SELECT *\n" +
-            "FROM university.professor;";
+            "FROM university.professor";
     List<Professor> list = new ArrayList<>();
     try(PreparedStatement ps = conn.prepareStatement(query)){
 

@@ -13,7 +13,7 @@ public class User {
 
 
 
-  protected @NonNull Long id;
+  protected Long id;
   protected @NonNull String firstName;
   protected @NonNull String lastName;
   protected @NonNull String email;

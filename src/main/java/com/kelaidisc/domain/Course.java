@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 public class Course {
 
-  private @NonNull Long id;
+  private Long id;
   private @NonNull String name;
   private String description;
 

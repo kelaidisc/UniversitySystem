@@ -5,7 +5,7 @@ import static com.kelaidisc.common.Constants.DATE_FORMATTER;
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.model.ProfessorSearchField;
 import com.kelaidisc.repository.ProfessorRepository;
-import com.kelaidisc.repository.impl.MysqlProfessorRepositoryImpl;
+import com.kelaidisc.repository.impl.MySqlProfessorRepositoryImpl;
 import lombok.NonNull;
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 public class ProfessorService {
 
-  private final ProfessorRepository professorRepository = new MysqlProfessorRepositoryImpl();
+  private final ProfessorRepository professorRepository = new MySqlProfessorRepositoryImpl();
 
   public List<Professor> findAll() {
     return professorRepository.findAll();

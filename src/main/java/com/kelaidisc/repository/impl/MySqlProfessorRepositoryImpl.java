@@ -15,7 +15,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
-public class MysqlProfessorRepositoryImpl implements ProfessorRepository {
+public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
   static Connection conn = MySqlConnectionProvider.getConn();
   @Override

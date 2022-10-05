@@ -1,6 +1,9 @@
 package com.kelaidisc.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -9,7 +12,7 @@ import lombok.*;
 public class Course {
 
   private Long id;
-  private @NonNull String name;
+  private String name;
   private String description;
 
 }

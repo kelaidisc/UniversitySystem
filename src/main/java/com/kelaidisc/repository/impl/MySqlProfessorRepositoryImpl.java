@@ -1,85 +1,74 @@
 package com.kelaidisc.repository.impl;
 
+import static com.kelaidisc.shared.MySqlConnectionProvider.getConn;
+
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.repository.ProfessorRepository;
-import com.kelaidisc.shared.MySqlConnectionProvider;
-
-import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
-  static Connection conn = MySqlConnectionProvider.getConn();
-  @Override
-  public List<Professor> findAll () {
-    String query = "SELECT *\n" +
-            "FROM university.professor";
+  private final static String FIND_ALL_Q = "SELECT * FROM university.professor";
+  private final static String FIND_ALL_BY_FIRST_NAME_Q =
+      "SELECT * FROM university.professor where first_name like concat('%',?,'%')";
+  private final static String FIND_ALL_BY_LAST_NAME_Q =
+      "SELECT * FROM university.professor where last_name like concat('%',?,'%')";
+
+  private final static String FIND_ALL_BY_BIRTHDAY_Q = "SELECT * FROM university.professor where birthday=?";
+
+  private final static String FIND_BY_ID_Q = "SELECT * FROM university.professor where id=?";
+  private static final String FIND_BY_EMAIL_Q = "SELECT * FROM university.professor where email=?";
+  private static final String FIND_BY_PHONE_Q = "SELECT * FROM university.professor where phone=?";
+
+
+  public List<Professor> getProfessorsFromDatabase(String query, Consumer<PreparedStatement> consumer) {
     List<Professor> list = new ArrayList<>();
-    try(PreparedStatement ps = conn.prepareStatement(query)){
-
-      getProfessors(list, ps);
-
-    } catch (SQLException e){
+    try (PreparedStatement ps = getConn().prepareStatement(query)) {
+      consumer.accept(ps);
+      fillProfessorList(list, ps);
+      return list;
+    } catch (SQLException e) {
       System.out.println("Query failed " + e.getMessage());
     }
     return list;
   }
 
-  private static void getProfessors(List<Professor> list, PreparedStatement ps) throws SQLException {
-    ResultSet rs = ps.executeQuery();
-
-    while(rs.next()){
-      Professor professor = new Professor();
-      professor.setId(rs.getLong("id"));
-      professor.setFirstName(rs.getString("first_name"));
-      professor.setLastName(rs.getString("last_name"));
-      professor.setEmail(rs.getString("email"));
-      professor.setPhone(rs.getString("phone"));
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-      String date = rs.getString("birthday");
-      LocalDate dob = LocalDate.parse(date, formatter);
-      professor.setBirthday(dob);
-      list.add(professor);
-    }
-    rs.close();
+  @Override
+  public List<Professor> findAll() {
+    return getProfessorsFromDatabase(FIND_ALL_Q, (ps) -> {});
   }
-
 
   @Override
   public List<Professor> findAllByFirstNameLike(String firstName) {
-    String query = "SELECT *\n" +
-            "FROM university.professor where first_name like concat('%',?,'%')";
-    List<Professor> list = new ArrayList<>();
-    try(PreparedStatement ps = conn.prepareStatement(query)){
-
-      ps.setString(1, firstName);
-      getProfessors(list, ps);
-
-    } catch (SQLException e){
-      System.out.println("Query failed " + e.getMessage());
-    }
-    return list;
+    return getProfessorsFromDatabase(FIND_ALL_BY_FIRST_NAME_Q, (ps) -> {
+      try {
+        ps.setString(1, firstName);
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    });
   }
 
   @Override
   public List<Professor> findAllByLastNameLike(String lastName) {
-    String query = "SELECT *\n" +
-            "FROM university.professor where last_name like concat('%',?,'%')";
     List<Professor> list = new ArrayList<>();
-    try(PreparedStatement ps = conn.prepareStatement(query)){
+    try (PreparedStatement ps = getConn().prepareStatement(FIND_ALL_BY_LAST_NAME_Q)) {
 
       ps.setString(1, lastName);
-      getProfessors(list, ps);
+      fillProfessorList(list, ps);
 
-    } catch (SQLException e){
+    } catch (SQLException e) {
       System.out.println("Query failed " + e.getMessage());
     }
     return list;
@@ -87,15 +76,13 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
   @Override
   public List<Professor> findAllByBirthday(LocalDate birthday) {
-    String query = "SELECT *\n" +
-            "FROM university.professor where birthday=?";
     List<Professor> list = new ArrayList<>();
-    try(PreparedStatement ps = conn.prepareStatement(query)){
+    try (PreparedStatement ps = getConn().prepareStatement(FIND_ALL_BY_BIRTHDAY_Q)) {
 
       ps.setDate(1, java.sql.Date.valueOf(birthday));
-      getProfessors(list, ps);
+      fillProfessorList(list, ps);
 
-    } catch (SQLException e){
+    } catch (SQLException e) {
       System.out.println("Query failed " + e.getMessage());
     }
     return list;
@@ -103,82 +90,48 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
   @Override
   public Professor findById(Long id) {
-    String query = "SELECT *\n" +
-            "FROM university.professor where id=?";
-    try(PreparedStatement ps = conn.prepareStatement(query)){
-
+    try (PreparedStatement ps = getConn().prepareStatement(FIND_BY_ID_Q)) {
       ps.setLong(1, id);
-      Professor professor = getProfessor(ps);
-      if (professor != null) return professor;
-    } catch (SQLException e){
+      return getProfessor(ps);
+    } catch (SQLException e) {
       System.out.println("Query failed " + e.getMessage());
+      return null;
     }
-    return null;
   }
-
-  private static Professor getProfessor(PreparedStatement ps) throws SQLException {
-    boolean exists = false;
-    Professor professor = new Professor();
-    ResultSet rs = ps.executeQuery();
-    while (rs.next()){
-      exists = true;
-
-      professor.setId(rs.getLong("id"));
-      professor.setFirstName(rs.getString("first_name"));
-      professor.setLastName(rs.getString("last_name"));
-      professor.setEmail(rs.getString("email"));
-      professor.setPhone(rs.getString("phone"));
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-      String date = rs.getString("birthday");
-      LocalDate birthday = LocalDate.parse(date, formatter);
-      professor.setBirthday(birthday);
-    }
-    if(exists){
-      return professor;
-    }
-    rs.close();
-    return null;
-  }
-
 
   @Override
   public Professor findByEmail(String email) {
-    String query = "SELECT *\n" +
-            "FROM university.professor where email=?";
-    try(PreparedStatement ps = conn.prepareStatement(query)){
+    try (PreparedStatement ps = getConn().prepareStatement(FIND_BY_EMAIL_Q)) {
 
       ps.setString(1, email);
-      Professor professor = getProfessor(ps);
-      if (professor != null) return professor;
-    } catch (SQLException e){
+      return getProfessor(ps);
+
+    } catch (SQLException e) {
       System.out.println("Query failed " + e.getMessage());
+      return null;
     }
-    return null;
   }
 
   @Override
   public Professor findByPhone(String phone) {
-    String query = "SELECT *\n" +
-            "FROM university.professor where phone=?";
-
-    try(PreparedStatement ps = conn.prepareStatement(query)){
+    try (PreparedStatement ps = getConn().prepareStatement(FIND_BY_PHONE_Q)) {
 
       ps.setString(1, phone);
-      Professor professor = getProfessor(ps);
-      if (professor != null) return professor;
-    } catch (SQLException e){
+      return getProfessor(ps);
+    } catch (SQLException e) {
       System.out.println("Query failed " + e.getMessage());
+      return null;
     }
-    return null;
   }
 
   @Override
   public Professor create(Professor professor) {
     String query = """
-            INSERT INTO university.professor
-            (first_name, last_name, email, phone, birthday)
-            VALUES(?, ?, ?, ?, ?)""";
-    try(PreparedStatement ps = conn.prepareStatement(query)) {
+        INSERT INTO university.professor
+        (first_name, last_name, email, phone, birthday) 
+        VALUES(?, ?, ?, ?, ?)
+        """;
+    try (PreparedStatement ps = getConn().prepareStatement(query)) {
       ps.setString(1, professor.getFirstName());
       ps.setString(2, professor.getLastName());
       ps.setString(3, professor.getEmail());
@@ -187,7 +140,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
       ps.setDate(5, date);
       ps.executeUpdate();
 
-    }catch (SQLException e){
+    } catch (SQLException e) {
       System.out.println("Creating professor failed " + e.getMessage());
     }
     return professor;
@@ -196,10 +149,10 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
   @Override
   public Professor update(Professor professor) {
     String query = """
-            UPDATE university.professor
-            SET first_name=?, last_name=?, email=?, phone=?, birthday=?
-            WHERE id=?""";
-    try(PreparedStatement ps = conn.prepareStatement(query)){
+        UPDATE university.professor
+        SET first_name=?, last_name=?, email=?, phone=?, birthday=?
+        WHERE id=?""";
+    try (PreparedStatement ps = getConn().prepareStatement(query)) {
       ps.setString(1, professor.getFirstName());
       ps.setString(2, professor.getLastName());
       ps.setString(3, professor.getEmail());
@@ -209,7 +162,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
       ps.setLong(6, professor.getId());
       ps.executeUpdate();
 
-    }catch (SQLException e){
+    } catch (SQLException e) {
       System.out.println("Update failed " + e.getMessage());
     }
     return professor;
@@ -218,14 +171,46 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
   @Override
   public void deleteByIds(Set<Long> ids) {
     String query = "DELETE FROM university.professor\n" +
-            "WHERE id=?";
-    try(PreparedStatement ps = conn.prepareStatement(query)){
-      for(Long id : ids){
+        "WHERE id=?";
+    try (PreparedStatement ps = getConn().prepareStatement(query)) {
+      for (Long id : ids) {
         ps.setLong(1, id);
         ps.executeUpdate();
       }
-    }catch (SQLException e){
+    } catch (SQLException e) {
       System.out.println("Delete failed " + e.getMessage());
     }
+  }
+
+  private Professor getProfessor(PreparedStatement ps) throws SQLException {
+    Professor professor = null;
+    ResultSet rs = ps.executeQuery();
+    while (rs.next()) {
+      professor = convertResultToProfessor(rs);
+    }
+    rs.close();
+    return professor;
+  }
+
+  private void fillProfessorList(List<Professor> list, PreparedStatement ps) throws SQLException {
+    var rs = ps.executeQuery();
+    while (rs.next()) {
+      list.add(convertResultToProfessor(rs));
+    }
+    rs.close();
+  }
+
+  private static Professor convertResultToProfessor(ResultSet rs) throws SQLException {
+    Professor professor = new Professor();
+    professor.setId(rs.getLong("id"));
+    professor.setFirstName(rs.getString("first_name"));
+    professor.setLastName(rs.getString("last_name"));
+    professor.setEmail(rs.getString("email"));
+    professor.setPhone(rs.getString("phone"));
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    String date = rs.getString("birthday");
+    LocalDate dob = LocalDate.parse(date, formatter);
+    professor.setBirthday(dob);
+    return professor;
   }
 }

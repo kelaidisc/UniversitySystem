@@ -1,9 +1,10 @@
 package com.kelaidisc.domain;
 
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
@@ -11,13 +12,11 @@ import java.time.LocalDate;
 @SuperBuilder
 public class User {
 
-
-
   protected Long id;
-  protected @NonNull String firstName;
-  protected @NonNull String lastName;
-  protected @NonNull String email;
+  protected String firstName;
+  protected String lastName;
+  protected String email;
   protected String phone;
-  protected @NonNull LocalDate birthday;
+  protected LocalDate birthday;
 
 }

@@ -6,11 +6,11 @@ import com.kelaidisc.domain.Professor;
 import com.kelaidisc.model.ProfessorSearchField;
 import com.kelaidisc.repository.ProfessorRepository;
 import com.kelaidisc.repository.impl.MySqlProfessorRepositoryImpl;
-import lombok.NonNull;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import lombok.NonNull;
+
 public class ProfessorService {
 
   private final ProfessorRepository professorRepository = new MySqlProfessorRepositoryImpl();
@@ -20,7 +20,8 @@ public class ProfessorService {
   }
 
   public Professor findById(@NonNull Long id) {
-    return professorRepository.findById(id);}
+    return professorRepository.findById(id);
+  }
 
   public List<Professor> search(ProfessorSearchField searchField, String searchTerm) {
     return switch (searchField) {

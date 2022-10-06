@@ -1,7 +1,6 @@
 package com.kelaidisc.repository.impl;
 
-import static com.kelaidisc.shared.MySqlConnectionProvider.getConn;
-
+import static com.kelaidisc.shared.MySqlConnectionProvider.getInstance;
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.repository.ProfessorRepository;
 import java.sql.Date;
@@ -19,22 +18,22 @@ import java.util.function.Supplier;
 
 public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
-  private final static String FIND_ALL_Q = "SELECT * FROM university.professor";
-  private final static String FIND_ALL_BY_FIRST_NAME_Q =
+  private static final String FIND_ALL_Q = "SELECT * FROM university.professor";
+  private static final String FIND_ALL_BY_FIRST_NAME_Q =
       "SELECT * FROM university.professor where first_name like concat('%',?,'%')";
-  private final static String FIND_ALL_BY_LAST_NAME_Q =
+  private static final String FIND_ALL_BY_LAST_NAME_Q =
       "SELECT * FROM university.professor where last_name like concat('%',?,'%')";
 
-  private final static String FIND_ALL_BY_BIRTHDAY_Q = "SELECT * FROM university.professor where birthday=?";
+  private static final String FIND_ALL_BY_BIRTHDAY_Q = "SELECT * FROM university.professor where birthday=?";
 
-  private final static String FIND_BY_ID_Q = "SELECT * FROM university.professor where id=?";
+  private static final String FIND_BY_ID_Q = "SELECT * FROM university.professor where id=?";
   private static final String FIND_BY_EMAIL_Q = "SELECT * FROM university.professor where email=?";
   private static final String FIND_BY_PHONE_Q = "SELECT * FROM university.professor where phone=?";
 
 
   public List<Professor> getProfessorsFromDatabase(String query, Consumer<PreparedStatement> consumer) {
     List<Professor> list = new ArrayList<>();
-    try (PreparedStatement ps = getConn().prepareStatement(query)) {
+    try (PreparedStatement ps = getInstance().getConn().prepareStatement(query)) {
       consumer.accept(ps);
       fillProfessorList(list, ps);
       return list;
@@ -63,7 +62,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
   @Override
   public List<Professor> findAllByLastNameLike(String lastName) {
     List<Professor> list = new ArrayList<>();
-    try (PreparedStatement ps = getConn().prepareStatement(FIND_ALL_BY_LAST_NAME_Q)) {
+    try (PreparedStatement ps = getInstance().getConn().prepareStatement(FIND_ALL_BY_LAST_NAME_Q)) {
 
       ps.setString(1, lastName);
       fillProfessorList(list, ps);
@@ -77,7 +76,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
   @Override
   public List<Professor> findAllByBirthday(LocalDate birthday) {
     List<Professor> list = new ArrayList<>();
-    try (PreparedStatement ps = getConn().prepareStatement(FIND_ALL_BY_BIRTHDAY_Q)) {
+    try (PreparedStatement ps = getInstance().getConn().prepareStatement(FIND_ALL_BY_BIRTHDAY_Q)) {
 
       ps.setDate(1, java.sql.Date.valueOf(birthday));
       fillProfessorList(list, ps);
@@ -90,7 +89,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
   @Override
   public Professor findById(Long id) {
-    try (PreparedStatement ps = getConn().prepareStatement(FIND_BY_ID_Q)) {
+    try (PreparedStatement ps = getInstance().getConn().prepareStatement(FIND_BY_ID_Q)) {
       ps.setLong(1, id);
       return getProfessor(ps);
     } catch (SQLException e) {
@@ -101,7 +100,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
   @Override
   public Professor findByEmail(String email) {
-    try (PreparedStatement ps = getConn().prepareStatement(FIND_BY_EMAIL_Q)) {
+    try (PreparedStatement ps = getInstance().getConn().prepareStatement(FIND_BY_EMAIL_Q)) {
 
       ps.setString(1, email);
       return getProfessor(ps);
@@ -114,7 +113,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
   @Override
   public Professor findByPhone(String phone) {
-    try (PreparedStatement ps = getConn().prepareStatement(FIND_BY_PHONE_Q)) {
+    try (PreparedStatement ps = getInstance().getConn().prepareStatement(FIND_BY_PHONE_Q)) {
 
       ps.setString(1, phone);
       return getProfessor(ps);
@@ -131,7 +130,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
         (first_name, last_name, email, phone, birthday) 
         VALUES(?, ?, ?, ?, ?)
         """;
-    try (PreparedStatement ps = getConn().prepareStatement(query)) {
+    try (PreparedStatement ps = getInstance().getConn().prepareStatement(query)) {
       ps.setString(1, professor.getFirstName());
       ps.setString(2, professor.getLastName());
       ps.setString(3, professor.getEmail());
@@ -152,7 +151,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
         UPDATE university.professor
         SET first_name=?, last_name=?, email=?, phone=?, birthday=?
         WHERE id=?""";
-    try (PreparedStatement ps = getConn().prepareStatement(query)) {
+    try (PreparedStatement ps = getInstance().getConn().prepareStatement(query)) {
       ps.setString(1, professor.getFirstName());
       ps.setString(2, professor.getLastName());
       ps.setString(3, professor.getEmail());
@@ -172,7 +171,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
   public void deleteByIds(Set<Long> ids) {
     String query = "DELETE FROM university.professor\n" +
         "WHERE id=?";
-    try (PreparedStatement ps = getConn().prepareStatement(query)) {
+    try (PreparedStatement ps = getInstance().getConn().prepareStatement(query)) {
       for (Long id : ids) {
         ps.setLong(1, id);
         ps.executeUpdate();

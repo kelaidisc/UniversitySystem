@@ -1,8 +1,9 @@
 package com.kelaidisc.repository.impl;
 
+import static com.kelaidisc.shared.MySqlConnectionProvider.getInstance;
+
 import com.kelaidisc.domain.Student;
 import com.kelaidisc.repository.StudentRepository;
-import com.kelaidisc.shared.MySqlConnectionProvider;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,13 +12,12 @@ import java.util.List;
 import java.util.Set;
 
 public class MySqlStudentRepositoryImpl implements StudentRepository {
-    static Connection conn = MySqlConnectionProvider.getConn();
     @Override
     public List<Student> findAll() {
         String query = "SELECT *\n" +
                 "FROM university.student";
         List<Student> list = new ArrayList<>();
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
 
             getStudents(list, ps);
 
@@ -51,7 +51,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
         String query = "SELECT *\n" +
                 "FROM university.student where first_name like concat('%',?,'%')";
         List<Student> list = new ArrayList<>();
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
 
             ps.setString(1, firstName);
             getStudents(list, ps);
@@ -67,7 +67,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
         String query = "SELECT *\n" +
                 "FROM university.student where last_name like concat('%',?,'%')";
         List<Student> list = new ArrayList<>();
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
 
             ps.setString(1, lastName);
             getStudents(list, ps);
@@ -83,7 +83,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
         String query = "SELECT *\n" +
                 "FROM university.student where birthday=?";
         List<Student> list = new ArrayList<>();
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
 
             ps.setDate(1, java.sql.Date.valueOf(birthday));
             getStudents(list, ps);
@@ -98,7 +98,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
     public Student findById(Long id) {
         String query = "SELECT *\n" +
                 "FROM university.student where id=?";
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
 
             ps.setLong(1, id);
             Student student = getStudent(ps);
@@ -136,7 +136,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
     public Student findByEmail(String email) {
         String query = "SELECT *\n" +
                 "FROM university.student where email=?";
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
 
             ps.setString(1, email);
             Student student = getStudent(ps);
@@ -152,7 +152,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
         String query = "SELECT *\n" +
                 "FROM university.student where phone=?";
 
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
 
             ps.setString(1, phone);
             Student student = getStudent(ps);
@@ -169,7 +169,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
             INSERT INTO university.student
             (first_name, last_name, email, phone, birthday)
             VALUES(?, ?, ?, ?, ?)""";
-        try(PreparedStatement ps = conn.prepareStatement(query)) {
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)) {
             ps.setString(1, student.getFirstName());
             ps.setString(2, student.getLastName());
             ps.setString(3, student.getEmail());
@@ -190,7 +190,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
             UPDATE university.student
             SET first_name=?, last_name=?, email=?, phone=?, birthday=?
             WHERE id=?""";
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
             ps.setString(1, student.getFirstName());
             ps.setString(2, student.getLastName());
             ps.setString(3, student.getEmail());
@@ -210,7 +210,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
     public void deleteByIds(Set<Long> ids) {
         String query = "DELETE FROM university.student\n" +
                 "WHERE id=?";
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
             for(Long id : ids){
                 ps.setLong(1, id);
                 ps.executeUpdate();

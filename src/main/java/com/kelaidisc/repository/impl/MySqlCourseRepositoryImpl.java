@@ -1,13 +1,12 @@
 package com.kelaidisc.repository.impl;
 
+import static com.kelaidisc.shared.MySqlConnectionProvider.getInstance;
 import com.kelaidisc.domain.Course;
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.domain.Student;
 import com.kelaidisc.repository.CourseRepository;
 import com.kelaidisc.service.ProfessorService;
 import com.kelaidisc.service.StudentService;
-import com.kelaidisc.shared.MySqlConnectionProvider;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +16,13 @@ public class MySqlCourseRepositoryImpl implements CourseRepository {
     private ProfessorService professorService;
     private StudentService studentService;
     
-    static Connection conn = MySqlConnectionProvider.getConn();
+
     @Override
     public List<Course> findAll() {
         String query = "SELECT *\n" +
                 "FROM university.course";
         List<Course> list = new ArrayList<>();
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
 
             getCourses(list, ps);
 
@@ -50,7 +49,7 @@ public class MySqlCourseRepositoryImpl implements CourseRepository {
         String query = "SELECT *\n" +
                 "FROM university.course where name like concat('%',?,'%')";
         List<Course> list = new ArrayList<>();
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
 
             ps.setString(1, name);
             getCourses(list, ps);
@@ -65,7 +64,7 @@ public class MySqlCourseRepositoryImpl implements CourseRepository {
     public Course findById(Long id) {
         String query = "SELECT *\n" +
                 "FROM university.course where id=?";
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
 
             ps.setLong(1, id);
             boolean exists = false;
@@ -93,7 +92,7 @@ public class MySqlCourseRepositoryImpl implements CourseRepository {
             INSERT INTO university.course
             (name)
             VALUES(?)""";
-        try(PreparedStatement ps = conn.prepareStatement(query)) {
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)) {
             ps.setString(1, course.getName());
             ps.executeUpdate();
 
@@ -109,7 +108,7 @@ public class MySqlCourseRepositoryImpl implements CourseRepository {
             UPDATE university.course
             SET name=?
             WHERE id=?""";
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
             ps.setString(1, course.getName());
             ps.setLong(2,course.getId());
             ps.executeUpdate();
@@ -124,7 +123,7 @@ public class MySqlCourseRepositoryImpl implements CourseRepository {
     public void deleteByIds(Set<Long> ids) {
         String query = "DELETE FROM university.course\n" +
                 "WHERE id=?";
-        try(PreparedStatement ps = conn.prepareStatement(query)){
+        try(PreparedStatement ps = getInstance().getConn().prepareStatement(query)){
             for(Long id : ids){
                 ps.setLong(1, id);
                 ps.executeUpdate();

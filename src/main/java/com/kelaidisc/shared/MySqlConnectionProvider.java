@@ -6,24 +6,32 @@ import java.sql.SQLException;
 
 public class MySqlConnectionProvider {
 
-  private static Connection conn = null;
+  private static MySqlConnectionProvider instance;
+  private Connection conn;
+  private static final String URL = "jdbc:mysql://localhost:3306/university";
+  private static final String USER = "root";
+  private static final String PASS = "root";
 
-  static {
-    String url = "jdbc:mysql://localhost:3306/university";
-    String user = "root";
-    String pass = "root";
-
+  private MySqlConnectionProvider() throws SQLException{
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");
-      conn = DriverManager.getConnection(url, user, pass);
+      this.conn = DriverManager.getConnection(URL,USER,PASS);
       System.out.println("Connected");
-    } catch (ClassNotFoundException | SQLException e) {
-      System.out.println("Couldn't connect to database " + e.getMessage());
-      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      System.out.println("Something is wrong with the DB connection String " + e.getMessage());
     }
   }
 
-  public static Connection getConn() {
+  public Connection getConn() {
     return conn;
+  }
+
+  public static MySqlConnectionProvider getInstance() throws SQLException{
+    if(instance == null){
+      instance = new MySqlConnectionProvider();
+    } else if(instance.getConn().isClosed()){
+      instance = new MySqlConnectionProvider();
+    }
+    return instance;
   }
 }

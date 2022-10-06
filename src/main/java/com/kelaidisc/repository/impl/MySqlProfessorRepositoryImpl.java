@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
@@ -86,47 +84,46 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
     @Override
     public Professor findById(Long id) {
-        try (PreparedStatement ps = getInstance().getConn().prepareStatement(FIND_BY_ID_Q)) {
-            ps.setLong(1, id);
-            return getProfessor(ps);
-        } catch (SQLException e) {
-            System.out.println("Query failed " + e.getMessage());
-            return null;
-        }
+        return getProfessorFromDatabase(FIND_BY_ID_Q, ps -> {
+            try  {
+                ps.setLong(1, id);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
-
-
 
     @Override
     public Professor findByEmail(String email) {
-        try (PreparedStatement ps = getInstance().getConn().prepareStatement(FIND_BY_EMAIL_Q)) {
+        return getProfessorFromDatabase(FIND_BY_EMAIL_Q, ps ->{
+            try  {
+                ps.setString(1, email);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-            ps.setString(1, email);
-            return getProfessor(ps);
-
-        } catch (SQLException e) {
-            System.out.println("Query failed " + e.getMessage());
-            return null;
-        }
     }
 
     @Override
     public Professor findByPhone(String phone) {
-        try (PreparedStatement ps = getInstance().getConn().prepareStatement(FIND_BY_PHONE_Q)) {
+        return getProfessorFromDatabase(FIND_BY_PHONE_Q, ps ->{
+            try  {
 
-            ps.setString(1, phone);
-            return getProfessor(ps);
-        } catch (SQLException e) {
-            System.out.println("Query failed " + e.getMessage());
-            return null;
-        }
+                ps.setString(1, phone);
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
 
     @Override
     public Professor create(Professor professor) {
         String query = """
                 INSERT INTO university.professor
-                (first_name, last_name, email, phone, birthday) 
+                (first_name, last_name, email, phone, birthday)
                 VALUES(?, ?, ?, ?, ?)
                 """;
         try (PreparedStatement ps = getInstance().getConn().prepareStatement(query)) {
@@ -180,13 +177,20 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
         }
     }
 
-    private Professor getProfessor(PreparedStatement ps) throws SQLException {
+
+    public Professor getProfessorFromDatabase(String query, Consumer<PreparedStatement> consumer) {
         Professor professor = null;
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            professor = convertResultToProfessor(rs);
+        try (PreparedStatement ps = getInstance().getConn().prepareStatement(query)) {
+            consumer.accept(ps);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                professor = convertResultToProfessor(rs);
+            }
+            rs.close();
+            return professor;
+        } catch (SQLException e) {
+            System.out.println("Query failed " + e.getMessage());
         }
-        rs.close();
         return professor;
     }
 

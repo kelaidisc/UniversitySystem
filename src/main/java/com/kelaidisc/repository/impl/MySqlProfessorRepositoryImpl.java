@@ -56,8 +56,29 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
 
     @Override
     public List<Professor> findAll() {
-        return getProfessorsFromDatabase(FIND_ALL_Q, (ps) -> {
-        });
+        return getProfessorsFromDatabase(FIND_ALL_Q, (ps) -> {});
+    }
+
+    private void fillProfessorList(List<Professor> list, PreparedStatement ps) throws SQLException {
+        var rs = ps.executeQuery();
+        while (rs.next()) {
+            list.add(convertResultToProfessor(rs));
+        }
+        rs.close();
+    }
+
+    private static Professor convertResultToProfessor(ResultSet rs) throws SQLException {
+        Professor professor = new Professor();
+        professor.setId(rs.getLong("id"));
+        professor.setFirstName(rs.getString("first_name"));
+        professor.setLastName(rs.getString("last_name"));
+        professor.setEmail(rs.getString("email"));
+        professor.setPhone(rs.getString("phone"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = rs.getString("birthday");
+        LocalDate dob = LocalDate.parse(date, formatter);
+        professor.setBirthday(dob);
+        return professor;
     }
 
     @Override
@@ -93,6 +114,22 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
         });
     }
 
+    public Professor getProfessorFromDatabase(String query, Consumer<PreparedStatement> consumer) {
+        Professor professor = null;
+        try (PreparedStatement ps = getInstance().getConn().prepareStatement(query)) {
+            consumer.accept(ps);
+            var rs = ps.executeQuery();
+            while (rs.next()) {
+                professor = convertResultToProfessor(rs);
+            }
+            rs.close();
+            return professor;
+        } catch (SQLException e) {
+            System.out.println("Query failed " + e.getMessage());
+        }
+        return professor;
+    }
+
     @Override
     public Professor findById(Long id) {
         return getProfessorFromDatabase(FIND_BY_ID_Q, ps -> {
@@ -120,9 +157,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
     public Professor findByPhone(String phone) {
         return getProfessorFromDatabase(FIND_BY_PHONE_Q, ps -> {
             try {
-
                 ps.setString(1, phone);
-
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -177,42 +212,4 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
         }
     }
 
-
-    public Professor getProfessorFromDatabase(String query, Consumer<PreparedStatement> consumer) {
-        Professor professor = null;
-        try (PreparedStatement ps = getInstance().getConn().prepareStatement(query)) {
-            consumer.accept(ps);
-            var rs = ps.executeQuery();
-            while (rs.next()) {
-                professor = convertResultToProfessor(rs);
-            }
-            rs.close();
-            return professor;
-        } catch (SQLException e) {
-            System.out.println("Query failed " + e.getMessage());
-        }
-        return professor;
-    }
-
-    private void fillProfessorList(List<Professor> list, PreparedStatement ps) throws SQLException {
-        var rs = ps.executeQuery();
-        while (rs.next()) {
-            list.add(convertResultToProfessor(rs));
-        }
-        rs.close();
-    }
-
-    private static Professor convertResultToProfessor(ResultSet rs) throws SQLException {
-        Professor professor = new Professor();
-        professor.setId(rs.getLong("id"));
-        professor.setFirstName(rs.getString("first_name"));
-        professor.setLastName(rs.getString("last_name"));
-        professor.setEmail(rs.getString("email"));
-        professor.setPhone(rs.getString("phone"));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String date = rs.getString("birthday");
-        LocalDate dob = LocalDate.parse(date, formatter);
-        professor.setBirthday(dob);
-        return professor;
-    }
 }

@@ -167,12 +167,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
     @Override
     public Student create(Student student) {
         try (PreparedStatement ps = getInstance().getConn().prepareStatement(CREATE_Q)) {
-            ps.setString(1, student.getFirstName());
-            ps.setString(2, student.getLastName());
-            ps.setString(3, student.getEmail());
-            ps.setString(4, student.getPhone());
-            Date date = Date.valueOf(student.getBirthday());
-            ps.setDate(5, date);
+            psSetAllFields(student, ps);
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -181,15 +176,19 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
         return student;
     }
 
+    private static void psSetAllFields(Student student, PreparedStatement ps) throws SQLException {
+        ps.setString(1, student.getFirstName());
+        ps.setString(2, student.getLastName());
+        ps.setString(3, student.getEmail());
+        ps.setString(4, student.getPhone());
+        Date date = Date.valueOf(student.getBirthday());
+        ps.setDate(5, date);
+    }
+
     @Override
     public Student update(Student student) {
         try (PreparedStatement ps = getInstance().getConn().prepareStatement(UPDATE_Q)) {
-            ps.setString(1, student.getFirstName());
-            ps.setString(2, student.getLastName());
-            ps.setString(3, student.getEmail());
-            ps.setString(4, student.getPhone());
-            Date date = Date.valueOf(student.getBirthday());
-            ps.setDate(5, date);
+            psSetAllFields(student, ps);
             ps.setLong(6, student.getId());
             ps.executeUpdate();
 

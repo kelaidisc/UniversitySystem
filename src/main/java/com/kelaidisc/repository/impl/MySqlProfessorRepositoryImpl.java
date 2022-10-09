@@ -168,12 +168,7 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
     @Override
     public Professor create(Professor professor) {
         try (PreparedStatement ps = getInstance().getConn().prepareStatement(CREATE_Q)) {
-            ps.setString(1, professor.getFirstName());
-            ps.setString(2, professor.getLastName());
-            ps.setString(3, professor.getEmail());
-            ps.setString(4, professor.getPhone());
-            Date date = Date.valueOf(professor.getBirthday());
-            ps.setDate(5, date);
+            psSetAllFields(professor, ps);
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -182,15 +177,19 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
         return professor;
     }
 
+    private static void psSetAllFields(Professor professor, PreparedStatement ps) throws SQLException {
+        ps.setString(1, professor.getFirstName());
+        ps.setString(2, professor.getLastName());
+        ps.setString(3, professor.getEmail());
+        ps.setString(4, professor.getPhone());
+        Date date = Date.valueOf(professor.getBirthday());
+        ps.setDate(5, date);
+    }
+
     @Override
     public Professor update(Professor professor) {
         try (PreparedStatement ps = getInstance().getConn().prepareStatement(UPDATE_Q)) {
-            ps.setString(1, professor.getFirstName());
-            ps.setString(2, professor.getLastName());
-            ps.setString(3, professor.getEmail());
-            ps.setString(4, professor.getPhone());
-            Date date = Date.valueOf(professor.getBirthday());
-            ps.setDate(5, date);
+            psSetAllFields(professor, ps);
             ps.setLong(6, professor.getId());
             ps.executeUpdate();
 

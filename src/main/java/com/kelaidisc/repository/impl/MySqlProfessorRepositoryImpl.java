@@ -1,9 +1,6 @@
 package com.kelaidisc.repository.impl;
 
-import static com.kelaidisc.common.SqlUtils.safeExecuteUpdate;
-import static com.kelaidisc.common.SqlUtils.safeSetDate;
-import static com.kelaidisc.common.SqlUtils.safeSetLong;
-import static com.kelaidisc.common.SqlUtils.safeSetString;
+import static com.kelaidisc.common.SqlUtils.*;
 import static com.kelaidisc.shared.MySqlConnectionProvider.getInstance;
 
 import com.kelaidisc.domain.Professor;
@@ -11,7 +8,6 @@ import com.kelaidisc.repository.ProfessorRepository;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -122,8 +118,8 @@ public class MySqlProfessorRepositoryImpl implements ProfessorRepository {
       return list;
     }
   }
-
-  private void fillProfessorList(List<Professor> list, PreparedStatement ps) throws SQLException {
+  @SneakyThrows
+  private void fillProfessorList(List<Professor> list, PreparedStatement ps) {
     var rs = ps.executeQuery();
     while (rs.next()) {
       list.add(convertResultToProfessor(rs));

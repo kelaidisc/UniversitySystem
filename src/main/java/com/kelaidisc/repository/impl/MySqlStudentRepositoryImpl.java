@@ -37,8 +37,7 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
             SET first_name=?, last_name=?, email=?, phone=?, birthday=?
             WHERE id=?""";
 
-    private static final String DELETE_BY_IDS_Q = "DELETE FROM university.student\n" +
-            "WHERE id in (?)";
+    private static final String DELETE_BY_IDS_Q = "DELETE FROM university.student WHERE id in (?)";
 
     @Override
     public List<Student> findAll() {
@@ -131,7 +130,8 @@ public class MySqlStudentRepositoryImpl implements StudentRepository {
         Date date = Date.valueOf(student.getBirthday());
         ps.setDate(5, date);
     }
-    private void fillStudentList(List<Student> list, PreparedStatement ps) throws SQLException {
+    @SneakyThrows
+    private void fillStudentList(List<Student> list, PreparedStatement ps) {
         var rs = ps.executeQuery();
         while (rs.next()) {
             list.add(convertResultToStudent(rs));

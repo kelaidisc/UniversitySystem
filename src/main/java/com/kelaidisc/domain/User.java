@@ -1,18 +1,17 @@
 package com.kelaidisc.domain;
 
 import java.time.LocalDate;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @SuperBuilder
-public class User {
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity {
 
-  protected Long id;
   protected String firstName;
   protected String lastName;
   protected String email;

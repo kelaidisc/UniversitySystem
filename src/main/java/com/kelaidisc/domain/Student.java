@@ -6,9 +6,9 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 @Data
-@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 public class Student extends User {
 

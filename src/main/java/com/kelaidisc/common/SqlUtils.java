@@ -2,6 +2,7 @@ package com.kelaidisc.common;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -22,10 +23,5 @@ public class SqlUtils {
   @SneakyThrows
   public static void safeSetLong(PreparedStatement preparedStatement, int index, Long longToSet) {
     preparedStatement.setLong(index, longToSet);
-  }
-
-  @SneakyThrows
-  public static void safeExecuteUpdate(PreparedStatement preparedStatement) {
-    preparedStatement.executeUpdate();
   }
 }

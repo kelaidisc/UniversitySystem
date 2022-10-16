@@ -6,9 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-public class BaseEntity { //could implement Serializable
-    private Long id;
+public class BaseEntity {
+
+  private Long id;
+
 }

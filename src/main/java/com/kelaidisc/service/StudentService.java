@@ -1,38 +1,47 @@
 package com.kelaidisc.service;
 
 
+import static com.kelaidisc.common.Constants.DATE_FORMATTER;
+
 import com.kelaidisc.domain.Student;
 import com.kelaidisc.model.StudentSearchField;
-import com.kelaidisc.repository.StudentRepository;
-import com.kelaidisc.repository.impl.MySqlStudentRepositoryImpl;
-import lombok.NonNull;
-
+import com.kelaidisc.repository.UserRepository;
+import com.kelaidisc.repository.impl.StudentRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-
-import static com.kelaidisc.common.Constants.DATE_FORMATTER;
+import lombok.NonNull;
 
 public class StudentService {
-    private final StudentRepository studentRepository = new MySqlStudentRepositoryImpl();
+  private final UserRepository<Student> studentRepository = new StudentRepository();
 
-    public List<Student> findAll(){ return studentRepository.findAll();}
+  public List<Student> findAll() {
+    return studentRepository.findAll();
+  }
 
-    public Student findById(@NonNull Long id){return studentRepository.findById(id);}
+  public Student findById(@NonNull Long id) {
+    return studentRepository.findById(id);
+  }
 
-    public List<Student> search(StudentSearchField searchField,String searchTerm){
-       return switch (searchField){
-            case FIRST_NAME -> (studentRepository.findAllByFirstNameLike(searchTerm));
-            case LAST_NAME -> (studentRepository.findAllByLastNameLike(searchTerm));
-            case EMAIL -> List.of(studentRepository.findByEmail(searchTerm));
-            case PHONE -> List.of(studentRepository.findByPhone(searchTerm));
-            case BIRTHDAY -> (studentRepository.findAllByBirthday(LocalDate.parse(searchTerm,DATE_FORMATTER)));
-       };
-    }
+  public List<Student> search(StudentSearchField searchField, String searchTerm) {
+    return switch (searchField) {
+      case FIRST_NAME -> (studentRepository.findAllByFirstNameLike(searchTerm));
+      case LAST_NAME -> (studentRepository.findAllByLastNameLike(searchTerm));
+      case EMAIL -> List.of(studentRepository.findByEmail(searchTerm));
+      case PHONE -> List.of(studentRepository.findByPhone(searchTerm));
+      case BIRTHDAY -> (studentRepository.findAllByBirthday(LocalDate.parse(searchTerm, DATE_FORMATTER)));
+    };
+  }
 
-    public Student create(Student student){return studentRepository.create(student);}
+  public Student create(Student student) {
+    return studentRepository.create(student);
+  }
 
-    public Student update(Student student){return studentRepository.update(student);}
+  public Student update(Student student) {
+    return studentRepository.update(student);
+  }
 
-    public void deleteByIds(@NonNull Set<Long> ids){ studentRepository.deleteByIds(ids);}
+  public void deleteByIds(@NonNull Set<Long> ids) {
+    studentRepository.deleteByIds(ids);
+  }
 }

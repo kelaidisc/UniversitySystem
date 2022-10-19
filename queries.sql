@@ -20,23 +20,23 @@ VALUES('Ifigeneia', 'Polyzou', 'polifi@gmail.com', '+30 6914201420', '1979-03-03
 #-----------------------------
 INSERT INTO university.student
 (first_name, last_name, email, phone, birthday)
-VALUES('Thomas', 'Kefalas', 'kefthom@gmail.com', '+30 6994545556', '1992-03-04');
+VALUES('Thomas', 'Kefalas', 'kefthom@gmail.com', '+30 6994545556', '1992-03-04','2021-03-04');
 #-----------------------------
 INSERT INTO university.student
 (first_name, last_name, email, phone, birthday)
-VALUES('Alexandra', 'Kelaidi', 'alexkel12@hotmail.com', '+30 6922324252', '1997-06-12');
+VALUES('Alexandra', 'Kelaidi', 'alexkel12@hotmail.com', '+30 6922324252', '1997-06-12','2022-03-04');
 #-----------------------------
 INSERT INTO university.student
 (first_name, last_name, email, phone, birthday)
-VALUES('Themis', 'Pantzouris', 'themipantz@hotmail.com', '+30 6944454554', '1999-09-04');
+VALUES('Themis', 'Pantzouris', 'themipantz@hotmail.com', '+30 6944454554', '1999-09-04','2020-01-01');
 #-----------------------------
 INSERT INTO university.student
 (first_name, last_name, email, phone, birthday)
-VALUES('Ioannis', 'Ioannou', 'ioannisioan@gmail.com', '+30 6991911132', '2001-02-22');
+VALUES('Ioannis', 'Ioannou', 'ioannisioan@gmail.com', '+30 6991911132', '2001-02-22','2019-05-05');
 #-----------------------------
 INSERT INTO university.student
 (first_name, last_name, email, phone, birthday)
-VALUES('Maria', 'Papadopoulos', 'papa05mar@gmail.com', '+30 6922340599', '2003-05-05');
+VALUES('Maria', 'Papadopoulos', 'papa05mar@gmail.com', '+30 6922340599', '2003-05-05','2022-09-09');
 #-----------------------------
 INSERT INTO university.course
 (name)

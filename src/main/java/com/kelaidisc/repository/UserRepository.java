@@ -16,9 +16,9 @@ public interface UserRepository<T extends User> extends CrudRepository<T> {
 
   String FIND_ALL_BY_FIRST_NAME_Q = "SELECT * FROM table_name where first_name like concat('%',?,'%')";
   String FIND_ALL_BY_LAST_NAME_Q = "SELECT * FROM table_name where last_name like concat('%',?,'%')";
-  String FIND_ALL_BY_BIRTHDAY_Q = "SELECT * FROM table_name where birthday=?";
   String FIND_BY_EMAIL_Q = "SELECT * FROM table_name where email=?";
   String FIND_BY_PHONE_Q = "SELECT * FROM table_name where phone=?";
+  String FIND_ALL_BY_BIRTHDAY_Q = "SELECT * FROM table_name where birthday=?";
 
 
   @Override

@@ -22,6 +22,9 @@ public class CourseService {
 
     public void deleteByIds(@NonNull Set<Long> ids){courseRepository.deleteByIds(ids);}
 
+    public List<Course> findAllByNameLike(String name)
+    {return ((CourseRepository) courseRepository).findAllByNameLike(name);}
+
     //assign professor to course
     //enroll student to course
 

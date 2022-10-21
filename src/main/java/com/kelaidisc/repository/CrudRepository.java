@@ -21,9 +21,9 @@ public interface CrudRepository<T extends BaseEntity> {
 
   String FIND_ALL_Q = "SELECT * FROM %s";
   String FIND_BY_ID_Q = "SELECT * FROM %s where id=?";
-  String DELETE_BY_IDS_Q = "DELETE FROM %s WHERE id in (?)";
   String CREATE_Q = "INSERT INTO %s (%s) VALUES(%s)";
   String UPDATE_Q = "UPDATE %s SET %s WHERE id=?";
+  String DELETE_BY_IDS_Q = "DELETE FROM %s WHERE id in (?)";
 
   String getTableName();
 

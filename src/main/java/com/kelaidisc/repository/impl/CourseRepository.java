@@ -37,8 +37,8 @@ public class CourseRepository implements CrudRepository<Course> {
 
     @Override
     @SneakyThrows
-    public void setAllFieldsFromEntity(Course entity, PreparedStatement ps) {
-        ps.setString(1, entity.getName());
+    public void setAllFieldsFromEntity(Course course, PreparedStatement ps) {
+        ps.setString(1, course.getName());
     }
 
     public List<Course> findAllByNameLike(String name){

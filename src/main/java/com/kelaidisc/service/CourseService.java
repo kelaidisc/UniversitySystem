@@ -1,7 +1,6 @@
 package com.kelaidisc.service;
 
 import com.kelaidisc.domain.Course;
-import com.kelaidisc.repository.CrudRepository;
 import com.kelaidisc.repository.impl.CourseRepository;
 import lombok.NonNull;
 
@@ -10,7 +9,7 @@ import java.util.Set;
 
 
 public class CourseService {
-    private final CrudRepository<Course> courseRepository = new CourseRepository();
+    private final CourseRepository courseRepository = new CourseRepository();
 
     public List<Course> findAll(){return courseRepository.findAll();}
 
@@ -23,7 +22,7 @@ public class CourseService {
     public void deleteByIds(@NonNull Set<Long> ids){courseRepository.deleteByIds(ids);}
 
     public List<Course> findAllByNameLike(String name)
-    {return ((CourseRepository) courseRepository).findAllByNameLike(name);}
+    {return  courseRepository.findAllByNameLike(name);}
 
     //assign professor to course
     //enroll student to course

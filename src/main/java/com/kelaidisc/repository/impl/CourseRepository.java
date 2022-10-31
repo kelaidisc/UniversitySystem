@@ -17,7 +17,12 @@ import static java.lang.String.format;
 public class CourseRepository implements CrudRepository<Course> {
 
     private static final String FIND_ALL_BY_NAME_Q = "SELECT * FROM table_name where name like concat('%',?,'%')";
+
+    // TODO Use ? (with the prepared statement) instead of %d
     private static final String ASSIGN_PROFESSOR_Q = "UPDATE course SET professor_id = %d WHERE id = %d";
+
+    // TODO Use ? (with the prepared statement) instead of %d
+    // TODO What happens if there is already an entry with the given course_id & student_id? Can you make this query idempotent? Search it out.
     private static final String ENROLL_STUDENTS_Q = "INSERT INTO course_students (`course_id`, `student_id`) VALUES (%d,%d)";
 
     @Override
@@ -59,6 +64,7 @@ public class CourseRepository implements CrudRepository<Course> {
     }
 
     @SneakyThrows
+    // TODO Can you implement this differently in order to do everything in one Query?
     public void enrollStudents(Course course, List<Student> students) {
         for(Student student : students){
             try (PreparedStatement preparedStatement = getInstance().getConn().prepareStatement(format(ENROLL_STUDENTS_Q, course.getId(), student.getId()))) {

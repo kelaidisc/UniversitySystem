@@ -41,6 +41,8 @@ public class StudentService {
     return studentRepository.update(student);
   }
 
+  // TODO Now that Courses are linked with Students, in order to delete a Student you must first delete the related rows from the course_students table
+  // TODO This operation needs to be transactional. Why? What does it mean? (Google it and ask if any questions) and try to create a transaction
   public void deleteByIds(@NonNull Set<Long> ids) {
     studentRepository.deleteByIds(ids);
   }

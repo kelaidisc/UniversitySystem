@@ -1,6 +1,8 @@
 package com.kelaidisc.service;
 
 import com.kelaidisc.domain.Course;
+import com.kelaidisc.domain.Professor;
+import com.kelaidisc.domain.Student;
 import com.kelaidisc.repository.impl.CourseRepository;
 import lombok.NonNull;
 
@@ -24,7 +26,8 @@ public class CourseService {
     public List<Course> findAllByNameLike(String name)
     {return  courseRepository.findAllByNameLike(name);}
 
-    //assign professor to course
-    //enroll student to course
+    public void assignProfessor(Course course, Professor professor){ courseRepository.assignProfessor(course, professor);}
+
+    public void enrollStudents(Course course, List<Student> students){ courseRepository.enrollStudents(course, students);}
 
 }

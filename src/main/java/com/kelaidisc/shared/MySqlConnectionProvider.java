@@ -9,7 +9,7 @@ public class MySqlConnectionProvider {
 
   private static MySqlConnectionProvider instance;
   private Connection conn;
-  private static final String URL = "jdbc:mysql://localhost:3306/university";
+  private static final String URL = "jdbc:mysql://localhost:3306/university?allowMultiQueries=true";
   private static final String USER = "root";
   private static final String PASS = "root";
 

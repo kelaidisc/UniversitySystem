@@ -41,7 +41,17 @@ CREATE TABLE `course_students`
     `course_id`  int not null,
     `student_id` int not null,
     foreign key (course_id) references course (id),
-    foreign key (student_id) references student (id),
-    unique(course_id, student_id)
+    foreign key (student_id) references student (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+#----------------------------- procedure
+delimiter //
+create
+    procedure course_delete(
+    in course int
+)
+begin
+delete from university.course_students where course_id  = course;
+delete from university.course where id = course;
+end//
+delimiter ;
 

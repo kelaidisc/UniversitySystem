@@ -42,8 +42,8 @@ public class ProfessorService {
     return professorRepository.update(professor);
   }
 
-  // TODO Now that a Professor is part of the Course, in order to delete a Professor you have to set the professor_id = NULL first
-  // TODO This operation needs to be transactional. Why? What does it mean? (Google it and ask if any questions) and try to create a transaction
+  // TODO Now that a Professor is part of the Course, in order to delete a Professor you have to set the professor_id = NULL first ok
+  // TODO This operation needs to be transactional. Why? What does it mean? (Google it and ask if any questions) and try to create a transaction ok
   public void deleteByIds(@NonNull Set<Long> ids) {
     professorRepository.deleteByIds(ids);
   }

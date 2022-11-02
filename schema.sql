@@ -65,4 +65,14 @@ update course set professor_id = null where professor_id = prof_id;
 delete from professor where id = prof_id;
 end//
 delimiter ;
-
+#----------------------------- procedure
+delimiter //
+create
+    procedure student_delete(
+    in stud_id int
+)
+begin
+delete from course_students where student_id = stud_id;
+delete from student where id = stud_id;
+end//
+delimiter ;

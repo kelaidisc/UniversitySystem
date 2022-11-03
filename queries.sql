@@ -60,39 +60,39 @@ VALUES('Agricultural Economics');
 #-----------------------------
 UPDATE university.professor
 SET first_name='', last_name='', email='', phone='', birthday=''
-WHERE id=;
+WHERE id=?;
 #-----------------------------
 UPDATE university.student
 SET first_name='', last_name='', email='', phone='', birthday=''
-WHERE id=;
+WHERE id=?;
 #-----------------------------
 UPDATE university.course
 SET name=''
-WHERE id=;
+WHERE id=?;
 #-----------------------------
 DELETE FROM university.professor
-WHERE id=;
+WHERE id=?;
 #-----------------------------
 DELETE FROM university.professor
-WHERE id in();
+WHERE id in(?);
 #-----------------------------
 DELETE FROM university.student
-WHERE id=;
+WHERE id=?;
 #-----------------------------
 DELETE FROM university.student
-WHERE id in();
+WHERE id in(?);
 #-----------------------------
 DELETE FROM university.course
-WHERE id=;
+WHERE id=?;
 #-----------------------------
 DELETE FROM university.course
-WHERE id in();
+WHERE id in(?);
 #-----------------------------
 SELECT *
 FROM university.professor;
 #-----------------------------
 SELECT *
-FROM university.professor where id=;
+FROM university.professor where id=?;
 #-----------------------------
 SELECT *
 FROM university.professor where first_name like '%%';
@@ -113,7 +113,7 @@ SELECT *
 FROM university.student;
 #-----------------------------
 SELECT *
-FROM university.student where id=;
+FROM university.student where id=?;
 #-----------------------------
 SELECT *
 FROM university.student where first_name like '%%';
@@ -134,7 +134,7 @@ SELECT *
 FROM university.course;
 #-----------------------------
 SELECT *
-FROM university.course where id=;
+FROM university.course where id=?;
 #-----------------------------
 SELECT *
 FROM university.course where name like '%%';

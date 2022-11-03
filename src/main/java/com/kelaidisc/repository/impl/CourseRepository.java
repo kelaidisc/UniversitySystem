@@ -16,12 +16,7 @@ import static com.kelaidisc.shared.MySqlConnectionProvider.getInstance;
 public class CourseRepository implements CrudRepository<Course> {
 
     private static final String FIND_ALL_BY_NAME_Q = "SELECT * FROM table_name where name like concat('%',?,'%')";
-
-    // TODO Use ? (with the prepared statement) instead of %d ok
     private static final String ASSIGN_PROFESSOR_Q = "UPDATE course SET professor_id = ? WHERE id = ?";
-
-    // TODO Use ? (with the prepared statement) instead of %d ok
-    // TODO What happens if there is already an entry with the given course_id & student_id? Can you make this query idempotent? Search it out. ok
     private static final String ENROLL_STUDENTS_Q = "INSERT IGNORE INTO course_students (`course_id`, `student_id`) VALUES (?,?)";
 
     @Override
@@ -64,7 +59,6 @@ public class CourseRepository implements CrudRepository<Course> {
     }
 
     @SneakyThrows
-    // TODO Can you implement this differently in order to do everything in one Query? ok
     public void enrollStudents(Long courseId, List<Long> studentsIds) {
 
         try (PreparedStatement ps = getInstance().getConn().prepareStatement(ENROLL_STUDENTS_Q)) {

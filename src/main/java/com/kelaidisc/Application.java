@@ -20,6 +20,6 @@ public class Application {
     var searchField = ProfessorSearchField.fromIndex(input);
 
     var inputSearchTerm = new Scanner(System.in).nextLine();
-    System.out.println("Psaxnw " + searchField + " " + inputSearchTerm);
+    System.out.println("Searching " + searchField + " " + inputSearchTerm);
   }
 }

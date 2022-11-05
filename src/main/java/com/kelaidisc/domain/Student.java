@@ -4,10 +4,10 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,6 +19,10 @@ import java.util.Objects;
 public class Student extends User {
   @Column(name = "registration_date", nullable = false)
   private LocalDate registrationDate;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "course_students", joinColumns = @JoinColumn(name = "student_id"),
+          inverseJoinColumns = @JoinColumn(name = "course_id"))
+  private Set<Course> courses;
 
   @Override
   public boolean equals(Object o) {

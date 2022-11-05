@@ -4,9 +4,9 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,6 +19,12 @@ public class Course extends BaseEntity {
   @Column(name = "name",nullable = false, unique = true)
   private String name;
   private String description;
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "professor_id")
+  private Professor professor;
+  @ManyToMany(mappedBy = "courses")
+  @ToString.Exclude
+  private Set<Student> students;
 
   @Override
   public boolean equals(Object o) {

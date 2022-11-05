@@ -4,17 +4,17 @@ import static com.kelaidisc.common.Constants.DATE_FORMATTER;
 
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.model.ProfessorSearchField;
-import com.kelaidisc.repository.UserRepository;
-import com.kelaidisc.repository.impl.ProfessorRepository;
+import com.kelaidisc.repository.previousRepos.UserRepositoryMine;
+import com.kelaidisc.repository.previousRepos.ProfessorRepositoryMine;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-import javax.print.attribute.HashDocAttributeSet;
+
 import lombok.NonNull;
 
 public class ProfessorService {
 
-  private final UserRepository<Professor> professorRepository = new ProfessorRepository();
+  private final UserRepositoryMine<Professor> professorRepository = new ProfessorRepositoryMine();
 
   public List<Professor> findAll() {
     return professorRepository.findAll();

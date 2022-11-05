@@ -1,4 +1,4 @@
-package com.kelaidisc.repository;
+package com.kelaidisc.repository.previousRepos;
 
 import static com.kelaidisc.common.SqlUtils.safeSetLong;
 import static com.kelaidisc.shared.MySqlConnectionProvider.getInstance;
@@ -17,7 +17,7 @@ import lombok.SneakyThrows;
 /*
   In order to make this easier, we will support only Long (Auto Increment) for IDs
  */
-public interface CrudRepository<T extends BaseEntity> {
+public interface CrudRepositoryMine<T extends BaseEntity> {
 
   String FIND_ALL_Q = "SELECT * FROM %s";
   String FIND_BY_ID_Q = "SELECT * FROM %s where id=?";

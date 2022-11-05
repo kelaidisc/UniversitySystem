@@ -18,6 +18,7 @@ import java.util.Set;
 public class Course extends BaseEntity {
   @Column(name = "name",nullable = false, unique = true)
   private String name;
+  @Column(name = "description")
   private String description;
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "professor_id")

@@ -18,7 +18,6 @@ import java.util.Set;
 @Entity(name = "professor")
 public class Professor extends User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "professor")
-
     @ToString.Exclude
     private Set<Course> courses;
     @Override

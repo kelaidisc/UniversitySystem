@@ -5,15 +5,15 @@ import static com.kelaidisc.common.Constants.DATE_FORMATTER;
 
 import com.kelaidisc.domain.Student;
 import com.kelaidisc.model.StudentSearchField;
-import com.kelaidisc.repository.UserRepository;
-import com.kelaidisc.repository.impl.StudentRepository;
+import com.kelaidisc.repository.previousRepos.UserRepositoryMine;
+import com.kelaidisc.repository.previousRepos.StudentRepositoryMine;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import lombok.NonNull;
 
 public class StudentService {
-  private final UserRepository<Student> studentRepository = new StudentRepository();
+  private final UserRepositoryMine<Student> studentRepository = new StudentRepositoryMine();
 
   public List<Student> findAll() {
     return studentRepository.findAll();

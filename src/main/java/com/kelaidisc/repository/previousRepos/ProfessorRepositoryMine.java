@@ -1,7 +1,6 @@
-package com.kelaidisc.repository.impl;
+package com.kelaidisc.repository.previousRepos;
 
 import com.kelaidisc.domain.Professor;
-import com.kelaidisc.repository.UserRepository;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -11,7 +10,7 @@ import static com.kelaidisc.shared.MySqlConnectionProvider.getInstance;
 
 import lombok.SneakyThrows;
 
-public class ProfessorRepository implements UserRepository<Professor> {
+public class ProfessorRepositoryMine implements UserRepositoryMine<Professor> {
 
   @Override
   public String getTableName() {

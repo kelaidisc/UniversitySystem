@@ -1,7 +1,6 @@
-package com.kelaidisc.repository.impl;
+package com.kelaidisc.repository.previousRepos;
 
 import com.kelaidisc.domain.Course;
-import com.kelaidisc.repository.CrudRepository;
 import lombok.SneakyThrows;
 
 import java.sql.CallableStatement;
@@ -13,7 +12,7 @@ import java.util.Set;
 import static com.kelaidisc.common.SqlUtils.safeSetString;
 import static com.kelaidisc.shared.MySqlConnectionProvider.getInstance;
 
-public class CourseRepository implements CrudRepository<Course> {
+public class CourseRepositoryMine implements CrudRepositoryMine<Course> {
 
     private static final String FIND_ALL_BY_NAME_Q = "SELECT * FROM table_name where name like concat('%',?,'%')";
     private static final String ASSIGN_PROFESSOR_Q = "UPDATE course SET professor_id = ? WHERE id = ?";

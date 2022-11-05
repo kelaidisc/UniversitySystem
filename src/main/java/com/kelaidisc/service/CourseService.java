@@ -1,7 +1,7 @@
 package com.kelaidisc.service;
 
 import com.kelaidisc.domain.Course;
-import com.kelaidisc.repository.impl.CourseRepository;
+import com.kelaidisc.repository.previousRepos.CourseRepositoryMine;
 import lombok.NonNull;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 
 public class CourseService {
-    private final CourseRepository courseRepository = new CourseRepository();
+    private final CourseRepositoryMine courseRepository = new CourseRepositoryMine();
 
     public List<Course> findAll(){return courseRepository.findAll();}
 

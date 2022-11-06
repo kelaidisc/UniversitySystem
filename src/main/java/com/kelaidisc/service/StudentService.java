@@ -5,20 +5,27 @@ import static com.kelaidisc.common.Constants.DATE_FORMATTER;
 
 import com.kelaidisc.domain.Student;
 import com.kelaidisc.model.StudentSearchField;
-import com.kelaidisc.repository.previousRepos.UserRepositoryMine;
-import com.kelaidisc.repository.previousRepos.StudentRepositoryMine;
+import com.kelaidisc.repository.StudentRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class StudentService {
-  private final UserRepositoryMine<Student> studentRepository = new StudentRepositoryMine();
+  private final StudentRepository studentRepository;
 
   public List<Student> findAll() {
     return studentRepository.findAll();
   }
 
+  /*
+  TODO
+  1. Create a new package, call it exception
+  2. Create a new class called UniversityNotFoundException and extend from RuntimeException
+  3. Convert the Optional<Student> coming from the CrudRepository to Student by adding the .orElseThrow(() -> new NotFoundException());
+ */
   public Student findById(@NonNull Long id) {
     return studentRepository.findById(id);
   }
@@ -34,13 +41,14 @@ public class StudentService {
   }
 
   public Student create(Student student) {
-    return studentRepository.create(student);
+    return studentRepository.save(student);
   }
 
   public Student update(Student student) {
-    return studentRepository.update(student);
+    return studentRepository.save(student);
   }
+
   public void deleteByIds(@NonNull Set<Long> ids) {
-    studentRepository.deleteByIds(ids);
+    studentRepository.deleteAllById(ids);
   }
 }

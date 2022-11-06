@@ -16,14 +16,19 @@ import java.util.Objects;
 @SuperBuilder
 @MappedSuperclass
 public class User extends BaseEntity {
+
   @Column(name = "first_name", nullable = false)
   protected String firstName;
+
   @Column(name = "last_name", nullable = false)
   protected String lastName;
+
   @Column(name = "email", nullable = false, unique = true)
   protected String email;
+
   @Column(name = "phone", unique = true)
   protected String phone;
+
   @Column(name = "birthday", nullable = false)
   protected LocalDate birthday;
 

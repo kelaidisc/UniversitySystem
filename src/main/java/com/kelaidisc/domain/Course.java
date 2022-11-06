@@ -16,15 +16,19 @@ import java.util.Set;
 @SuperBuilder
 @Entity(name = "course")
 public class Course extends BaseEntity {
+
   @Column(name = "name",nullable = false, unique = true)
   private String name;
+
   @Column(name = "description")
   private String description;
-  @ManyToOne(cascade = CascadeType.ALL)
+
   @JoinColumn(name = "professor_id")
+  @ManyToOne(cascade = CascadeType.ALL)
   private Professor professor;
-  @ManyToMany(mappedBy = "courses")
+
   @ToString.Exclude
+  @ManyToMany(mappedBy = "courses")
   private Set<Student> students;
 
   @Override

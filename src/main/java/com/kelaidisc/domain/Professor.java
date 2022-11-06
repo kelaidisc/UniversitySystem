@@ -17,9 +17,11 @@ import java.util.Set;
 @SuperBuilder
 @Entity(name = "professor")
 public class Professor extends User {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "professor")
+
     @ToString.Exclude
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "professor")
     private Set<Course> courses;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

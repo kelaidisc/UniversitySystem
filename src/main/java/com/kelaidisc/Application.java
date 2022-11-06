@@ -1,11 +1,8 @@
 package com.kelaidisc;
 
-import com.kelaidisc.model.ProfessorSearchField;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Arrays;
-import java.util.Scanner;
 @SpringBootApplication
 public class Application {
 
@@ -13,16 +10,4 @@ public class Application {
     SpringApplication.run(Application.class, args);
   }
 
-  private static void printProfSearchFields() {
-    System.out.println("Choose search field");
-    Arrays.stream(ProfessorSearchField.values())
-        .sorted()
-        .forEach(e -> System.out.println(e.getIndex() + e.getLabel()));
-
-    var input = Integer.valueOf(new Scanner(System.in).nextLine().trim());
-    var searchField = ProfessorSearchField.fromIndex(input);
-
-    var inputSearchTerm = new Scanner(System.in).nextLine();
-    System.out.println("Searching " + searchField + " " + inputSearchTerm);
-  }
 }

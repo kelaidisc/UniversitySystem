@@ -4,6 +4,7 @@ package com.kelaidisc.service;
 import static com.kelaidisc.common.Constants.DATE_FORMATTER;
 
 import com.kelaidisc.domain.Student;
+import com.kelaidisc.exception.UniversityNotFoundException;
 import com.kelaidisc.model.StudentSearchField;
 import com.kelaidisc.repository.StudentRepository;
 import java.time.LocalDate;
@@ -11,7 +12,9 @@ import java.util.List;
 import java.util.Set;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
 public class StudentService {
   private final StudentRepository studentRepository;
@@ -21,13 +24,13 @@ public class StudentService {
   }
 
   /*
-  TODO
+  TODO ok
   1. Create a new package, call it exception
   2. Create a new class called UniversityNotFoundException and extend from RuntimeException
   3. Convert the Optional<Student> coming from the CrudRepository to Student by adding the .orElseThrow(() -> new NotFoundException());
  */
   public Student findById(@NonNull Long id) {
-    return studentRepository.findById(id);
+    return studentRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException());
   }
 
   public List<Student> search(StudentSearchField searchField, String searchTerm) {

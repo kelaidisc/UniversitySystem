@@ -20,7 +20,7 @@ public class Course extends BaseEntity {
   @Column(name = "name",nullable = false, unique = true)
   private String name;
 
-  @Column(name = "description")
+  @Transient
   private String description;
 
   @JoinColumn(name = "professor_id")

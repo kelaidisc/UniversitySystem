@@ -16,6 +16,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @MappedSuperclass
 public class BaseEntity implements Serializable {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   protected Long id;

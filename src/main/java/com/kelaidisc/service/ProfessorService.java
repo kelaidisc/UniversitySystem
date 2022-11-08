@@ -23,13 +23,7 @@ public class ProfessorService {
     return professorRepository.findAll();
   }
 
-  /*
-  TODO ok
-  1. Create a new package, call it exception
-  2. Create a new class called UniversityNotFoundException and extend from RuntimeException
-  3. Convert the Optional<Professor> coming from the CrudRepository to Professor by adding the .orElseThrow(() -> new NotFoundException());
- */
-  public Professor findById(@NonNull Long id) {
+  public Professor findById(Long id) {
     return professorRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException());
   }
 
@@ -51,7 +45,7 @@ public class ProfessorService {
     return professorRepository.save(professor);
   }
 
-  public void deleteByIds(@NonNull Set<Long> ids) {
+  public void deleteByIds(Set<Long> ids) {
     professorRepository.deleteAllById(ids);
   }
 }

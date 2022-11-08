@@ -10,7 +10,6 @@ import com.kelaidisc.repository.StudentRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +22,7 @@ public class StudentService {
     return studentRepository.findAll();
   }
 
-  /*
-  TODO ok
-  1. Create a new package, call it exception
-  2. Create a new class called UniversityNotFoundException and extend from RuntimeException
-  3. Convert the Optional<Student> coming from the CrudRepository to Student by adding the .orElseThrow(() -> new NotFoundException());
- */
-  public Student findById(@NonNull Long id) {
+  public Student findById(Long id) {
     return studentRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException());
   }
 
@@ -51,7 +44,7 @@ public class StudentService {
     return studentRepository.save(student);
   }
 
-  public void deleteByIds(@NonNull Set<Long> ids) {
+  public void deleteByIds(Set<Long> ids) {
     studentRepository.deleteAllById(ids);
   }
 }

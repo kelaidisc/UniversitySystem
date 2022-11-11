@@ -2,13 +2,11 @@ package com.kelaidisc.domain;
 
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +27,14 @@ public class Course extends BaseEntity {
   @Column(name = "name", nullable = false, unique = true)
   private String name;
 
-  // TODO Why is this transient?
-  @Transient
+  // TODO Why is this transient? ok
+  @Column(name = "description", nullable = false)
   private String description;
 
-  // TODO What does CascadeType.ALL means? Do you actually want this?
+  // TODO What does CascadeType.ALL means? Do you actually want this? ok
+  // it means PERSIST, REMOVE, REFRESH, MERGE, DETACH are being done also to the related entities = my bad
   @JoinColumn(name = "professor_id")
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   private Professor professor;
 
   @ToString.Exclude

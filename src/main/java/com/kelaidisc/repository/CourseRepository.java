@@ -13,4 +13,6 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
 
   List<Course> findAllByNameLike(@Param("name") String name);
 
+  boolean existsByName(String name);
+
 }

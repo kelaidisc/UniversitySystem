@@ -1,22 +1,19 @@
 package com.kelaidisc.exception;
 
-import com.kelaidisc.domain.Course;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class UniversityNotFoundException extends RuntimeException {
 
-  protected Class<Course> courseClass;
+  protected Object className;
   protected long id;
 
-  public UniversityNotFoundException(Class<Course> courseClass, long courseId) {
-
-    this.courseClass = courseClass;
+  public UniversityNotFoundException(Object className, long courseId) {
+    super(String.format("There is no %s with id : %d", className.getClass().getName(), courseId));
+    this.className = className;
     this.id = courseId;
 
   }
+
 }

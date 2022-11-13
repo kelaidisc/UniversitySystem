@@ -23,7 +23,7 @@ public class StudentService {
   }
 
   public Student findById(Long id) {
-    return studentRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException());
+    return studentRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException(Student.class, id));
   }
 
   public List<Student> search(StudentSearchField searchField, String searchTerm) {

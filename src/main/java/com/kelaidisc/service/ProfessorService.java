@@ -9,7 +9,6 @@ import com.kelaidisc.repository.ProfessorRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class ProfessorService {
   }
 
   public Professor findById(Long id) {
-    return professorRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException());
+    return professorRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException(Professor.class, id));
   }
 
   public List<Professor> search(ProfessorSearchField searchField, String searchTerm) {

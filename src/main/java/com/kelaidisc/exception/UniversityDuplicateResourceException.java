@@ -1,18 +1,17 @@
 package com.kelaidisc.exception;
 
-import com.kelaidisc.domain.Course;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Getter
-@Setter
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class UniversityDuplicateResourceException extends RuntimeException {
-
-    protected Class<Course> courseClass;
+    protected Object className;
     protected String fieldName;
 
-    public UniversityDuplicateResourceException(Class<Course> courseClass, String fieldName) {
-        this.courseClass = courseClass;
+    public UniversityDuplicateResourceException(Object className, String fieldName) {
+
+        super(String.format("%s : %s already exists", className.getClass().getName(), fieldName));
+        this.className = className;
         this.fieldName = fieldName;
     }
 

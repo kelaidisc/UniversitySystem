@@ -12,7 +12,9 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 public class CourseCreateDto {
 
-  // TODO Add the proper validation annotations
+  // TODO Add the proper validation annotations ok
+
+  protected Long id;
 
   @NotEmpty(message = "This field can't be null or empty")
   @Pattern(regexp = "[A-Z]\\w*", message = "First letter uppercase,rest lowercase")

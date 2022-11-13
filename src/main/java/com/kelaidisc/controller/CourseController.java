@@ -6,10 +6,13 @@ import com.kelaidisc.converter.course.CourseCreateDtoToCourse;
 import com.kelaidisc.converter.course.CourseUpdateDtoToCourse;
 import com.kelaidisc.domain.Course;
 import com.kelaidisc.dto.DeleteDto;
+import com.kelaidisc.dto.EnrollDto;
 import com.kelaidisc.dto.course.CourseCreateDto;
 import com.kelaidisc.dto.course.CourseUpdateDto;
+import com.kelaidisc.exception.UniversityBadRequestException;
 import com.kelaidisc.service.CourseService;
 import java.util.List;
+import java.util.Objects;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,6 +57,9 @@ public class CourseController {
   // TODO Check if the id is not null
   @GetMapping("/{id}")
   public Course findById(@PathVariable("id") Long id) {
+    if(id == null) {
+      throw new UniversityBadRequestException(Course.class, "id", "can't be null");
+    }
     return courseService.findById(id);
   }
 
@@ -62,17 +68,34 @@ public class CourseController {
   */
   @PostMapping
   public Course create(@Valid @RequestBody CourseCreateDto course) {
-    return courseService.create(courseCreateDtoToCourse.convert(course));
+
+    if(course.getId() != null) {
+      throw new UniversityBadRequestException(Course.class, "id", "must be null");
+    }
+    return courseService.create(Objects.requireNonNull(courseCreateDtoToCourse.convert(course)));
   }
 
   /*
   // TODO Check if the id is not Null
   // TODO Check if the Course has a null ID and throw a UniversityBadRequestException with the following arguments (Class, fieldName, errorMessage) e.g. (Course, id, "Must not be null")
-  // TODO Check if the Course.id == id (@PathVariable) and throw a UniversityBadRequestException with the following arguments (Class, fieldName, errorMessage) e.g. (Course, id, "Must not the same as the path variable that is used")
+  // TODO Check if the Course.id == id (@PathVariable) and throw a UniversityBadRequestException with the following arguments (Class, fieldName, errorMessage) e.g. (Course, id, "Must not be the same as the path variable that is used")
   */
   @PutMapping("/{id}")
   public Course update(@PathVariable("id") Long id, @Valid @RequestBody CourseUpdateDto course) {
-    return courseService.update(courseUpdateDtoToCourse.convert(course));
+
+   if(id == null) {
+     throw new RuntimeException("Problem with the database, auto-increment didn't work");
+   }
+
+   if(course.getId() == null) {
+     throw new UniversityBadRequestException(Course.class, "id", "Must not be null");
+   }
+
+   if(Objects.equals(course.getId(), id)) {
+     throw new UniversityBadRequestException(Course.class, "id", "Must not be the same as the path variable that is used");
+   }
+
+    return courseService.update(Objects.requireNonNull(courseUpdateDtoToCourse.convert(course)));
   }
 
   /*
@@ -80,6 +103,10 @@ public class CourseController {
   */
   @DeleteMapping
   public void delete(@Valid @RequestBody DeleteDto deleteDto) {
+
+    if(deleteDto.getIds().isEmpty() || deleteDto.getIds() == null) {
+      throw new UniversityBadRequestException(Course.class, "ids", "can't be null or empty");
+    }
     courseService.deleteByIds(deleteDto.getIds());
   }
 
@@ -94,5 +121,19 @@ public class CourseController {
   }
 
   // TODO Do something similar for Student Enrollment/Dis-enrollment as with Professors (Maybe need to create a different dto class for this, not necessarily though)
+
+  @PostMapping("/{id}/students")
+  public void enrollStudent(@PathVariable("id") Long courseId, @Valid @RequestBody EnrollDto enrollDto) {
+    courseService.enrollStudents(courseId, enrollDto.getIds());
+  }
+
+  @DeleteMapping
+  public void disEnrollStudents(Long courseId, @Valid @RequestBody DeleteDto deleteDto) {
+
+    if(deleteDto.getIds().isEmpty() || deleteDto.getIds() == null) {
+      throw new UniversityBadRequestException(Course.class, "ids", "can't be null or empty");
+    }
+    courseService.disEnrollStudents(courseId, deleteDto.getIds());
+  }
 
 }

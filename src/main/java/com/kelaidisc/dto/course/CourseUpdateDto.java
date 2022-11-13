@@ -14,7 +14,7 @@ import javax.validation.constraints.Positive;
 @EqualsAndHashCode(callSuper = true)
 public class CourseUpdateDto extends CourseCreateDto {
 
-  // TODO Add the proper validation annotations
+  // TODO Add the proper validation annotations ok
   /* question:
    to use validation groups we could delete this class
    and add specific behavior for each case in the superclass

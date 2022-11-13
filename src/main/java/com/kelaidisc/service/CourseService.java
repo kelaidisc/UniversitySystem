@@ -2,16 +2,17 @@ package com.kelaidisc.service;
 
 import com.kelaidisc.domain.Course;
 import com.kelaidisc.domain.Professor;
+import com.kelaidisc.domain.Student;
 import com.kelaidisc.exception.UniversityDuplicateResourceException;
 import com.kelaidisc.exception.UniversityNotFoundException;
 import com.kelaidisc.repository.CourseRepository;
 import com.kelaidisc.repository.ProfessorRepository;
+import com.kelaidisc.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,8 @@ public class CourseService {
   // TODO Service Validations - Try to reuse the validations for the different methods ok i guess
   private final CourseRepository courseRepository;
   private final ProfessorRepository professorRepository;
+
+  private final StudentRepository studentRepository;
 
   public List<Course> findAll() {
     return courseRepository.findAll();
@@ -79,7 +82,7 @@ public class CourseService {
         Professor professor = professorOptional.get();
         course.setProfessor(professor);
       } else {
-        throw new UniversityNotFoundException(); //can't use generics to Class<Gen extends BaseEntity> in my custom exception
+        throw new UniversityNotFoundException(Professor.class, professorId);
       }
     } else {
       throw new UniversityNotFoundException(Course.class, courseId);
@@ -97,6 +100,40 @@ public class CourseService {
       course.setProfessor(null);
       courseRepository.save(course);
 
+    } else {
+      throw new UniversityNotFoundException(Course.class, courseId);
+    }
+  }
+
+  public void enrollStudents(Long courseId, Set<Long> ids){
+
+    Optional<Course> courseOptional = courseRepository.findById(courseId);
+    Set<Student> students = Objects.requireNonNull(ids.stream()
+                    .map(studentRepository::findById)
+                    .findFirst().orElse(null))
+            .stream().collect(Collectors.toSet());
+
+
+    if(courseOptional.isPresent()) {
+      Course course = courseOptional.get();
+      course.setStudents(students);
+      } else {
+      throw new UniversityNotFoundException(Course.class, courseId);
+    }
+  }
+
+  public void disEnrollStudents(Long courseId, Set<Long> ids){
+
+    Optional<Course> courseOptional = courseRepository.findById(courseId);
+
+    Set<Student> students = Objects.requireNonNull(ids.stream()
+                    .map(studentRepository::findById)
+                    .findFirst().orElse(null))
+            .stream().collect(Collectors.toSet());
+
+    if(courseOptional.isPresent()) {
+      Course course = courseOptional.get();
+      course.getStudents().removeAll(students);
     } else {
       throw new UniversityNotFoundException(Course.class, courseId);
     }

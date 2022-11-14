@@ -84,7 +84,7 @@ public class CourseController {
   public Course update(@PathVariable("id") Long id, @Valid @RequestBody CourseUpdateDto course) {
 
    if(id == null) {
-     throw new RuntimeException("Problem with the database, auto-increment didn't work");
+     throw new RuntimeException("Path id can't be null");
    }
 
    if(course.getId() == null) {

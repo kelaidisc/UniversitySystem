@@ -27,14 +27,11 @@ public class Course extends BaseEntity {
   @Column(name = "name", nullable = false, unique = true)
   private String name;
 
-  // TODO Why is this transient? ok
   @Column(name = "description", nullable = false)
   private String description;
 
-  // TODO What does CascadeType.ALL means? Do you actually want this? ok
-  // it means PERSIST, REMOVE, REFRESH, MERGE, DETACH are being done also to the related entities = my bad
-  @JoinColumn(name = "professor_id")
   @ManyToOne
+  @JoinColumn(name = "professor_id")
   private Professor professor;
 
   @ToString.Exclude

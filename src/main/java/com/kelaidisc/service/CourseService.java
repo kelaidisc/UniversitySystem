@@ -8,17 +8,18 @@ import com.kelaidisc.exception.UniversityNotFoundException;
 import com.kelaidisc.repository.CourseRepository;
 import com.kelaidisc.repository.ProfessorRepository;
 import com.kelaidisc.repository.StudentRepository;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CourseService {
 
-  // TODO Service Validations - Try to reuse the validations for the different methods ok i guess
   private final CourseRepository courseRepository;
   private final ProfessorRepository professorRepository;
 
@@ -28,20 +29,18 @@ public class CourseService {
     return courseRepository.findAll();
   }
 
-  // TODO Add two arguments in the UniversityNotFoundException Class & ID
-  //  and pass in the Course.class & id that was used and not found ok
+  // TODO Create a new method names find(Long id) that returns an Optional<Course>
+
+  // TODO Rename this method to findOrThrow
   public Course findById(Long id) {
     return courseRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException(Course.class, id));
   }
 
-  /*
-  // TODO Check if there is another Course with the same name.
-       If yes throw a UniversityDuplicateResourceException with the following arguments (Class, fieldName)
-        e.g. (Course, name) ok
-   */
   public Course create(Course course) {
 
-    if(courseRepository.existsByName(course.getName())){
+    if (courseRepository.existsByName(course.getName())) {
+      // TODO The fieldName should be "name" and you should also create a new field named fieldValue and that should be course.getName
+      //  so it would be smth like this throw new UniversityDuplicateResourceException(Course.class, "name", course.getName());
       throw new UniversityDuplicateResourceException(Course.class, course.getName());
     }
     return courseRepository.save(course);
@@ -55,7 +54,7 @@ public class CourseService {
   */
   public Course update(Course course) {
 
-    if(courseRepository.existsByName(course.getName())){
+    if (courseRepository.existsByName(course.getName())) {
       throw new UniversityDuplicateResourceException(Course.class, course.getName());
     }
     return courseRepository.save(course);
@@ -70,15 +69,18 @@ public class CourseService {
     return courseRepository.findAllByNameLike(name);
   }
 
+
   public void assignProfessorToCourse(Long courseId, Long professorId) {
     // TODO Add the implementation ok
-    Optional<Course> courseOptional = courseRepository.findById(courseId);
-    Optional<Professor> professorOptional = professorRepository.findById(professorId);
+    Optional<Course> courseOptional = courseRepository.findById(
+        courseId);  // TODO You should use the findById that you created that returns an object or throws an exception
+    Optional<Professor> professorOptional = professorRepository.findById(
+        professorId);  // TODO You should use the findById that you created that returns an object or throws an exception
 
-    if(courseOptional.isPresent()) {
+    if (courseOptional.isPresent()) {
       Course course = courseOptional.get();
 
-      if(professorOptional.isPresent()){
+      if (professorOptional.isPresent()) {
         Professor professor = professorOptional.get();
         course.setProfessor(professor);
       } else {
@@ -89,12 +91,12 @@ public class CourseService {
     }
   }
 
+  // TODO You should use the findById that you created that returns an object or throws an exception
   public void removeProfessorFromCourse(Long courseId) {
-    // TODO Add the implementation ok
 
     Optional<Course> courseOptional = courseRepository.findById(courseId);
 
-    if(courseOptional.isPresent()){
+    if (courseOptional.isPresent()) {
       Course course = courseOptional.get();
 
       course.setProfessor(null);
@@ -105,33 +107,40 @@ public class CourseService {
     }
   }
 
-  public void enrollStudents(Long courseId, Set<Long> ids){
+  public void enrollStudents(Long courseId, Set<Long> ids) {
+    Optional<Course> courseOptional =
+        courseRepository.findById(
+            courseId); // TODO You should use the findById that you created that returns an object or throws an exception
 
-    Optional<Course> courseOptional = courseRepository.findById(courseId);
+
+    // TODO  Do not use Objects.requireNonNull here. Just validate in controller
+    // TODO Do not use studentRepository::findById. Create a similar method that does something like findAllByIds(Set<Long> ids)
+    //  Most of the times you want do not want to spam queries to the database when you can just do one query and get all the results you need
     Set<Student> students = Objects.requireNonNull(ids.stream()
-                    .map(studentRepository::findById)
-                    .findFirst().orElse(null))
-            .stream().collect(Collectors.toSet());
+            .map(studentRepository::findById)
+            .findFirst().orElse(null))
+        .stream().collect(Collectors.toSet());
 
 
-    if(courseOptional.isPresent()) {
+    if (courseOptional.isPresent()) {
       Course course = courseOptional.get();
       course.setStudents(students);
-      } else {
+    } else {
       throw new UniversityNotFoundException(Course.class, courseId);
     }
   }
 
-  public void disEnrollStudents(Long courseId, Set<Long> ids){
+  // TODO Do the same things as mentioned in the above method
+  public void disEnrollStudents(Long courseId, Set<Long> ids) {
 
     Optional<Course> courseOptional = courseRepository.findById(courseId);
 
     Set<Student> students = Objects.requireNonNull(ids.stream()
-                    .map(studentRepository::findById)
-                    .findFirst().orElse(null))
-            .stream().collect(Collectors.toSet());
+            .map(studentRepository::findById)
+            .findFirst().orElse(null))
+        .stream().collect(Collectors.toSet());
 
-    if(courseOptional.isPresent()) {
+    if (courseOptional.isPresent()) {
       Course course = courseOptional.get();
       course.getStudents().removeAll(students);
     } else {

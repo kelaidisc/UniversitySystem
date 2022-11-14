@@ -32,16 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/course")
 public class CourseController {
 
-  // TODO Check these out (Just for reference, do not copy/paste or deal with everything in there, because there are things you do not know yet)
-  // Validation
-  //   * https://www.baeldung.com/spring-boot-bean-validation
-  //   * https://reflectoring.io/bean-validation-with-spring-boot
-  //     * Check especially the "Validation Groups" section.
-  // RESTful API
-  //   * https://dilankam.medium.com/restful-api-design-best-practices-principles-ded471f573f3
-  // Spring Boot exposing REST API (& test w/ Postman)
-  //   * https://learnjava.co.in/how-to-create-springboot-rest-service-and-test-it-via-postman/
-
   private final CourseService courseService;
   private final CourseCreateDtoToCourse courseCreateDtoToCourse;
   private final CourseUpdateDtoToCourse courseUpdateDtoToCourse;
@@ -54,83 +44,76 @@ public class CourseController {
     return courseService.findAll();
   }
 
-  // TODO Check if the id is not null
+  // TODO You can also add validation annotations in method arguments so for example you could do this
+  //  @NotNull @Positive @PathVariable("id") Long id
+  //  and then remove the UniversityBadRequestException
   @GetMapping("/{id}")
   public Course findById(@PathVariable("id") Long id) {
-    if(id == null) {
+    if (id == null) {
       throw new UniversityBadRequestException(Course.class, "id", "can't be null");
     }
     return courseService.findById(id);
   }
 
-  /*
-  // TODO Check if the Course has a non null id and throw a UniversityBadRequestException with the following arguments (Class, fieldName, errorMessage) e.g. (Course, id, "Must be null")
-  */
   @PostMapping
   public Course create(@Valid @RequestBody CourseCreateDto course) {
-
-    if(course.getId() != null) {
-      throw new UniversityBadRequestException(Course.class, "id", "must be null");
-    }
     return courseService.create(Objects.requireNonNull(courseCreateDtoToCourse.convert(course)));
   }
 
-  /*
-  // TODO Check if the id is not Null
-  // TODO Check if the Course has a null ID and throw a UniversityBadRequestException with the following arguments (Class, fieldName, errorMessage) e.g. (Course, id, "Must not be null")
-  // TODO Check if the Course.id == id (@PathVariable) and throw a UniversityBadRequestException with the following arguments (Class, fieldName, errorMessage) e.g. (Course, id, "Must not be the same as the path variable that is used")
-  */
+  // TODO You can also add validation annotations in method arguments so for example you could do this
+  //  @NotNull @Positive @PathVariable("id") Long id
+  //  and then remove the UniversityBadRequestException
   @PutMapping("/{id}")
   public Course update(@PathVariable("id") Long id, @Valid @RequestBody CourseUpdateDto course) {
 
-   if(id == null) {
-     throw new RuntimeException("Path id can't be null");
-   }
+    if (id == null) {
+      throw new RuntimeException("Path id can't be null");
+    }
 
-   if(course.getId() == null) {
-     throw new UniversityBadRequestException(Course.class, "id", "Must not be null");
-   }
-
-   if(Objects.equals(course.getId(), id)) {
-     throw new UniversityBadRequestException(Course.class, "id", "Must not be the same as the path variable that is used");
-   }
+    if (Objects.equals(course.getId(),
+        id)) { // TODO This is wrong. You need the exact opposite. if object.getId() != pathVariableId -> then throw the exception
+      throw new UniversityBadRequestException(Course.class, "id",
+          "Must not be the same as the path variable that is used");
+    }
 
     return courseService.update(Objects.requireNonNull(courseUpdateDtoToCourse.convert(course)));
   }
 
-  /*
-  // TODO Check if the DeleteDto.ids set is not null and not empty
-  */
+
   @DeleteMapping
   public void delete(@Valid @RequestBody DeleteDto deleteDto) {
 
-    if(deleteDto.getIds().isEmpty() || deleteDto.getIds() == null) {
+    // TODO Remove this check and create the appropriate validation annotations in DeleteDto
+    if (deleteDto.getIds().isEmpty() || deleteDto.getIds() == null) {
       throw new UniversityBadRequestException(Course.class, "ids", "can't be null or empty");
     }
     courseService.deleteByIds(deleteDto.getIds());
   }
 
+  // TODO Validate the path variables courseId and professorId with annotations
   @PatchMapping("/{id}/professor/{professorId}")
   public void assignProfessor(@PathVariable("id") Long courseId, @PathVariable("professorId") Long professorId) {
     courseService.assignProfessorToCourse(courseId, professorId);
   }
 
+  // TODO Validate the path variable courseId
   @PatchMapping("/{id}/professor")
   public void removeProfessor(@PathVariable("id") Long courseId) {
     courseService.removeProfessorFromCourse(courseId);
   }
 
-  // TODO Do something similar for Student Enrollment/Dis-enrollment as with Professors (Maybe need to create a different dto class for this, not necessarily though)
-
+  // TODO Validate the path variable id
   @PostMapping("/{id}/students")
   public void enrollStudent(@PathVariable("id") Long courseId, @Valid @RequestBody EnrollDto enrollDto) {
     courseService.enrollStudents(courseId, enrollDto.getIds());
   }
 
+  // TODO This path is wrong, it should be /{id}/students
+  //  Fix it and add the proper validation annotations and remove the manual check that exists inside the method
   @DeleteMapping
   public void disEnrollStudents(Long courseId, @Valid @RequestBody DeleteDto deleteDto) {
 
-    if(deleteDto.getIds().isEmpty() || deleteDto.getIds() == null) {
+    if (deleteDto.getIds().isEmpty() || deleteDto.getIds() == null) {
       throw new UniversityBadRequestException(Course.class, "ids", "can't be null or empty");
     }
     courseService.disEnrollStudents(courseId, deleteDto.getIds());

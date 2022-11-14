@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DeleteDto {
 
+  // TODO This is missing validation annotations
   private Set<Long> ids;
 
 }

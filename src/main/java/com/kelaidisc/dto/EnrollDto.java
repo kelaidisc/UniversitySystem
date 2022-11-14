@@ -1,11 +1,10 @@
 package com.kelaidisc.dto;
 
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Set;
 
 @Data
 @Builder
@@ -13,5 +12,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class EnrollDto {
 
-    protected Set<Long> ids;
+  // TODO This is missing validation annotations
+  protected Set<Long> ids;
 }

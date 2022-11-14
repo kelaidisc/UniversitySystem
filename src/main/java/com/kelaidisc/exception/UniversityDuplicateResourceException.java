@@ -10,7 +10,7 @@ public class UniversityDuplicateResourceException extends RuntimeException {
 
     public UniversityDuplicateResourceException(Object className, String fieldName) {
 
-        super(String.format("%s : %s already exists", className.getClass().getName(), fieldName));
+        super(String.format("%s: %s already exists", className.getClass().getName(), fieldName));
         this.className = className;
         this.fieldName = fieldName;
     }

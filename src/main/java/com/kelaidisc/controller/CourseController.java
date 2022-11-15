@@ -14,6 +14,9 @@ import com.kelaidisc.service.CourseService;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,13 +49,10 @@ public class CourseController {
 
   // TODO You can also add validation annotations in method arguments so for example you could do this
   //  @NotNull @Positive @PathVariable("id") Long id
-  //  and then remove the UniversityBadRequestException
+  //  and then remove the UniversityBadRequestException ok
   @GetMapping("/{id}")
-  public Course findById(@PathVariable("id") Long id) {
-    if (id == null) {
-      throw new UniversityBadRequestException(Course.class, "id", "can't be null");
-    }
-    return courseService.findById(id);
+  public Course findById(@NotNull @Positive @PathVariable("id") Long id) {
+    return courseService.findOrThrow(id);
   }
 
   @PostMapping
@@ -62,18 +62,14 @@ public class CourseController {
 
   // TODO You can also add validation annotations in method arguments so for example you could do this
   //  @NotNull @Positive @PathVariable("id") Long id
-  //  and then remove the UniversityBadRequestException
+  //  and then remove the UniversityBadRequestException ok
   @PutMapping("/{id}")
-  public Course update(@PathVariable("id") Long id, @Valid @RequestBody CourseUpdateDto course) {
+  public Course update(@NotNull @Positive @PathVariable("id") Long id, @Valid @RequestBody CourseUpdateDto course) {
 
-    if (id == null) {
-      throw new RuntimeException("Path id can't be null");
-    }
-
-    if (Objects.equals(course.getId(),
-        id)) { // TODO This is wrong. You need the exact opposite. if object.getId() != pathVariableId -> then throw the exception
+    if (!Objects.equals(course.getId(),
+            id)) { // TODO This is wrong. You need the exact opposite. if object.getId() != pathVariableId -> then throw the exception ok
       throw new UniversityBadRequestException(Course.class, "id",
-          "Must not be the same as the path variable that is used");
+          "Must be the same as the path variable that is used");
     }
 
     return courseService.update(Objects.requireNonNull(courseUpdateDtoToCourse.convert(course)));
@@ -83,39 +79,33 @@ public class CourseController {
   @DeleteMapping
   public void delete(@Valid @RequestBody DeleteDto deleteDto) {
 
-    // TODO Remove this check and create the appropriate validation annotations in DeleteDto
-    if (deleteDto.getIds().isEmpty() || deleteDto.getIds() == null) {
-      throw new UniversityBadRequestException(Course.class, "ids", "can't be null or empty");
-    }
+    // TODO Remove this check and create the appropriate validation annotations in DeleteDto ok
     courseService.deleteByIds(deleteDto.getIds());
   }
 
-  // TODO Validate the path variables courseId and professorId with annotations
+  // TODO Validate the path variables courseId and professorId with annotations ok
   @PatchMapping("/{id}/professor/{professorId}")
-  public void assignProfessor(@PathVariable("id") Long courseId, @PathVariable("professorId") Long professorId) {
+  public void assignProfessor(@NotNull @Positive @PathVariable("id") Long courseId,
+                              @NotNull @Positive @PathVariable("professorId") Long professorId) {
     courseService.assignProfessorToCourse(courseId, professorId);
   }
 
-  // TODO Validate the path variable courseId
+  // TODO Validate the path variable courseId ok
   @PatchMapping("/{id}/professor")
-  public void removeProfessor(@PathVariable("id") Long courseId) {
+  public void removeProfessor(@NotNull @Positive @PathVariable("id") Long courseId) {
     courseService.removeProfessorFromCourse(courseId);
   }
 
-  // TODO Validate the path variable id
+  // TODO Validate the path variable id ok
   @PostMapping("/{id}/students")
-  public void enrollStudent(@PathVariable("id") Long courseId, @Valid @RequestBody EnrollDto enrollDto) {
+  public void enrollStudent(@NotNull @Positive @PathVariable("id") Long courseId, @Valid @RequestBody EnrollDto enrollDto) {
     courseService.enrollStudents(courseId, enrollDto.getIds());
   }
 
   // TODO This path is wrong, it should be /{id}/students
-  //  Fix it and add the proper validation annotations and remove the manual check that exists inside the method
-  @DeleteMapping
-  public void disEnrollStudents(Long courseId, @Valid @RequestBody DeleteDto deleteDto) {
-
-    if (deleteDto.getIds().isEmpty() || deleteDto.getIds() == null) {
-      throw new UniversityBadRequestException(Course.class, "ids", "can't be null or empty");
-    }
+  //  Fix it and add the proper validation annotations and remove the manual check that exists inside the method ok
+  @DeleteMapping("/{id}/students")
+  public void disEnrollStudents(@NotNull @Positive @PathVariable("id") Long courseId, @Valid @RequestBody DeleteDto deleteDto) {
     courseService.disEnrollStudents(courseId, deleteDto.getIds());
   }
 

@@ -1,22 +1,21 @@
-package com.kelaidisc.dto.course;
+package com.kelaidisc.dto.professor;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class CourseUpdateDto extends CourseCreateDto {
-
-  @NotNull
-  @Positive
-  private Long id;
-
+public class ProfessorUpdateDto extends ProfessorCreateDto {
+    @NotNull
+    @Positive
+    private Long id;
 }

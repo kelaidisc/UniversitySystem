@@ -21,15 +21,15 @@ INSERT IGNORE INTO university_spring.student
 VALUES(5, 'Maria', 'Papadopoulos', 'papa05mar@gmail.com', '+30 6922340599', '2003-05-05','2022-09-09');
 
 INSERT IGNORE INTO university_spring.course
-VALUES(1, 'Logistics', null);
+VALUES(1, 'Description text1', 'Logistics', null);
 INSERT IGNORE INTO university_spring.course
-VALUES(2, 'Microeconomics', null);
+VALUES(2, 'Description text2', 'Microeconomics', null);
 INSERT IGNORE INTO university_spring.course
-VALUES(3, 'Macroeconomics', null);
+VALUES(3, 'Description text3', 'Macroeconomics', null);
 INSERT IGNORE INTO university_spring.course
-VALUES(4, 'Sociology', 1);
+VALUES(4, 'Description text4', 'Sociology', 1);
 INSERT IGNORE INTO university_spring.course
-VALUES(5, 'Agricultural Economics', 2);
+VALUES(5, 'Description text5', 'Agricultural Economics', 2);
 
 INSERT IGNORE INTO university_spring.course_students
 VALUES(1, 1);

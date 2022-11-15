@@ -21,4 +21,6 @@ public interface UserRepository<T extends User> extends CrudRepository<T, Long> 
   T findByEmail(String email);
 
   T findByPhone(String phone);
+
+  boolean existsByLastNameAndFirstName(String lastName, String firstName);
 }

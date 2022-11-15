@@ -2,12 +2,15 @@ package com.kelaidisc.service;
 
 import static com.kelaidisc.common.Constants.DATE_FORMATTER;
 
+import com.kelaidisc.domain.Course;
 import com.kelaidisc.domain.Professor;
+import com.kelaidisc.exception.UniversityDuplicateResourceException;
 import com.kelaidisc.exception.UniversityNotFoundException;
 import com.kelaidisc.model.ProfessorSearchField;
 import com.kelaidisc.repository.ProfessorRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +25,11 @@ public class ProfessorService {
     return professorRepository.findAll();
   }
 
-  public Professor findById(Long id) {
+  public Optional<Professor> find(Long id){
+    return professorRepository.findById(id);
+  }
+
+  public Professor findOrThrow(Long id) {
     return professorRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException(Professor.class, id));
   }
 
@@ -37,11 +44,23 @@ public class ProfessorService {
   }
 
   public Professor create(Professor professor) {
+
+    if(professorRepository.existsByLastNameAndFirstName(professor.getLastName(), professor.getFirstName())) {
+      throw new UniversityDuplicateResourceException
+              (Professor.class, "name", professor.getLastName() + " " + professor.getFirstName());
+    }
     return professorRepository.save(professor);
+
   }
 
   public Professor update(Professor professor) {
+
+    if(professorRepository.existsByLastNameAndFirstName(professor.getLastName(), professor.getFirstName())) {
+      throw new UniversityDuplicateResourceException
+              (Professor.class, "name", professor.getLastName() + " " + professor.getFirstName());
+    }
     return professorRepository.save(professor);
+
   }
 
   public void deleteByIds(Set<Long> ids) {

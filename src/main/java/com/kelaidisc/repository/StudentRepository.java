@@ -8,4 +8,6 @@ import java.util.Set;
 @Repository
 public interface StudentRepository extends UserRepository<Student> {
     Set<Student> findAllByIdIn(Set<Long> ids);
+
+    Set<Student> findAllByCourses_IdContains(Long courseId);
 }

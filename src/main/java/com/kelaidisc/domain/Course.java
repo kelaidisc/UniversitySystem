@@ -1,5 +1,10 @@
 package com.kelaidisc.domain;
 
+import static java.util.Objects.nonNull;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -22,6 +27,7 @@ import org.hibernate.Hibernate;
 @AllArgsConstructor
 @SuperBuilder
 @Entity(name = "course")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Course extends BaseEntity {
 
   @Column(name = "name", nullable = false, unique = true)
@@ -31,9 +37,11 @@ public class Course extends BaseEntity {
   private String description;
 
   @ManyToOne
+  @JsonIgnore
   @JoinColumn(name = "professor_id")
   private Professor professor;
 
+  @JsonIgnore
   @ToString.Exclude
   @ManyToMany(mappedBy = "courses")
   private Set<Student> students;
@@ -53,5 +61,13 @@ public class Course extends BaseEntity {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  @JsonGetter("professorId")
+  public Long getProfessorId() {
+    if (nonNull(professor)) {
+      return professor.getId();
+    }
+    return null;
   }
 }

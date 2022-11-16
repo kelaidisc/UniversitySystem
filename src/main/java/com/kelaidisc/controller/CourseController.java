@@ -5,6 +5,7 @@ import static java.util.Objects.nonNull;
 import com.kelaidisc.converter.course.CourseCreateDtoToCourse;
 import com.kelaidisc.converter.course.CourseUpdateDtoToCourse;
 import com.kelaidisc.domain.Course;
+import com.kelaidisc.domain.Student;
 import com.kelaidisc.dto.DeleteDto;
 import com.kelaidisc.dto.EnrollDto;
 import com.kelaidisc.dto.course.CourseCreateDto;
@@ -16,8 +17,8 @@ import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -67,7 +68,7 @@ public class CourseController {
   public Course update(@NotNull @Positive @PathVariable("id") Long id, @Valid @RequestBody CourseUpdateDto course) {
 
     if (!Objects.equals(course.getId(),
-            id)) { // TODO This is wrong. You need the exact opposite. if object.getId() != pathVariableId -> then throw the exception ok
+        id)) { // TODO This is wrong. You need the exact opposite. if object.getId() != pathVariableId -> then throw the exception ok
       throw new UniversityBadRequestException(Course.class, "id",
           "Must be the same as the path variable that is used");
     }
@@ -76,6 +77,7 @@ public class CourseController {
   }
 
 
+  // TODO we do not want this to fail when the id does not exist
   @DeleteMapping
   public void delete(@Valid @RequestBody DeleteDto deleteDto) {
 
@@ -96,16 +98,27 @@ public class CourseController {
     courseService.removeProfessorFromCourse(courseId);
   }
 
+
+  @Transactional
+  @GetMapping("/{id}/students")
+  public List<Student> getEnrolledStudents(@NotNull @Positive @PathVariable("id") Long courseId) {
+    return courseService.findOrThrow(courseId).getStudents()
+        .stream()
+        .toList();
+  }
+
   // TODO Validate the path variable id ok
   @PostMapping("/{id}/students")
-  public void enrollStudent(@NotNull @Positive @PathVariable("id") Long courseId, @Valid @RequestBody EnrollDto enrollDto) {
+  public void enrollStudent(@NotNull @Positive @PathVariable("id") Long courseId,
+                            @Valid @RequestBody EnrollDto enrollDto) {
     courseService.enrollStudents(courseId, enrollDto.getIds());
   }
 
   // TODO This path is wrong, it should be /{id}/students
   //  Fix it and add the proper validation annotations and remove the manual check that exists inside the method ok
   @DeleteMapping("/{id}/students")
-  public void disEnrollStudents(@NotNull @Positive @PathVariable("id") Long courseId, @Valid @RequestBody DeleteDto deleteDto) {
+  public void disEnrollStudents(@NotNull @Positive @PathVariable("id") Long courseId,
+                                @Valid @RequestBody DeleteDto deleteDto) {
     courseService.disEnrollStudents(courseId, deleteDto.getIds());
   }
 

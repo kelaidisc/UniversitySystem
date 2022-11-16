@@ -1,11 +1,11 @@
 package com.kelaidisc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -29,7 +29,9 @@ public class Student extends User {
   @Column(name = "registration_date", nullable = false)
   private LocalDate registrationDate;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @JsonIgnore
+  @ToString.Exclude
+  @ManyToMany
   @JoinTable(
       name = "course_students",
       joinColumns = @JoinColumn(name = "course_id"),

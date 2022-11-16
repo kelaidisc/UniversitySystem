@@ -2,6 +2,7 @@ package com.kelaidisc.controller;
 
 import com.kelaidisc.converter.professor.ProfessorCreateDtoToProfessor;
 import com.kelaidisc.converter.professor.ProfessorUpdateDtoToProfessor;
+import com.kelaidisc.domain.Course;
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.dto.DeleteDto;
 import com.kelaidisc.dto.professor.ProfessorCreateDto;
@@ -9,6 +10,7 @@ import com.kelaidisc.dto.professor.ProfessorUpdateDto;
 import com.kelaidisc.model.ProfessorSearchField;
 import com.kelaidisc.service.ProfessorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -55,5 +57,13 @@ public class ProfessorController {
     @DeleteMapping
     public void delete(@Valid @RequestBody DeleteDto deleteDto) {
         professorService.deleteByIds(deleteDto.getIds());
+    }
+
+    @Transactional
+    @GetMapping("/{id}/courses")
+    public List<Course> getEnrolledCourses(@NotNull @Positive @PathVariable("id") Long professorId) {
+        return professorService.findOrThrow(professorId).getCourses()
+            .stream()
+            .toList();
     }
 }

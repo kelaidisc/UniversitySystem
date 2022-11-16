@@ -1,8 +1,11 @@
 package com.kelaidisc.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +24,9 @@ public class Professor extends User {
 
   // TODO What does CascadeType.ALL doing here? Do you need it? So far, you just want
   //  to link a Professor with courses, but you do not want to auto create courses when creating professors ok
+  @JsonIgnore
   @ToString.Exclude
-  @OneToMany(mappedBy = "professor")
+  @OneToMany(mappedBy = "professor", fetch = FetchType.EAGER)
   private Set<Course> courses;
 
   @Override

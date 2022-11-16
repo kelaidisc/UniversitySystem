@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,10 +25,11 @@ public class StudentService {
     return studentRepository.findAll();
   }
 
-  public Optional<Student> find(Long id){
+  public Optional<Student> find(Long id) {
     return studentRepository.findById(id);
   }
 
+  @Transactional
   public Student findOrThrow(Long id) {
     return studentRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException(Student.class, id));
   }
@@ -44,9 +46,9 @@ public class StudentService {
 
   public Student create(Student student) {
 
-    if(studentRepository.existsByLastNameAndFirstName(student.getLastName(), student.getFirstName())) {
+    if (studentRepository.existsByLastNameAndFirstName(student.getLastName(), student.getFirstName())) {
       throw new UniversityDuplicateResourceException
-              (Student.class, "name", student.getLastName() + " " + student.getFirstName());
+          (Student.class, "name", student.getLastName() + " " + student.getFirstName());
     }
     return studentRepository.save(student);
 
@@ -54,9 +56,9 @@ public class StudentService {
 
   public Student update(Student student) {
 
-    if(studentRepository.existsByLastNameAndFirstName(student.getLastName(), student.getFirstName())) {
+    if (studentRepository.existsByLastNameAndFirstName(student.getLastName(), student.getFirstName())) {
       throw new UniversityDuplicateResourceException
-              (Student.class, "name", student.getLastName() + " " + student.getFirstName());
+          (Student.class, "name", student.getLastName() + " " + student.getFirstName());
     }
     return studentRepository.save(student);
 

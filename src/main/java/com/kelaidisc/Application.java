@@ -14,7 +14,7 @@ public class Application {
   //  When a student is deleted the student-courses table should also be cleared by the corresponding rows
   //  When a professor is deletes the courses he teaches should also be updated with the professorId = null
 
-  // TODO Add Swagger API
+  // TODO Add Swagger API ok
   // TODO Create an ExceptionHandler
   //  https://www.baeldung.com/exception-handling-for-rest-with-spring
 

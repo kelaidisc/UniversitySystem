@@ -4,11 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +28,7 @@ public class Student extends User {
 
   @JsonIgnore
   @ToString.Exclude
-  @ManyToMany
-  @JoinTable(
-      name = "course_students",
-      joinColumns = @JoinColumn(name = "course_id"),
-      inverseJoinColumns = @JoinColumn(name = "student_id"))
+  @ManyToMany(mappedBy = "students")
   private Set<Course> courses;
 
   @Override

@@ -7,11 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +40,12 @@ public class Course extends BaseEntity {
 
   @JsonIgnore
   @ToString.Exclude
-  @ManyToMany(mappedBy = "courses")
+  @ManyToMany
+  @JoinTable(
+          name = "course_students",
+          joinColumns = @JoinColumn(name = "course_id"),
+          inverseJoinColumns = @JoinColumn(name = "student_id"),
+          uniqueConstraints = @UniqueConstraint(columnNames = {"course_id", "student_id"}))
   private Set<Student> students;
 
   @Override

@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS professor
     email      varchar(255) NOT NULL,
     phone      varchar(20) DEFAULT NULL,
     birthday   date         NOT NULL,
-    unique (email, phone),
+    unique (email),
+    unique (phone),
     PRIMARY KEY (id),
     INDEX (last_name)
 ) ENGINE = InnoDB
@@ -22,7 +23,8 @@ CREATE TABLE IF NOT EXISTS student
     phone             varchar(20) DEFAULT NULL,
     birthday          date         NOT NULL,
     registration_date date         NOT NULL,
-    unique (email, phone),
+    unique (email),
+    unique (phone),
     PRIMARY KEY (id),
     INDEX (last_name)
 ) ENGINE = InnoDB
@@ -46,6 +48,7 @@ CREATE TABLE IF NOT EXISTS course_students
 (
     course_id  int not null,
     student_id int not null,
+    unique (course_id, student_id),
     foreign key (course_id) references course (id),
     foreign key (student_id) references student (id)
 ) ENGINE = InnoDB

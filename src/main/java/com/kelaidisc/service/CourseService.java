@@ -7,9 +7,13 @@ import com.kelaidisc.exception.UniversityDuplicateResourceException;
 import com.kelaidisc.exception.UniversityNotFoundException;
 import com.kelaidisc.repository.CourseRepository;
 import com.kelaidisc.repository.StudentRepository;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,8 +105,12 @@ public class CourseService {
     // Most of the times you want do not want to spam queries to the database when you can just do one query and get all the results you need
 
     Course course = findOrThrow(courseId);
-    Set<Student> students = studentRepository.findAllByIdIn(ids);
-    course.setStudents(students);
+    Set<Student> studentsForEnroll = studentRepository.findAllByIdIn(ids);
+    Set<Student> studentsAlreadyEnrolled = course.getStudents();
+    Set<Student> mergedSet = new HashSet<>();
+    Stream.of(studentsForEnroll, studentsAlreadyEnrolled)
+                    .forEach(mergedSet::addAll);
+    course.setStudents(mergedSet);
     courseRepository.save(course);
   }
 

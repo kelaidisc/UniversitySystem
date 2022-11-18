@@ -15,7 +15,7 @@ public class Application {
   //  When a professor is deletes the courses he teaches should also be updated with the professorId = null
 
   // TODO Add Swagger API ok
-  // TODO Create an ExceptionHandler
+  // TODO Create an ExceptionHandler ok needs test
   //  https://www.baeldung.com/exception-handling-for-rest-with-spring
 
 

@@ -23,7 +23,7 @@ import static java.util.Objects.nonNull;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/professor")
+@RequestMapping("/professor")
 public class ProfessorController {
 
     private final ProfessorService professorService;

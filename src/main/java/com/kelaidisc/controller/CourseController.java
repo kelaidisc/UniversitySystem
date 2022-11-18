@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/course")
+@RequestMapping("/course")
 public class CourseController {
 
   private final CourseService courseService;

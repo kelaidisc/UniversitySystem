@@ -16,6 +16,4 @@ public interface StudentRepository extends UserRepository<Student> {
 
     @Query("from student where lastName like %:lastName%")
     List<Student> findAllByLastNameEqualsIgnoreCaseLike(@Param("lastName") String lastName);
-
-    Set<Student> findAllByCourses_IdContains(Long courseId);
 }

@@ -60,9 +60,7 @@ public class CourseController {
 
   @PutMapping("/{id}")
   public Course update(@NotNull @Positive @PathVariable("id") Long id, @Valid @RequestBody CourseUpdateDto course) {
-
-    if (!Objects.equals(course.getId(),
-        id)) {
+    if (!Objects.equals(course.getId(), id)) {
       throw new UniversityBadRequestException(Course.class, "id",
           "Must be the same as the path variable that is used");
     }
@@ -70,12 +68,9 @@ public class CourseController {
     return courseService.update(Objects.requireNonNull(courseUpdateDtoToCourse.convert(course)));
   }
 
-
-  // TODO we do not want this to fail when the id does not exist
   @Transactional
   @DeleteMapping
   public void delete(@Valid @RequestBody DeleteDto deleteDto) {
-
     courseService.deleteByIds(deleteDto.getIds());
   }
 

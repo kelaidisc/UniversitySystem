@@ -1,13 +1,12 @@
 package com.kelaidisc.repository;
 
 import com.kelaidisc.domain.User;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.query.Param;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.query.Param;
 
 @NoRepositoryBean
 public interface UserRepository<T extends User> extends CrudRepository<T, Long> {
@@ -21,6 +20,4 @@ public interface UserRepository<T extends User> extends CrudRepository<T, Long> 
   T findByPhone(@Param("phone") String phone);
 
   void deleteAllByIdIn(Set<Long> ids);
-
-  boolean existsByLastNameAndFirstName(@Param("lastName") String lastName,@Param("firstName") String firstName);
 }

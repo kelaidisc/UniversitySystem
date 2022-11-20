@@ -60,13 +60,13 @@ public class StudentController {
 
   @PutMapping("/{id}")
   public Student update(@NotNull @Positive @PathVariable("id") Long id, @Valid @RequestBody StudentUpdateDto student) {
-
     if (!Objects.equals(student.getId(), id)) {
       throw new UniversityBadRequestException(Student.class, "id",
           "Must be the same as the path variable that is used");
     }
     return studentService.update(Objects.requireNonNull(studentUpdateDtoToStudent.convert(student)));
   }
+
   @Transactional
   @DeleteMapping
   public void delete(@Valid @RequestBody DeleteDto deleteDto) {

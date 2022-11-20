@@ -23,7 +23,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails(
                 e.getMessage(),
                 badRequest,
-                ZonedDateTime.now(ZoneId.of("UTC+2:00"))
+                ZonedDateTime.now(ZoneId.of("Europe/Athens"))
         );
         return new ResponseEntity<>(errorDetails, badRequest);
     }
@@ -35,7 +35,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails(
                 e.getMessage(),
                 badRequest,
-                ZonedDateTime.now(ZoneId.of("UTC+2:00"))
+                ZonedDateTime.now(ZoneId.of("Europe/Athens"))
         );
         return new ResponseEntity<>(errorDetails, badRequest);
     }
@@ -47,7 +47,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails(
                 e.getMessage(),
                 notFound,
-                ZonedDateTime.now(ZoneId.of("UTC+2:00"))
+                ZonedDateTime.now(ZoneId.of("Europe/Athens"))
         );
         return new ResponseEntity<>(errorDetails, notFound);
     }

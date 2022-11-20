@@ -8,7 +8,7 @@ public class UniversityBadRequestException extends RuntimeException {
 
     public UniversityBadRequestException(Object className, String fieldName, String message) {
 
-        super(String.format("%s not found.%s %s", className.getClass().getName(), fieldName, message));
+        super(String.format("%s not found.%s %s", className, fieldName, message));
         this.className = className;
         this.fieldName = fieldName;
         this.message = message;

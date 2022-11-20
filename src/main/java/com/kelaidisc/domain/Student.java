@@ -47,4 +47,11 @@ public class Student extends User {
   public int hashCode() {
     return getClass().hashCode();
   }
+
+  @PreRemove
+  private void removeCoursesFromStudent() {
+    for(Course course : courses) {
+      course.getStudents().remove(this);
+    }
+  }
 }

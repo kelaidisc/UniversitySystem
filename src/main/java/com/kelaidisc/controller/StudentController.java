@@ -67,10 +67,10 @@ public class StudentController {
     }
     return studentService.update(Objects.requireNonNull(studentUpdateDtoToStudent.convert(student)));
   }
-
+  @Transactional
   @DeleteMapping
   public void delete(@Valid @RequestBody DeleteDto deleteDto) {
-    studentService.deleteByIds(deleteDto.getIds());
+    studentService.deleteAllByIdIn(deleteDto.getIds());
   }
 
   @Transactional

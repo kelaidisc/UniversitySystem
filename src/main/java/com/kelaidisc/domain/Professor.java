@@ -1,18 +1,19 @@
 package com.kelaidisc.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Objects;
-import java.util.Set;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -44,5 +45,10 @@ public class Professor extends User {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  @PreRemove
+  private void preRemove() {
+    courses.forEach(course -> course.setProfessor(null));
   }
 }

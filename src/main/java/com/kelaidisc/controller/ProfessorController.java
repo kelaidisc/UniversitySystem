@@ -53,10 +53,10 @@ public class ProfessorController {
     public Professor update(@Valid @RequestBody ProfessorUpdateDto professor) {
         return professorService.update(professorService.update(Objects.requireNonNull(professorUpdateDto.convert(professor))));
     }
-
+    @Transactional
     @DeleteMapping
     public void delete(@Valid @RequestBody DeleteDto deleteDto) {
-        professorService.deleteByIds(deleteDto.getIds());
+        professorService.deleteAllByIdIn(deleteDto.getIds());
     }
 
     @Transactional

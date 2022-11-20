@@ -48,9 +48,6 @@ public class CourseController {
     return courseService.findAll();
   }
 
-  // TODO You can also add validation annotations in method arguments so for example you could do this
-  //  @NotNull @Positive @PathVariable("id") Long id
-  //  and then remove the UniversityBadRequestException ok
   @GetMapping("/{id}")
   public Course findById(@NotNull @Positive @PathVariable("id") Long id) {
     return courseService.findOrThrow(id);
@@ -61,14 +58,11 @@ public class CourseController {
     return courseService.create(Objects.requireNonNull(courseCreateDtoToCourse.convert(course)));
   }
 
-  // TODO You can also add validation annotations in method arguments so for example you could do this
-  //  @NotNull @Positive @PathVariable("id") Long id
-  //  and then remove the UniversityBadRequestException ok
   @PutMapping("/{id}")
   public Course update(@NotNull @Positive @PathVariable("id") Long id, @Valid @RequestBody CourseUpdateDto course) {
 
     if (!Objects.equals(course.getId(),
-        id)) { // TODO This is wrong. You need the exact opposite. if object.getId() != pathVariableId -> then throw the exception ok
+        id)) {
       throw new UniversityBadRequestException(Course.class, "id",
           "Must be the same as the path variable that is used");
     }
@@ -78,21 +72,19 @@ public class CourseController {
 
 
   // TODO we do not want this to fail when the id does not exist
+  @Transactional
   @DeleteMapping
   public void delete(@Valid @RequestBody DeleteDto deleteDto) {
 
-    // TODO Remove this check and create the appropriate validation annotations in DeleteDto ok
     courseService.deleteByIds(deleteDto.getIds());
   }
 
-  // TODO Validate the path variables courseId and professorId with annotations ok
   @PatchMapping("/{id}/professor/{professorId}")
   public void assignProfessor(@NotNull @Positive @PathVariable("id") Long courseId,
                               @NotNull @Positive @PathVariable("professorId") Long professorId) {
     courseService.assignProfessorToCourse(courseId, professorId);
   }
 
-  // TODO Validate the path variable courseId ok
   @PatchMapping("/{id}/professor")
   public void removeProfessor(@NotNull @Positive @PathVariable("id") Long courseId) {
     courseService.removeProfessorFromCourse(courseId);
@@ -107,15 +99,14 @@ public class CourseController {
         .toList();
   }
 
-  // TODO Validate the path variable id ok
+  @Transactional
   @PostMapping("/{id}/students")
   public void enrollStudent(@NotNull @Positive @PathVariable("id") Long courseId,
                             @Valid @RequestBody EnrollDto enrollDto) {
     courseService.enrollStudents(courseId, enrollDto.getIds());
   }
 
-  // TODO This path is wrong, it should be /{id}/students
-  //  Fix it and add the proper validation annotations and remove the manual check that exists inside the method ok
+  @Transactional
   @DeleteMapping("/{id}/students")
   public void disEnrollStudents(@NotNull @Positive @PathVariable("id") Long courseId,
                                 @Valid @RequestBody DeleteDto deleteDto) {

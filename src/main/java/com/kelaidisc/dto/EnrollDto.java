@@ -13,7 +13,6 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class EnrollDto {
 
-  // TODO This is missing validation annotations ok
   @NotEmpty
   protected Set<Long> ids;
 }

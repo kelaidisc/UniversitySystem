@@ -14,7 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class DeleteDto {
 
-  // TODO This is missing validation annotations ok
   @NotEmpty
   private Set<Long> ids;
 

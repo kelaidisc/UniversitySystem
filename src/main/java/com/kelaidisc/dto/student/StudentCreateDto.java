@@ -29,12 +29,8 @@ public class StudentCreateDto {
     protected String phone;
 
     @NotNull
-    @Past
-    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$")
     protected LocalDate birthday;
 
     @NotNull
-    @PastOrPresent
-    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$")
     protected LocalDate registrationDate;
 }

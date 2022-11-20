@@ -1,26 +1,26 @@
 package com.kelaidisc.repository;
 
 import com.kelaidisc.domain.User;
-import java.time.LocalDate;
-import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @NoRepositoryBean
 public interface UserRepository<T extends User> extends CrudRepository<T, Long> {
 
   List<T> findAll();
 
-  List<T> findAllByFirstNameLike(@Param("firstName") String firstName);
+  List<T> findAllByBirthday(@Param("birthday") LocalDate birthday);
 
-  List<T> findAllByLastNameLike(@Param("lastName") String lastName);
+  T findByEmail(@Param("email") String email);
 
-  List<T> findAllByBirthday(LocalDate birthday);
+  T findByPhone(@Param("phone") String phone);
 
-  T findByEmail(String email);
+  void deleteAllByIdIn(Set<Long> ids);
 
-  T findByPhone(String phone);
-
-  boolean existsByLastNameAndFirstName(String lastName, String firstName);
+  boolean existsByLastNameAndFirstName(@Param("lastName") String lastName,@Param("firstName") String firstName);
 }

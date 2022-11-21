@@ -1,13 +1,15 @@
 package com.kelaidisc.domain;
 
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.Hibernate;
-
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.Hibernate;
 
 @Getter
 @Setter
@@ -34,8 +36,12 @@ public class User extends BaseEntity {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+      return false;
+    }
     User user = (User) o;
     return getId() != null && Objects.equals(getId(), user.getId());
   }

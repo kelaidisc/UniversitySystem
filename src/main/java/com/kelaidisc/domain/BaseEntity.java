@@ -1,12 +1,18 @@
 package com.kelaidisc.domain;
 
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.Hibernate;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.Hibernate;
 
 @Getter
 @Setter
@@ -23,8 +29,12 @@ public class BaseEntity implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+      return false;
+    }
     BaseEntity that = (BaseEntity) o;
     return id != null && Objects.equals(id, that.id);
   }

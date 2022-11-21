@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.*;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +52,7 @@ public class Student extends User {
 
   @PreRemove
   private void removeCoursesFromStudent() {
-    for(Course course : courses) {
+    for (Course course : courses) {
       course.getStudents().remove(this);
     }
   }

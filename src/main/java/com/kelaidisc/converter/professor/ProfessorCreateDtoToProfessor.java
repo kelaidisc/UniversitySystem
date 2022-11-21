@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProfessorCreateDtoToProfessor implements Converter<ProfessorCreateDto, Professor> {
 
-    @Override
-    public Professor convert(ProfessorCreateDto source) {
-        return Professor.builder()
-                .firstName(source.getFirstName())
-                .lastName(source.getLastName())
-                .email(source.getEmail())
-                .phone(source.getPhone())
-                .birthday(source.getBirthday())
-                .build();
+  @Override
+  public Professor convert(ProfessorCreateDto source) {
+    return Professor.builder()
+        .firstName(source.getFirstName())
+        .lastName(source.getLastName())
+        .email(source.getEmail())
+        .phone(source.getPhone())
+        .birthday(source.getBirthday())
+        .build();
 
-    }
+  }
 }

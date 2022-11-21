@@ -50,18 +50,7 @@ public class CourseService {
   }
 
   private void validateNameEligibility(Course course) {
-    // TODO
-    //  All these conditional branches can be checked probably in a single query (or two for create and update)
-    //  You need to change your condition/query in the if statement to make sure that:
-    //  If a course is created with the name X:
-    //    If there is not other course named X, we will allow it
-    //    If there is another course named X, we will not allow it
-    //  If a course is updated with the name X:
-    //    If there is not another course named X, we will allow it
-    //    If there is another course named X:
-    //      If it is the same as the one that is updated, we will allow it
-    //      If it is not the same as the one that is updated, we will not allow it
-    if (courseRepository.existsByName(course.getName())) {
+    if (course.getId() == null && (courseRepository.existsByNameAndIdIsNot(course.getName(), course.getId()))) {
       throw new UniversityDuplicateResourceException(Course.class, "name", course.getName());
     }
   }

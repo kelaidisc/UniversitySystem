@@ -1,13 +1,12 @@
 package com.kelaidisc.dto.student;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 @Data
 @SuperBuilder
@@ -16,7 +15,7 @@ import javax.validation.constraints.Positive;
 @EqualsAndHashCode(callSuper = true)
 public class StudentUpdateDto extends StudentCreateDto {
 
-    @NotNull
-    @Positive
-    private Long id;
+  @NotNull
+  @Positive
+  private Long id;
 }

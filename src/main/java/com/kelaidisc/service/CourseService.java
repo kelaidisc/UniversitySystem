@@ -50,6 +50,10 @@ public class CourseService {
   }
 
   private void validateNameEligibility(Course course) {
+
+    // creation id null name sth
+    // update id nn name sth
+
     if (course.getId() == null && (courseRepository.existsByNameAndIdIsNot(course.getName(), course.getId()))) {
       throw new UniversityDuplicateResourceException(Course.class, "name", course.getName());
     }

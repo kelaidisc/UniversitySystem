@@ -4,6 +4,7 @@ package com.kelaidisc.service;
 import static com.kelaidisc.common.Constants.DATE_FORMATTER;
 
 import com.kelaidisc.domain.Student;
+import com.kelaidisc.exception.UniversityDuplicateResourceException;
 import com.kelaidisc.exception.UniversityNotFoundException;
 import com.kelaidisc.model.StudentSearchField;
 import com.kelaidisc.repository.StudentRepository;
@@ -49,11 +50,30 @@ public class StudentService {
   }
 
   public Student create(Student student) {
+
+    validateEmail(student);
+    validatePhone(student);
+
     return studentRepository.save(student);
   }
 
   public Student update(Student student) {
+
+    validateEmail(student);
+    validatePhone(student);
     return studentRepository.save(student);
+  }
+
+  private void validateEmail(Student student) {
+    if (student.getId() == null && studentRepository.existsByEmailAndIdIsNot(student.getEmail(), student.getId())) {
+      throw new UniversityDuplicateResourceException(Student.class, "email", student.getEmail());
+    }
+  }
+
+  private void validatePhone(Student student) {
+    if (student.getId() == null && studentRepository.existsByPhoneAndIdIsNot(student.getPhone(), student.getId())) {
+      throw new UniversityDuplicateResourceException(Student.class, "phone", student.getPhone());
+    }
   }
 
   public void deleteAllByIdIn(Set<Long> ids) {

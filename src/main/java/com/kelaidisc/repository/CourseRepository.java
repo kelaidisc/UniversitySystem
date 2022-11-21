@@ -16,7 +16,6 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
   @Query("from course where name like %:name%")
   List<Course> findAllByNameEqualsIgnoreCaseLike(@Param("name") String name);
 
-  boolean existsByName(String name);
 
   boolean existsByNameAndIdIsNot(String name, Long id);
 

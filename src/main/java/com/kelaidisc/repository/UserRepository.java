@@ -20,4 +20,8 @@ public interface UserRepository<T extends User> extends CrudRepository<T, Long> 
   T findByPhone(@Param("phone") String phone);
 
   void deleteAllByIdIn(Set<Long> ids);
+
+  boolean existsByEmailAndIdIsNot(String email, Long id);
+
+  boolean existsByPhoneAndIdIsNot(String phone, Long id);
 }

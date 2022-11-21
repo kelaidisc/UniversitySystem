@@ -8,7 +8,7 @@ public class Application {
 
   /*
     ToDo
-      1. Checkstyle
+      1. Checkstyle ok
         a. Read here https://www.baeldung.com/checkstyle-java (or anything else you may find on your own)
         b. Add checkstyle plugin in IntelliJ and configure it to use the custom-google-checkstyle.xml
          that I have included under resources/config/

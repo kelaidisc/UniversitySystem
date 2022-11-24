@@ -15,16 +15,17 @@ public class Application {
         c. Add checkstyle maven plugin and configure your project to fail if the rules
       2. Flyway
         a. Read here https://www.baeldung.com/database-migrations-with-flyway (or anything else you may find on your own)
-        b. Add Flyway to your project and convert schema.sql and data.sql scripts Flyway migration scripts
+        b. Add Flyway to your project and convert schema.sqlb and dataBackUp.sql scripts Flyway migration scripts
+        //Validate failed: Migrations have failed validation
       3. MapStruct - Spring Conversion Service
         a. Read here https://www.baeldung.com/mapstruct (or anything else you may find on your own)
         b. Add MapStruct to your project as a dependency
-        c. Change Converters to use MapStruct internally
+        c. Change Converters to use MapStruct internally ok until here
         d. Read here https://www.baeldung.com/spring-type-conversions (or anything else you may find on your own)
         e. Create the appropriate configuration to your project for the Conversion Service
         f. Register all the Converters to the Conversion Service of your project
         g. Inject and use your Conversion Service in all the places where you convert something
-      4. Exceptions
+      4. Exceptions ok
         a. Create a parent Exception that extends from RuntimeException (name it UniversityException or smth)
         b. Change all your different exceptions (BadRequest, Duplicate, NotFound) to extend UniversityException
         c. Rename ApiExceptionHandler to UniversityExceptionHandler

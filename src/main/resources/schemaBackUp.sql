@@ -34,11 +34,11 @@ CREATE TABLE IF NOT EXISTS student
 CREATE TABLE IF NOT EXISTS course
 (
     id           int         NOT NULL AUTO_INCREMENT,
-    name         varchar(60) NOT NULL,
-    description  text        NOT NULL,
+    `name`         varchar(60) NOT NULL,
+    `description`  text        NOT NULL,
     professor_id int,
     foreign key (professor_id) references professor (id),
-    unique (name),
+    unique (`name`),
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

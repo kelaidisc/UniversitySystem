@@ -6,7 +6,7 @@ import com.kelaidisc.dto.student.StudentUpdateDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface StudentMapper {
 
   @Mapping(target = "courses", ignore = true)

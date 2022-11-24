@@ -6,7 +6,7 @@ import com.kelaidisc.dto.professor.ProfessorUpdateDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ProfessorMapper {
   @Mapping(target = "courses", ignore = true)
   Professor fromCreateDtoToProfessor(ProfessorCreateDto professorCreateDto);

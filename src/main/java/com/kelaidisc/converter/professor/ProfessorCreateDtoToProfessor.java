@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ProfessorCreateDtoToProfessor implements Converter<ProfessorCreateDto, Professor> {
+
   private final ProfessorMapper professorMapper;
 
   @Override

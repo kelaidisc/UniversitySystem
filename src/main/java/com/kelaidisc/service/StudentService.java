@@ -50,15 +50,12 @@ public class StudentService {
   }
 
   public Student create(Student student) {
-
     validateEmail(student);
     validatePhone(student);
-
     return studentRepository.save(student);
   }
 
   public Student update(Student student) {
-
     validateEmail(student);
     validatePhone(student);
     return studentRepository.save(student);

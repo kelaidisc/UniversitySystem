@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CourseUpdateDtoToCourse implements Converter<CourseUpdateDto, Course> {
+
   private final CourseMapper courseMapper;
 
   @Override

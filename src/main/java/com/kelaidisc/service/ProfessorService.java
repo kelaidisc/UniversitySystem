@@ -48,7 +48,6 @@ public class ProfessorService {
   }
 
   public Professor create(Professor professor) {
-
     validateEmail(professor);
     validatePhone(professor);
     return professorRepository.save(professor);
@@ -58,7 +57,6 @@ public class ProfessorService {
     validateEmail(professor);
     validatePhone(professor);
     return professorRepository.save(professor);
-
   }
 
 

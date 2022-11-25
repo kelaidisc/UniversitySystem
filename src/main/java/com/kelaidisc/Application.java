@@ -13,14 +13,14 @@ public class Application {
         b. Add checkstyle plugin in IntelliJ and configure it to use the custom-google-checkstyle.xml
          that I have included under resources/config/
         c. Add checkstyle maven plugin and configure your project to fail if the rules
-      2. Flyway
+      2. Flyway ok
         a. Read here https://www.baeldung.com/database-migrations-with-flyway (or anything else you may find on your own)
         b. Add Flyway to your project and convert schema.sqlb and dataBackUp.sql scripts Flyway migration scripts
         //Validate failed: Migrations have failed validation
-      3. MapStruct - Spring Conversion Service
+      3. MapStruct - Spring Conversion Service ok
         a. Read here https://www.baeldung.com/mapstruct (or anything else you may find on your own)
         b. Add MapStruct to your project as a dependency
-        c. Change Converters to use MapStruct internally ok until here
+        c. Change Converters to use MapStruct internally
         d. Read here https://www.baeldung.com/spring-type-conversions (or anything else you may find on your own)
         e. Create the appropriate configuration to your project for the Conversion Service
         f. Register all the Converters to the Conversion Service of your project

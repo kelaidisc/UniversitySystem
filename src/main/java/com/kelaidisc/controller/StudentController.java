@@ -2,8 +2,6 @@ package com.kelaidisc.controller;
 
 import static java.util.Objects.nonNull;
 
-import com.kelaidisc.converter.student.StudentCreateDtoToStudent;
-import com.kelaidisc.converter.student.StudentUpdateDtoToStudent;
 import com.kelaidisc.domain.Course;
 import com.kelaidisc.domain.Student;
 import com.kelaidisc.dto.DeleteDto;
@@ -18,6 +16,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +34,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudentController {
 
   private final StudentService studentService;
-  private final StudentCreateDtoToStudent studentCreateDtoToStudent;
-  private final StudentUpdateDtoToStudent studentUpdateDtoToStudent;
+
+  private final ConversionService conversionService;
 
   @GetMapping
   public List<Student> findAll(
@@ -55,7 +54,8 @@ public class StudentController {
 
   @PostMapping
   public Student create(@Valid @RequestBody StudentCreateDto student) {
-    return studentService.create(Objects.requireNonNull(studentCreateDtoToStudent.convert(student)));
+    return studentService.create(Objects.requireNonNull(conversionService.convert(student, Student.class)));
+    //studentCreateDtoToStudent.convert(student)
   }
 
   @PutMapping("/{id}")
@@ -64,7 +64,8 @@ public class StudentController {
       throw new UniversityBadRequestException(Student.class, "id",
           "Must be the same as the path variable that is used");
     }
-    return studentService.update(Objects.requireNonNull(studentUpdateDtoToStudent.convert(student)));
+    return studentService.update(Objects.requireNonNull(conversionService.convert(student, Student.class)));
+    //studentUpdateDtoToStudent.convert(student)
   }
 
   @Transactional

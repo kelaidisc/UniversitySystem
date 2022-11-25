@@ -2,8 +2,6 @@ package com.kelaidisc.controller;
 
 import static java.util.Objects.nonNull;
 
-import com.kelaidisc.converter.professor.ProfessorCreateDtoToProfessor;
-import com.kelaidisc.converter.professor.ProfessorUpdateDtoToProfessor;
 import com.kelaidisc.domain.Course;
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.dto.DeleteDto;
@@ -17,6 +15,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProfessorController {
 
   private final ProfessorService professorService;
-  private final ProfessorCreateDtoToProfessor professorCreateDto;
-  private final ProfessorUpdateDtoToProfessor professorUpdateDto;
+
+  private final ConversionService conversionService;
 
   @GetMapping
   public List<Professor> findAll(
@@ -55,13 +54,15 @@ public class ProfessorController {
   @PostMapping
   public Professor create(@Valid @RequestBody ProfessorCreateDto professor) {
     return professorService.create(
-        professorService.create(Objects.requireNonNull(professorCreateDto.convert(professor))));
+        professorService.create(Objects.requireNonNull(conversionService.convert(professor, Professor.class))));
+    //professorCreateDto.convert(professor)
   }
 
   @PutMapping
   public Professor update(@Valid @RequestBody ProfessorUpdateDto professor) {
     return professorService.update(
-        professorService.update(Objects.requireNonNull(professorUpdateDto.convert(professor))));
+        professorService.update(Objects.requireNonNull(conversionService.convert(professor, Professor.class))));
+    //professorUpdateDto.convert(professor)
   }
 
   @Transactional

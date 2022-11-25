@@ -2,8 +2,6 @@ package com.kelaidisc.controller;
 
 import static java.util.Objects.nonNull;
 
-import com.kelaidisc.converter.course.CourseCreateDtoToCourse;
-import com.kelaidisc.converter.course.CourseUpdateDtoToCourse;
 import com.kelaidisc.domain.Course;
 import com.kelaidisc.domain.Student;
 import com.kelaidisc.dto.DeleteDto;
@@ -18,6 +16,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,8 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CourseController {
 
   private final CourseService courseService;
-  private final CourseCreateDtoToCourse courseCreateDtoToCourse;
-  private final CourseUpdateDtoToCourse courseUpdateDtoToCourse;
+  private final ConversionService conversionService;
 
   @GetMapping
   public List<Course> findAll(@RequestParam(value = "name", required = false) String name) {
@@ -55,7 +53,8 @@ public class CourseController {
 
   @PostMapping
   public Course create(@Valid @RequestBody CourseCreateDto course) {
-    return courseService.create(Objects.requireNonNull(courseCreateDtoToCourse.convert(course)));
+    return courseService.create(Objects.requireNonNull(conversionService.convert(course, Course.class)));
+    //courseCreateDtoToCourse.convert(course)
   }
 
   @PutMapping("/{id}")
@@ -65,7 +64,8 @@ public class CourseController {
           "Must be the same as the path variable that is used");
     }
 
-    return courseService.update(Objects.requireNonNull(courseUpdateDtoToCourse.convert(course)));
+    return courseService.update(Objects.requireNonNull(conversionService.convert(course, Course.class)));
+    //courseUpdateDtoToCourse.convert(course)
   }
 
   @Transactional

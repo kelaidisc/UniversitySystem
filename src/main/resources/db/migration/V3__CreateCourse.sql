@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS course
+CREATE TABLE course
 (
     id           int         NOT NULL AUTO_INCREMENT,
     `name`         varchar(60) NOT NULL,

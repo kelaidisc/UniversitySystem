@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS professor
+CREATE TABLE professor
 (
     id         int          NOT NULL AUTO_INCREMENT,
     first_name varchar(40)  NOT NULL,

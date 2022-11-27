@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS student
+CREATE TABLE student
 (
     id                int          NOT NULL AUTO_INCREMENT,
     first_name        varchar(40)  NOT NULL,

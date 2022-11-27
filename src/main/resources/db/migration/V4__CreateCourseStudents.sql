@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS course_students
+CREATE TABLE course_students
 (
     course_id  int not null,
     student_id int not null,

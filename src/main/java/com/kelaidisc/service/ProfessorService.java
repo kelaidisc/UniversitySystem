@@ -37,8 +37,8 @@ public class ProfessorService {
 
   public List<Professor> search(ProfessorSearchField searchField, String searchTerm) {
     return switch (searchField) {
-      case FIRST_NAME -> professorRepository.findAllByFirstNameEqualsIgnoreCaseLike(searchTerm);
-      case LAST_NAME -> professorRepository.findAllByLastNameEqualsIgnoreCaseLike(searchTerm);
+      case FIRST_NAME -> professorRepository.findAllByFirstNameContainingIgnoreCase(searchTerm);
+      case LAST_NAME -> professorRepository.findAllByLastNameContainingIgnoreCase(searchTerm);
       case EMAIL ->
           Stream.of(professorRepository.findByEmail(searchTerm)).filter(Objects::nonNull).collect(Collectors.toList());
       case PHONE ->

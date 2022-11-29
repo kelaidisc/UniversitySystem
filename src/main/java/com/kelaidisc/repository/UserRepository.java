@@ -13,6 +13,10 @@ public interface UserRepository<T extends User> extends CrudRepository<T, Long> 
 
   List<T> findAll();
 
+  List<T> findAllByFirstNameContainingIgnoreCase(@Param("firstName") String firstName);
+
+  List<T> findAllByLastNameContainingIgnoreCase(@Param("lastName") String lastName);
+
   List<T> findAllByBirthday(@Param("birthday") LocalDate birthday);
 
   T findByEmail(@Param("email") String email);

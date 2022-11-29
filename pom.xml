@@ -56,11 +56,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
@@ -86,32 +81,6 @@
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>9.8.2</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>migrate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <driver>com.mysql.cj.jdbc.Driver</driver>
-                    <url>jdbc:mysql://localhost:3306/university_spring</url>
-                    <user>root</user>
-                    <password>root</password>
-                    <baselineOnMigrate>true</baselineOnMigrate>
-                    <schemas>public</schemas>
-                    <locations>
-                        <location>
-                            src/main/resources/db/migration
-                        </location>
-                    </locations>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>

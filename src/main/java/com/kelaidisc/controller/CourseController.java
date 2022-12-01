@@ -54,7 +54,6 @@ public class CourseController {
   @PostMapping
   public Course create(@Valid @RequestBody CourseCreateDto course) {
     return courseService.create(Objects.requireNonNull(conversionService.convert(course, Course.class)));
-    //courseCreateDtoToCourse.convert(course)
   }
 
   @PutMapping("/{id}")
@@ -65,7 +64,6 @@ public class CourseController {
     }
 
     return courseService.update(Objects.requireNonNull(conversionService.convert(course, Course.class)));
-    //courseUpdateDtoToCourse.convert(course)
   }
 
   @Transactional

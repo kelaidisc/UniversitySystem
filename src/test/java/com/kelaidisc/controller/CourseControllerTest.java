@@ -1,14 +1,20 @@
 package com.kelaidisc.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kelaidisc.FlywayTestConfig;
 import com.kelaidisc.domain.Course;
+import com.kelaidisc.domain.Student;
 import com.kelaidisc.dto.DeleteDto;
+import com.kelaidisc.dto.EnrollDto;
+import com.kelaidisc.repository.CourseRepository;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -37,11 +43,16 @@ class CourseControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
+  @Autowired
+  private CourseRepository courseRepository;
+
 
   @Test
   public void givenCourseURI_whenGetAllCourses_thenVerifyResponse() throws Exception {
 
-    final MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/course"))
+    final MvcResult mvcResult = mockMvc
+        .perform(MockMvcRequestBuilders
+            .get("/course"))
         .andDo(print())
         .andExpect(status().isOk())
         .andReturn();
@@ -51,8 +62,12 @@ class CourseControllerTest {
   @Test
   public void givenCourseId_whenGetCourseById_thenVerifyResponse() throws Exception {
 
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/course/{id}", 1))
-        .andDo(print()).andExpect(status().isOk())
+    Long courseId = 1L;
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/course/{id}", courseId))
+        .andDo(print())
+        .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1));
   }
@@ -60,7 +75,10 @@ class CourseControllerTest {
   @Test
   public void givenInvalidCourseId_whenGetCourseById_thenVerifyNotFound() throws Exception {
 
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/course/{id}", 10000000))
+    Long courseId = 10000000L;
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/course/{id}", courseId))
         .andDo(print())
         .andExpect(status().isNotFound());
   }
@@ -73,38 +91,78 @@ class CourseControllerTest {
         .description("descr")
         .build();
 
-    ResultActions response = mockMvc.perform(
-        MockMvcRequestBuilders.post("/course")
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
+            .post("/course")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(objectMapper.writeValueAsString(course)));
 
     response
         .andDo(print())
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("name").value("Gym"))
+        .andExpect(MockMvcResultMatchers.jsonPath("description").value("descr"));
+
+    Optional<Course> shouldBeCourse = courseRepository.findById(6L);
+    assertNotNull(shouldBeCourse);
   }
 
 
   @Test
   public void givenCourseIdAndObject_whenUpdateCourse_thenVerifyResponse() throws Exception {
 
-    Course course = Course.builder().id(1L).name("Logic").description("DescriptionText1234").build();
+    Long courseId = 1L;
 
-    ResultActions response = mockMvc.perform(MockMvcRequestBuilders.put("/course/{id}", 1)
-        .contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(course)));
+    Course course = Course.builder()
+        .id(courseId)
+        .name("Logic")
+        .description("DescriptionText1234")
+        .build();
 
-    response.andDo(print()).andExpect(status().isOk());
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
+            .put("/course/{id}", courseId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(course)));
 
+    response
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Logic"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("DescriptionText1234"));
+
+    Optional<Course> optionalCourse = courseRepository.findById(1L);
+
+    if (optionalCourse.isPresent()) {
+      //always true
+      Course withAssignedProfessor = optionalCourse.get();
+
+      assertEquals(withAssignedProfessor.getId(), 1);
+      assertEquals(withAssignedProfessor.getName(), "Logic");
+      assertEquals(withAssignedProfessor.getDescription(), "DescriptionText1234");
+    }
   }
 
   @Test
   public void givenMismatchCourseIdAndObject_whenUpdateCourse_thenVerifyBadRequest() throws Exception {
 
-    Course course = Course.builder().id(7L).name("Logic").description("DescriptionText1234").build();
+    Course course = Course.builder()
+        .id(7L)
+        .name("Logic")
+        .description("DescriptionText1234")
+        .build();
 
-    ResultActions response = mockMvc.perform(MockMvcRequestBuilders.put("/course/{id}", 1)
-        .contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(course)));
+    Long courseId = 1L;
 
-    response.andDo(print()).andExpect(status().isBadRequest());
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
+            .put("/course/{id}", courseId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(course)));
+
+    response
+        .andDo(print())
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -115,34 +173,131 @@ class CourseControllerTest {
     ids.add(2L);
     DeleteDto deleteDto = new DeleteDto(ids);
 
-    ResultActions response = mockMvc.perform(MockMvcRequestBuilders.delete("/course")
-        .contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(deleteDto)));
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
+            .delete("/course")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(deleteDto)));
 
-    response.andDo(print()).andExpect(status().isOk());
+    response
+        .andDo(print())
+        .andExpect(status().isOk());
 
+    //TestData has a total of 5 courses
+
+    int allCourses = courseRepository.findAll().size();
+    assertEquals(3, allCourses);
   }
 
   @Test
   public void givenCourseIdsNotExisting_whenDeleteCourses_thenVerifyResponse() throws Exception {
+
     Set<Long> ids = new HashSet<>();
     ids.add(7L);
     ids.add(8L);
     DeleteDto deleteDto = new DeleteDto(ids);
 
-    ResultActions response = mockMvc.perform(
-        MockMvcRequestBuilders
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
             .delete("/course")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(objectMapper.writeValueAsString(deleteDto))
-    );
+        );
 
-    response.andDo(print()).andExpect(status().isOk());
+    response
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
 
+  @Test
+  public void givenCourseIdAndProfessorId_whenAssignProfessor_thenVerifyResponse() throws Exception {
+
+    Long courseId = 1L;
+    Long professorId = 1L;
+
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .patch("/course/{id}/professor/{professorId}", courseId, professorId))
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    Optional<Course> optionalCourse = courseRepository.findById(1L);
+
+    if (optionalCourse.isPresent()) {
+      //always true
+      Course withAssignedProfessor = optionalCourse.get();
+
+      assertEquals(withAssignedProfessor.getProfessorId(), 1);
+    }
+  }
+
+  @Test
+  public void givenInvalidCourseIdAndProfessorId_whenAssignProfessor_thenVerifyNotFound() throws Exception {
+
+    Long courseId = 100000L;
+    Long professorId = 1L;
+
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .patch("/course/{id}/professor/{professorId}", courseId, professorId))
+        .andDo(print())
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void givenCourseIdAndInvalidProfessorId_whenAssignProfessor_thenVerifyNotFound() throws Exception {
+
+    Long courseId = 1L;
+    Long professorId = 100000L;
+
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .patch("/course/{id}/professor/{professorId}", courseId, professorId))
+        .andDo(print())
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void givenCourseId_whenRemovingProfessor_thenVerifyResponse() throws Exception {
+
+    Long courseId = 1L;
+
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .patch("/course/{id}/professor", courseId))
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    Optional<Course> optionalCourse = courseRepository.findById(1L);
+
+    if (optionalCourse.isPresent()) {
+      //always true
+      Course withAssignedProfessor = optionalCourse.get();
+      assertNull(withAssignedProfessor.getProfessorId());
+    }
+  }
+
+  @Test
+  public void givenInvalidCourseId_whenRemovingProfessor_thenVerifyNotFound() throws Exception {
+
+    Long courseId = 100000L;
+
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .patch("/course/{id}/professor", courseId))
+        .andDo(print())
+        .andExpect(status().isNotFound());
   }
 
   @Test
   public void givenCourseId_whenGetEnrolledStudents_thenVerifyResponse() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/course/{id}/students", 1)).andDo(print())
+
+    Long courseId = 1L;
+
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .get("/course/{id}/students", courseId))
+        .andDo(print())
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE));
   }
@@ -150,9 +305,190 @@ class CourseControllerTest {
   @Test
   public void givenInvalidCourseId_whenGetEnrolledStudents_thenVerifyNotFound() throws Exception {
 
-    mockMvc.perform(MockMvcRequestBuilders.get("/course/{id}/students", 8)).andDo(print())
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .get("/course/{id}/students", 8))
+        .andDo(print())
         .andExpect(status().isNotFound())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE));
   }
-}
 
+  @Test
+  public void givenCourseIdAndStudentsIds_whenEnrollStudents_thenVerifyResponse() throws Exception {
+
+    Set<Long> ids = new HashSet<>();
+    ids.add(4L);
+    ids.add(5L);
+
+    EnrollDto enrollDto = new EnrollDto(ids);
+
+    Long courseId = 1L;
+
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
+            .post("/course/{id}/students", courseId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(enrollDto)));
+
+    response
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    Optional<Course> optionalCourse = courseRepository.findById(1L);
+
+    if (optionalCourse.isPresent()) {
+      //always true
+      Course withAssignedProfessor = optionalCourse.get();
+      Set<Student> courseStudents = withAssignedProfessor.getStudents();
+
+      //TestData enrolls students with ids: 1, 2, 3 to course with id 1
+
+      assertEquals(courseStudents.size(), 5);
+    }
+  }
+
+  @Test
+  public void givenInvalidCourseIdAndStudentsIds_whenEnrollStudents_thenVerifyNotFound() throws Exception {
+
+    Set<Long> ids = new HashSet<>();
+    ids.add(4L);
+    ids.add(5L);
+
+    EnrollDto enrollDto = new EnrollDto(ids);
+
+    Long courseId = 111111L;
+
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
+            .post("/course/{id}/students", courseId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(enrollDto)));
+
+    response
+        .andDo(print())
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void givenCourseIdAndStudentsIdsNotExisting_whenEnrollStudents_thenVerifyResponse() throws Exception {
+
+    Set<Long> ids = new HashSet<>();
+    ids.add(43333L);
+    ids.add(53333L);
+
+    EnrollDto enrollDto = new EnrollDto(ids);
+
+    Long courseId = 1L;
+
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
+            .post("/course/{id}/students", courseId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(enrollDto)));
+
+    response
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    Optional<Course> optionalCourse = courseRepository.findById(1L);
+
+    if (optionalCourse.isPresent()) {
+      //always true
+      Course withAssignedProfessor = optionalCourse.get();
+      Set<Student> courseStudents = withAssignedProfessor.getStudents();
+
+      //TestData enrolls students with ids: 1, 2, 3 to course with id 1
+
+      assertEquals(courseStudents.size(), 3);
+    }
+  }
+
+  @Test
+  void givenCourseIdAndStudentsIds_whenDisEnrollStudents_thenVerifyResponse() throws Exception {
+
+    Set<Long> ids = new HashSet<>();
+    ids.add(1L);
+    ids.add(2L);
+
+    Long courseId = 1L;
+
+    DeleteDto deleteDto = new DeleteDto(ids);
+
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
+            .delete("/course/{id}/students", courseId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(deleteDto)));
+
+    response
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    Optional<Course> optionalCourse = courseRepository.findById(1L);
+
+    if (optionalCourse.isPresent()) {
+      //always true
+      Course withAssignedProfessor = optionalCourse.get();
+      Set<Student> courseStudents = withAssignedProfessor.getStudents();
+
+      //TestData enrolls students with ids: 1, 2, 3 to course with id 1
+
+      assertEquals(courseStudents.size(), 1);
+    }
+  }
+
+  @Test
+  void givenInvalidCourseIdAndStudentsIds_whenDisEnrollStudents_thenVerifyNotFound() throws Exception {
+
+    Set<Long> ids = new HashSet<>();
+    ids.add(1L);
+    ids.add(2L);
+
+    DeleteDto deleteDto = new DeleteDto(ids);
+
+    Long courseId = 100000L;
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
+            .delete("/course/{id}/students", courseId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(deleteDto)));
+
+    response
+        .andDo(print())
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  void givenCourseIdAndStudentsIdsNotExisting_whenDisEnrollStudents_thenVerifyResponse() throws Exception {
+
+    Set<Long> ids = new HashSet<>();
+    ids.add(1000000L);
+    ids.add(2000000L);
+
+    Long courseId = 1L;
+
+    DeleteDto deleteDto = new DeleteDto(ids);
+
+    ResultActions response = mockMvc
+        .perform(MockMvcRequestBuilders
+            .delete("/course/{id}/students", courseId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(deleteDto)));
+
+    response
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    Optional<Course> optionalCourse = courseRepository.findById(1L);
+
+    if (optionalCourse.isPresent()) {
+      //always true
+      Course withAssignedProfessor = optionalCourse.get();
+      Set<Student> courseStudents = withAssignedProfessor.getStudents();
+
+      //TestData enrolls students with ids: 1, 2, 3 to course with id 1
+
+      assertEquals(courseStudents.size(), 3);
+    }
+  }
+}

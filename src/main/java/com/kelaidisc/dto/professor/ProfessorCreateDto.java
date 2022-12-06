@@ -18,11 +18,11 @@ public class ProfessorCreateDto {
 
   @NotEmpty(message = "This field can't be null or empty")
   @Pattern(regexp = "[A-Z]\\w*", message = "First letter uppercase, rest lowercase")
-  protected String lastName;
+  protected String firstName;
 
   @NotEmpty(message = "This field can't be null or empty")
   @Pattern(regexp = "[A-Z]\\w*", message = "First letter uppercase, rest lowercase")
-  protected String firstName;
+  protected String lastName;
 
   @Email
   protected String email;

@@ -56,6 +56,7 @@ class CourseControllerTest {
         .andDo(print())
         .andExpect(status().isOk())
         .andReturn();
+
     assertEquals(MediaType.APPLICATION_JSON_VALUE, mvcResult.getResponse().getContentType());
   }
 
@@ -103,6 +104,7 @@ class CourseControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("name").value("Gym"))
         .andExpect(MockMvcResultMatchers.jsonPath("description").value("descr"));
 
+    //TestData has a total of 5 courses
     Optional<Course> shouldBeCourse = courseRepository.findById(6L);
     assertNotNull(shouldBeCourse);
   }
@@ -122,7 +124,8 @@ class CourseControllerTest {
     ResultActions response = mockMvc
         .perform(MockMvcRequestBuilders
             .put("/course/{id}", courseId)
-            .contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(course)));
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(course)));
 
     response
         .andDo(print())
@@ -135,11 +138,11 @@ class CourseControllerTest {
 
     if (optionalCourse.isPresent()) {
       //always true
-      Course withAssignedProfessor = optionalCourse.get();
+      Course updatedCourse = optionalCourse.get();
 
-      assertEquals(withAssignedProfessor.getId(), 1);
-      assertEquals(withAssignedProfessor.getName(), "Logic");
-      assertEquals(withAssignedProfessor.getDescription(), "DescriptionText1234");
+      assertEquals(updatedCourse.getId(), 1);
+      assertEquals(updatedCourse.getName(), "Logic");
+      assertEquals(updatedCourse.getDescription(), "DescriptionText1234");
     }
   }
 
@@ -299,18 +302,24 @@ class CourseControllerTest {
             .get("/course/{id}/students", courseId))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE));
+        .andExpect(MockMvcResultMatchers
+            .content()
+            .contentType(MediaType.APPLICATION_JSON_VALUE));
   }
 
   @Test
   public void givenInvalidCourseId_whenGetEnrolledStudents_thenVerifyNotFound() throws Exception {
 
+    Long courseId = 8L;
+
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/course/{id}/students", 8))
+            .get("/course/{id}/students", courseId))
         .andDo(print())
         .andExpect(status().isNotFound())
-        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE));
+        .andExpect(MockMvcResultMatchers
+            .content()
+            .contentType(MediaType.APPLICATION_JSON_VALUE));
   }
 
   @Test

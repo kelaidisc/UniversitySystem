@@ -7,6 +7,7 @@ import com.kelaidisc.domain.Professor;
 import com.kelaidisc.dto.DeleteDto;
 import com.kelaidisc.dto.professor.ProfessorCreateDto;
 import com.kelaidisc.dto.professor.ProfessorUpdateDto;
+import com.kelaidisc.exception.UniversityBadRequestException;
 import com.kelaidisc.model.ProfessorSearchField;
 import com.kelaidisc.service.ProfessorService;
 import java.util.List;
@@ -53,16 +54,19 @@ public class ProfessorController {
 
   @PostMapping
   public Professor create(@Valid @RequestBody ProfessorCreateDto professor) {
-    return professorService.create(
-        professorService.create(Objects.requireNonNull(conversionService.convert(professor, Professor.class))));
-    //professorCreateDto.convert(professor)
+    return professorService.create(Objects.requireNonNull(conversionService.convert(professor, Professor.class)));
   }
 
-  @PutMapping
-  public Professor update(@Valid @RequestBody ProfessorUpdateDto professor) {
-    return professorService.update(
-        professorService.update(Objects.requireNonNull(conversionService.convert(professor, Professor.class))));
-    //professorUpdateDto.convert(professor)
+  @PutMapping("/{id}")
+  public Professor update(@NotNull @Positive @PathVariable("id") Long id,
+                          @Valid @RequestBody ProfessorUpdateDto professor) {
+
+    if (!Objects.equals(professor.getId(), id)) {
+      throw new UniversityBadRequestException(Professor.class, "id",
+          "Must be the same as the path variable that is used");
+    }
+    return
+        professorService.update(Objects.requireNonNull(conversionService.convert(professor, Professor.class)));
   }
 
   @Transactional

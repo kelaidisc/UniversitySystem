@@ -13,6 +13,4 @@ public class ApplicationTests {
   @Test
   void contextLoads() {
   }
-
-  // TODO Write some actual tests :D
 }

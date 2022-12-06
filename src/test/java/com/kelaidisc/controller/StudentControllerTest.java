@@ -7,9 +7,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kelaidisc.FlywayTestConfig;
-import com.kelaidisc.domain.Professor;
+import com.kelaidisc.domain.Student;
 import com.kelaidisc.dto.DeleteDto;
-import com.kelaidisc.repository.ProfessorRepository;
+import com.kelaidisc.repository.StudentRepository;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ActiveProfiles("test")
 @Import(FlywayTestConfig.class)
 @AutoConfigureMockMvc
-class ProfessorControllerTest {
+class StudentControllerTest {
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -42,14 +42,14 @@ class ProfessorControllerTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private ProfessorRepository professorRepository;
+  private StudentRepository studentRepository;
 
   @Test
-  public void givenProfessorURI_whenGetAllProfessors_thenVerifyResponse() throws Exception {
+  public void givenStudentURI_whenGetAllStudents_thenVerifyResponse() throws Exception {
 
     final MvcResult mvcResult = mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/professor"))
+            .get("/student"))
         .andDo(print())
         .andExpect(status().isOk())
         .andReturn();
@@ -58,12 +58,12 @@ class ProfessorControllerTest {
   }
 
   @Test
-  public void givenProfessorId_whenGetProfessorById_thenVerifyResponse() throws Exception {
+  public void givenStudentId_whenGetStudentById_thenVerifyResponse() throws Exception {
 
-    Long professorId = 1L;
+    Long studentId = 1L;
 
     this.mockMvc.perform(MockMvcRequestBuilders
-            .get("/professor/{id}", professorId))
+            .get("/student/{id}", studentId))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -71,32 +71,33 @@ class ProfessorControllerTest {
   }
 
   @Test
-  public void givenInvalidProfessorId_whenGetProfessorById_thenVerifyNotFound() throws Exception {
+  public void givenInvalidStudentId_whenGetStudentById_thenVerifyNotFound() throws Exception {
 
-    Long professorId = 1000L;
+    Long studentId = 1000L;
 
     this.mockMvc.perform(MockMvcRequestBuilders
-            .get("/professor/{id}", professorId))
+            .get("/student/{id}", studentId))
         .andDo(print())
         .andExpect(status().isNotFound());
   }
 
   @Test
-  public void givenProfessorObject_WhenCreateProfessor_thenVerifyResponse() throws Exception {
+  public void givenStudentObject_WhenCreateStudent_thenVerifyResponse() throws Exception {
 
-    Professor professor = Professor.builder()
+    Student student = Student.builder()
         .firstName("Marina")
         .lastName("Gioka")
         .email("marinag@gmail.com")
         .phone("+306977123434")
         .birthday(LocalDate.of(1967, 7, 9))
+        .registrationDate(LocalDate.of(2020, 10, 5))
         .build();
 
     ResultActions response = mockMvc
         .perform(MockMvcRequestBuilders
-            .post("/professor")
+            .post("/student")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .content(objectMapper.writeValueAsString(professor)));
+            .content(objectMapper.writeValueAsString(student)));
 
     response
         .andDo(print())
@@ -105,32 +106,34 @@ class ProfessorControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Gioka"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("marinag@gmail.com"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.phone").value("+306977123434"))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("1967-07-09"));
+        .andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("1967-07-09"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.registrationDate").value("2020-10-05"));
 
-    //TestData has a total of 5 professors
-    Optional<Professor> shouldBeProfessor = professorRepository.findById(6L);
-    assertNotNull(shouldBeProfessor);
+    //TestData has a total of 5 students
+    Optional<Student> shouldBeStudent = studentRepository.findById(6L);
+    assertNotNull(shouldBeStudent);
   }
 
   @Test
-  public void givenProfessorIdAndObject_whenUpdateProfessor_thenVerifyResponse() throws Exception {
+  public void givenStudentIdAndObject_whenUpdateStudent_thenVerifyResponse() throws Exception {
 
-    Long professorId = 1L;
+    Long studentId = 1L;
 
-    Professor professor = Professor.builder()
-        .id(professorId)
+    Student student = Student.builder()
+        .id(studentId)
         .firstName("Marina")
         .lastName("Gioka")
         .email("marinag@gmail.com")
         .phone("+306977123434")
         .birthday(LocalDate.of(1967, 7, 9))
+        .registrationDate(LocalDate.of(2020, 10, 5))
         .build();
 
     ResultActions response = mockMvc
         .perform(MockMvcRequestBuilders
-            .put("/professor/{id}", professorId)
+            .put("/student/{id}", studentId)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .content(objectMapper.writeValueAsString(professor)));
+            .content(objectMapper.writeValueAsString(student)));
 
     response
         .andDo(print())
@@ -140,43 +143,46 @@ class ProfessorControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Gioka"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("marinag@gmail.com"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.phone").value("+306977123434"))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("1967-07-09"));
+        .andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("1967-07-09"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.registrationDate").value("2020-10-05"));
 
 
-    Optional<Professor> optionalProfessor = professorRepository.findById(1L);
+    Optional<Student> optionalStudent = studentRepository.findById(1L);
 
-    if (optionalProfessor.isPresent()) {
+    if (optionalStudent.isPresent()) {
       //always true
-      Professor updatedProfessor = optionalProfessor.get();
+      Student updatedStudent = optionalStudent.get();
 
-      assertEquals(updatedProfessor.getId(), 1);
-      assertEquals(updatedProfessor.getFirstName(), "Marina");
-      assertEquals(updatedProfessor.getLastName(), "Gioka");
-      assertEquals(updatedProfessor.getEmail(), "marinag@gmail.com");
-      assertEquals(updatedProfessor.getPhone(), "+306977123434");
-      assertEquals(updatedProfessor.getBirthday(), LocalDate.of(1967, 7, 9));
+      assertEquals(updatedStudent.getId(), 1);
+      assertEquals(updatedStudent.getFirstName(), "Marina");
+      assertEquals(updatedStudent.getLastName(), "Gioka");
+      assertEquals(updatedStudent.getEmail(), "marinag@gmail.com");
+      assertEquals(updatedStudent.getPhone(), "+306977123434");
+      assertEquals(updatedStudent.getBirthday(), LocalDate.of(1967, 7, 9));
+      assertEquals(updatedStudent.getRegistrationDate(), LocalDate.of(2020, 10, 5));
     }
   }
 
   @Test
-  public void givenMismatchProfessorIdAndObject_whenUpdateProfessor_thenVerifyBadRequest() throws Exception {
+  public void givenMismatchStudentIdAndObject_whenUpdateStudent_thenVerifyBadRequest() throws Exception {
 
-    Long professorId = 1L;
+    Long studentId = 1L;
 
-    Professor professor = Professor.builder()
+    Student student = Student.builder()
         .id(7L)
         .firstName("Marina")
         .lastName("Gioka")
         .email("marinag@gmail.com")
         .phone("+30 6977123434")
         .birthday(LocalDate.of(1967, 7, 31))
+        .registrationDate(LocalDate.of(2020, 10, 5))
         .build();
 
     ResultActions response = mockMvc
         .perform(MockMvcRequestBuilders
-            .put("/professor/{id}", professorId)
+            .put("/student/{id}", studentId)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .content(objectMapper.writeValueAsString(professor)));
+            .content(objectMapper.writeValueAsString(student)));
 
     response
         .andDo(print())
@@ -184,7 +190,7 @@ class ProfessorControllerTest {
   }
 
   @Test
-  public void givenProfessorIds_whenDeleteProfessors_thenVerifyResponse() throws Exception {
+  public void givenStudentIds_whenDeleteStudents_thenVerifyResponse() throws Exception {
 
     Set<Long> ids = new HashSet<>();
     ids.add(1L);
@@ -193,7 +199,7 @@ class ProfessorControllerTest {
 
     ResultActions response = mockMvc
         .perform(MockMvcRequestBuilders
-            .delete("/professor")
+            .delete("/student")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(objectMapper.writeValueAsString(deleteDto)));
 
@@ -201,14 +207,14 @@ class ProfessorControllerTest {
         .andDo(print())
         .andExpect(status().isOk());
 
-    //TestData has a total of 5 professors
+    //TestData has a total of 5 students
 
-    int allCourses = professorRepository.findAll().size();
+    int allCourses = studentRepository.findAll().size();
     assertEquals(3, allCourses);
   }
 
   @Test
-  public void givenProfessorIdsNotExisting_whenDeleteProfessors_thenVerifyResponse() throws Exception {
+  public void givenStudentIdsNotExisting_whenDeleteStudents_thenVerifyResponse() throws Exception {
 
     Set<Long> ids = new HashSet<>();
     ids.add(7L);
@@ -217,7 +223,7 @@ class ProfessorControllerTest {
 
     ResultActions response = mockMvc
         .perform(MockMvcRequestBuilders
-            .delete("/professor")
+            .delete("/student")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(objectMapper.writeValueAsString(deleteDto)));
 
@@ -227,12 +233,12 @@ class ProfessorControllerTest {
   }
 
   @Test
-  public void givenProfessorId_whenGetEnrolledCourses_thenVerifyResponse() throws Exception {
+  public void givenStudentId_whenGetEnrolledCourses_thenVerifyResponse() throws Exception {
 
-    Long professorId = 1L;
+    Long studentId = 1L;
 
     mockMvc.perform(MockMvcRequestBuilders
-            .get("/professor/{id}/courses", professorId))
+            .get("/student/{id}/courses", studentId))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers
@@ -241,12 +247,12 @@ class ProfessorControllerTest {
   }
 
   @Test
-  public void givenInvalidProfessorId_whenGetEnrolledCourses_thenVerifyNotFound() throws Exception {
+  public void givenInvalidStudentId_whenGetEnrolledCourses_thenVerifyNotFound() throws Exception {
 
-    Long professorId = 7L;
+    Long studentId = 7L;
 
     mockMvc.perform(MockMvcRequestBuilders
-            .get("/professor/{id}/courses", professorId))
+            .get("/student/{id}/courses", studentId))
         .andDo(print())
         .andExpect(status().isNotFound())
         .andExpect(MockMvcResultMatchers

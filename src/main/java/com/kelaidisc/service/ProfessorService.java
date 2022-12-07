@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,7 +33,8 @@ public class ProfessorService {
   }
 
   public Professor findOrThrow(Long id) {
-    return professorRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException(Professor.class, id));
+    return professorRepository.findById(id)
+        .orElseThrow(() -> new UniversityNotFoundException(Professor.class, id));
   }
 
   public List<Professor> search(ProfessorSearchField searchField, String searchTerm) {
@@ -60,14 +62,14 @@ public class ProfessorService {
   }
 
 
-  private void validateEmail(Professor professor) {
+  private void validateEmail(@NotNull Professor professor) {
     if (professor.getId() == null
         && professorRepository.existsByEmailAndIdIsNot(professor.getEmail(), professor.getId())) {
       throw new UniversityDuplicateResourceException(Professor.class, "email", professor.getEmail());
     }
   }
 
-  private void validatePhone(Professor professor) {
+  private void validatePhone(@NotNull Professor professor) {
     if (professor.getId() == null
         && professorRepository.existsByPhoneAndIdIsNot(professor.getPhone(), professor.getId())) {
       throw new UniversityDuplicateResourceException(Professor.class, "phone", professor.getPhone());

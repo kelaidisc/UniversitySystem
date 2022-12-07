@@ -16,8 +16,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,9 +32,9 @@ public class StudentService {
     return studentRepository.findById(id);
   }
 
-  @Transactional
   public Student findOrThrow(Long id) {
-    return studentRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException(Student.class, id));
+    return studentRepository.findById(id)
+        .orElseThrow(() -> new UniversityNotFoundException(Student.class, id));
   }
 
   public List<Student> search(StudentSearchField searchField, String searchTerm) {
@@ -61,14 +61,16 @@ public class StudentService {
     return studentRepository.save(student);
   }
 
-  private void validateEmail(Student student) {
-    if (student.getId() == null && studentRepository.existsByEmailAndIdIsNot(student.getEmail(), student.getId())) {
+  private void validateEmail(@NotNull Student student) {
+    if (student.getId() == null
+        && studentRepository.existsByEmailAndIdIsNot(student.getEmail(), student.getId())) {
       throw new UniversityDuplicateResourceException(Student.class, "email", student.getEmail());
     }
   }
 
-  private void validatePhone(Student student) {
-    if (student.getId() == null && studentRepository.existsByPhoneAndIdIsNot(student.getPhone(), student.getId())) {
+  private void validatePhone(@NotNull Student student) {
+    if (student.getId() == null
+        && studentRepository.existsByPhoneAndIdIsNot(student.getPhone(), student.getId())) {
       throw new UniversityDuplicateResourceException(Student.class, "phone", student.getPhone());
     }
   }

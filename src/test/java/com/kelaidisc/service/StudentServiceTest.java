@@ -6,10 +6,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import com.kelaidisc.FlywayTestConfig;
-import com.kelaidisc.domain.Professor;
+import com.kelaidisc.domain.Student;
 import com.kelaidisc.exception.UniversityDuplicateResourceException;
-import com.kelaidisc.model.ProfessorSearchField;
-import com.kelaidisc.repository.ProfessorRepository;
+import com.kelaidisc.model.StudentSearchField;
+import com.kelaidisc.repository.StudentRepository;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
@@ -29,230 +29,236 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @Import(FlywayTestConfig.class)
 @ExtendWith(MockitoExtension.class)
-class ProfessorServiceTest {
+class StudentServiceTest {
 
-  @Mock private ProfessorRepository professorRepository;
-  private ProfessorService underTest;
+  @Mock
+  private StudentRepository studentRepository;
+  private StudentService underTest;
 
   @BeforeEach
   void setUp() {
-    underTest = new ProfessorService(professorRepository);
+    underTest = new StudentService(studentRepository);
   }
 
   @Test
-  void canFindAllProfessors() {
+  void canFindAllStudents() {
 
     // when
     underTest.findAll();
 
     // then
-    verify(professorRepository).findAll();
+    verify(studentRepository).findAll();
   }
 
   @Test
-  void canFindProfessorOptional() {
+  void canFindStudentOptional() {
 
     // when
     underTest.find(1L);
 
     // then
-    verify(professorRepository).findById(1L);
+    verify(studentRepository).findById(1L);
   }
 
   @Test
-  void canFindProfessor() {
+  void canFindStudent() {
 
     // given
-    Professor professor = Professor.builder()
+    Student student = Student.builder()
         .id(1L)
         .firstName("Fotis")
         .lastName("Zoumpos")
         .email("fotisZ@gmail.com")
         .phone("+306999550909")
         .birthday(LocalDate.of(1993, 9, 12))
+        .registrationDate(LocalDate.of(2020, 11, 15))
         .build();
 
-    Optional<Professor> professorOptional = Optional.of(professor);
+    Optional<Student> studentOptional = Optional.of(student);
 
     // when
-    Mockito.when(professorRepository.findById(1L)).thenReturn(professorOptional);
-    Professor expectedProfessor = underTest.findOrThrow(1L);
+    Mockito.when(studentRepository.findById(1L)).thenReturn(studentOptional);
+    Student expectedStudent = underTest.findOrThrow(1L);
 
     // then
-    assertThat(expectedProfessor).isEqualTo(professor);
+    assertThat(expectedStudent).isEqualTo(student);
   }
 
   @Test
-  void canSearchProfessorByFirstName() {
+  void canSearchStudentByFirstName() {
 
     // given
-    ProfessorSearchField firstName = ProfessorSearchField.FIRST_NAME;
+    StudentSearchField firstName = StudentSearchField.FIRST_NAME;
     String searchTerm = "some string";
 
     // when
     underTest.search(firstName, searchTerm);
 
     // then
-    verify(professorRepository).findAllByFirstNameContainingIgnoreCase(searchTerm);
+    verify(studentRepository).findAllByFirstNameContainingIgnoreCase(searchTerm);
   }
 
   @Test
-  void canSearchProfessorByLastName() {
+  void canSearchStudentByLastName() {
 
     // given
-    ProfessorSearchField lastName = ProfessorSearchField.LAST_NAME;
+    StudentSearchField lastName = StudentSearchField.LAST_NAME;
     String searchTerm = "some string";
 
     // when
     underTest.search(lastName, searchTerm);
 
     // then
-    verify(professorRepository).findAllByLastNameContainingIgnoreCase(searchTerm);
+    verify(studentRepository).findAllByLastNameContainingIgnoreCase(searchTerm);
   }
 
   @Test
-  void canSearchProfessorByEmail() {
+  void canSearchStudentByEmail() {
 
     // given
-    ProfessorSearchField email = ProfessorSearchField.EMAIL;
+    StudentSearchField email = StudentSearchField.EMAIL;
     String searchTerm = "some string";
 
     // when
     underTest.search(email, searchTerm);
 
     // then
-    verify(professorRepository).findByEmail(searchTerm);
+    verify(studentRepository).findByEmail(searchTerm);
   }
 
   @Test
-  void canSearchProfessorByPhone() {
+  void canSearchStudentByPhone() {
 
     // given
-    ProfessorSearchField phone = ProfessorSearchField.PHONE;
+    StudentSearchField phone = StudentSearchField.PHONE;
     String searchTerm = "some string";
 
     // when
     underTest.search(phone, searchTerm);
 
     // then
-    verify(professorRepository).findByPhone(searchTerm);
+    verify(studentRepository).findByPhone(searchTerm);
   }
 
   @Test
-  void canSearchProfessorByBirthday() {
+  void canSearchStudentByBirthday() {
 
     // given
-    ProfessorSearchField birthday = ProfessorSearchField.BIRTHDAY;
+    StudentSearchField birthday = StudentSearchField.BIRTHDAY;
     String searchTerm = "1999-03-05";
 
     // when
     underTest.search(birthday, searchTerm);
 
     // then
-    verify(professorRepository).findAllByBirthday(LocalDate.parse(searchTerm));
+    verify(studentRepository).findAllByBirthday(LocalDate.parse(searchTerm));
   }
 
   @Test
-  void canCreateProfessor() {
+  void canCreateStudent() {
 
     // given
-    Professor professor = Professor.builder()
+    Student student = Student.builder()
         .firstName("Fotis")
         .lastName("Zoumpos")
         .email("fotisZ@gmail.com")
         .phone("+306999550909")
         .birthday(LocalDate.of(1993, 9, 12))
+        .registrationDate(LocalDate.of(2020, 11, 15))
         .build();
 
     // when
-    underTest.create(professor);
+    underTest.create(student);
 
     // then
 
-    ArgumentCaptor<Professor> professorArgumentCaptor =
-        ArgumentCaptor.forClass(Professor.class);
+    ArgumentCaptor<Student> studentArgumentCaptor =
+        ArgumentCaptor.forClass(Student.class);
 
-    verify(professorRepository)
-        .save(professorArgumentCaptor.capture());
+    verify(studentRepository)
+        .save(studentArgumentCaptor.capture());
 
-    Professor capturedProfessor = professorArgumentCaptor.getValue();
-    assertThat(capturedProfessor).isEqualTo(professor);
+    Student capturedStudent = studentArgumentCaptor.getValue();
+    assertThat(capturedStudent).isEqualTo(student);
   }
 
   @Test
   void willThrowWhenEmailNotUnique() {
 
     // given
-    Professor professor = Professor.builder()
+    Student student = Student.builder()
         .firstName("Fotis")
         .lastName("Zoumpos")
         .email("fotisZ@gmail.com")
         .phone("+306999550909")
         .birthday(LocalDate.of(1993, 9, 12))
+        .registrationDate(LocalDate.of(2020, 11, 15))
         .build();
 
-    given(professorRepository
-        .existsByEmailAndIdIsNot(professor.getEmail(), professor.getId()))
+    given(studentRepository
+        .existsByEmailAndIdIsNot(student.getEmail(), student.getId()))
         .willReturn(true);
 
     // when
     // then
-    assertThatThrownBy(() -> underTest.create(professor))
+    assertThatThrownBy(() -> underTest.create(student))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Professor.class + " with " + "email" + ": " + professor.getEmail() + " already exists");
+            (Student.class + " with " + "email" + ": " + student.getEmail() + " already exists");
   }
 
   @Test
   void willThrowWhenPhoneNotUnique() {
 
     // given
-    Professor professor = Professor.builder()
+    Student student = Student.builder()
         .firstName("Fotis")
         .lastName("Zoumpos")
         .email("fotisZ@gmail.com")
         .phone("+306999550909")
         .birthday(LocalDate.of(1993, 9, 12))
+        .registrationDate(LocalDate.of(2020, 11, 15))
         .build();
 
-    given(professorRepository
-        .existsByPhoneAndIdIsNot(professor.getPhone(), professor.getId()))
+    given(studentRepository
+        .existsByPhoneAndIdIsNot(student.getPhone(), student.getId()))
         .willReturn(true);
 
     // when
     // then
-    assertThatThrownBy(() -> underTest.create(professor))
+    assertThatThrownBy(() -> underTest.create(student))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Professor.class + " with " + "phone" + ": " + professor.getPhone() + " already exists");
+            (Student.class + " with " + "phone" + ": " + student.getPhone() + " already exists");
   }
 
   @Test
-  void canUpdateProfessor() {
+  void canUpdateStudent() {
 
     // given
-    Professor professor = Professor.builder()
+    Student student = Student.builder()
         .id(1L)
         .firstName("Fotis")
         .lastName("Zoumpos")
         .email("fotisZ@gmail.com")
         .phone("+306999550909")
         .birthday(LocalDate.of(1993, 9, 12))
+        .registrationDate(LocalDate.of(2020, 11, 15))
         .build();
 
     // when
-    underTest.update(professor);
+    underTest.update(student);
 
     // then
 
-    ArgumentCaptor<Professor> professorArgumentCaptor =
-        ArgumentCaptor.forClass(Professor.class);
+    ArgumentCaptor<Student> studentArgumentCaptor =
+        ArgumentCaptor.forClass(Student.class);
 
-    verify(professorRepository)
-        .save(professorArgumentCaptor.capture());
+    verify(studentRepository)
+        .save(studentArgumentCaptor.capture());
 
-    Professor capturedProfessor = professorArgumentCaptor.getValue();
-    assertThat(capturedProfessor).isEqualTo(professor);
+    Student capturedStudent = studentArgumentCaptor.getValue();
+    assertThat(capturedStudent).isEqualTo(student);
   }
 
   @Test
@@ -267,6 +273,6 @@ class ProfessorServiceTest {
     underTest.deleteAllByIdIn(ids);
 
     // then
-    verify(professorRepository).deleteAllByIdIn(ids);
+    verify(studentRepository).deleteAllByIdIn(ids);
   }
 }

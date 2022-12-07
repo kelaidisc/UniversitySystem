@@ -31,7 +31,8 @@ import org.springframework.test.context.ActiveProfiles;
 @ExtendWith(MockitoExtension.class)
 class ProfessorServiceTest {
 
-  @Mock private ProfessorRepository professorRepository;
+  @Mock
+  private ProfessorRepository professorRepository;
   private ProfessorService underTest;
 
   @BeforeEach
@@ -200,7 +201,7 @@ class ProfessorServiceTest {
     assertThatThrownBy(() -> underTest.create(professor))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Professor.class + " with " + "email" + ": " + professor.getEmail() + " already exists");
+            (Professor.class + " with email: " + professor.getEmail() + " already exists");
   }
 
   @Test
@@ -224,7 +225,7 @@ class ProfessorServiceTest {
     assertThatThrownBy(() -> underTest.create(professor))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Professor.class + " with " + "phone" + ": " + professor.getPhone() + " already exists");
+            (Professor.class + " with phone: " + professor.getPhone() + " already exists");
   }
 
   @Test

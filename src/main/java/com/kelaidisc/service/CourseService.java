@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +49,7 @@ public class CourseService {
     return courseRepository.save(course);
   }
 
-  private void validateNameEligibility(Course course) {
+  private void validateNameEligibility(@NotNull Course course) {
     if (course.getId() == null && (courseRepository.existsByNameAndIdIsNot(course.getName(), course.getId()))) {
       throw new UniversityDuplicateResourceException(Course.class, "name", course.getName());
     }
@@ -76,7 +77,6 @@ public class CourseService {
     Course course = findOrThrow(courseId);
     course.setProfessor(null);
     courseRepository.save(course);
-
   }
 
   public void enrollStudents(Long courseId, Set<Long> ids) {

@@ -204,7 +204,7 @@ class StudentServiceTest {
     assertThatThrownBy(() -> underTest.create(student))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Student.class + " with " + "email" + ": " + student.getEmail() + " already exists");
+            (Student.class + " with email: " + student.getEmail() + " already exists");
   }
 
   @Test
@@ -229,7 +229,7 @@ class StudentServiceTest {
     assertThatThrownBy(() -> underTest.create(student))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Student.class + " with " + "phone" + ": " + student.getPhone() + " already exists");
+            (Student.class + " with phone: " + student.getPhone() + " already exists");
   }
 
   @Test

@@ -60,7 +60,7 @@ public class CourseService {
   }
 
   public List<Course> findAllByNameLike(String name) {
-    return courseRepository.findAllByNameEqualsIgnoreCaseLike(name);
+    return courseRepository.findAllByNameContainingIgnoreCase(name);
   }
 
 

@@ -182,7 +182,7 @@ class CourseServiceTest {
     underTest.findAllByNameLike(name);
 
     // then
-    verify(courseRepository).findAllByNameEqualsIgnoreCaseLike(name);
+    verify(courseRepository).findAllByNameContainingIgnoreCase(name);
   }
 
   @Test

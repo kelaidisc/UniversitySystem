@@ -4,6 +4,7 @@ import com.kelaidisc.domain.User;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 @NoRepositoryBean
 public interface UserRepository<T extends User> extends CrudRepository<T, Long> {
 
-  List<T> findAll();
+  @NotNull List<T> findAll();
 
   List<T> findAllByFirstNameContainingIgnoreCase(@Param("firstName") String firstName);
 

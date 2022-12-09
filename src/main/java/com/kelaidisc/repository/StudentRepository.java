@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StudentRepository extends UserRepository<Student> {
   Set<Student> findAllByIdIn(Set<Long> ids);
-
 }

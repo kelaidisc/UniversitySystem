@@ -181,7 +181,7 @@ class ProfessorServiceTest {
   }
 
   @Test
-  void willThrowWhenEmailNotUnique() {
+  void willThrowWhenEmailNotUniqueCreate() {
 
     // given
     Professor professor = Professor.builder()
@@ -205,7 +205,7 @@ class ProfessorServiceTest {
   }
 
   @Test
-  void willThrowWhenPhoneNotUnique() {
+  void willThrowWhenPhoneNotUniqueCreate() {
 
     // given
     Professor professor = Professor.builder()
@@ -254,6 +254,56 @@ class ProfessorServiceTest {
 
     Professor capturedProfessor = professorArgumentCaptor.getValue();
     assertThat(capturedProfessor).isEqualTo(professor);
+  }
+
+  @Test
+  void willThrowWhenEmailNotUniqueUpdate() {
+
+    // given
+    Professor professor = Professor.builder()
+        .id(1L)
+        .firstName("Fotis")
+        .lastName("Zoumpos")
+        .email("andym@hotmail.com")
+        .phone("+306999550909")
+        .birthday(LocalDate.of(1993, 9, 12))
+        .build();
+
+    given(professorRepository
+        .existsByEmailAndIdIsNot(professor.getEmail(), professor.getId()))
+        .willReturn(true);
+
+    // when
+    // then
+    assertThatThrownBy(() -> underTest.update(professor))
+        .isInstanceOf(UniversityDuplicateResourceException.class)
+        .hasMessageContaining
+            (Professor.class + " with email: " + professor.getEmail() + " already exists");
+  }
+
+  @Test
+  void willThrowWhenPhoneNotUniqueUpdate() {
+
+    // given
+    Professor professor = Professor.builder()
+        .id(1L)
+        .firstName("Fotis")
+        .lastName("Zoumpos")
+        .email("fotisZ@gmail.com")
+        .phone("+30 6999030405")
+        .birthday(LocalDate.of(1993, 9, 12))
+        .build();
+
+    given(professorRepository
+        .existsByPhoneAndIdIsNot(professor.getPhone(), professor.getId()))
+        .willReturn(true);
+
+    // when
+    // then
+    assertThatThrownBy(() -> underTest.create(professor))
+        .isInstanceOf(UniversityDuplicateResourceException.class)
+        .hasMessageContaining
+            (Professor.class + " with phone: " + professor.getPhone() + " already exists");
   }
 
   @Test

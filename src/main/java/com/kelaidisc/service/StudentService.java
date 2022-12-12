@@ -62,15 +62,13 @@ public class StudentService {
   }
 
   private void validateEmail(@NotNull Student student) {
-    if (student.getId() == null
-        && studentRepository.existsByEmailAndIdIsNot(student.getEmail(), student.getId())) {
+    if (studentRepository.existsByEmailAndIdIsNot(student.getEmail(), student.getId())) {
       throw new UniversityDuplicateResourceException(Student.class, "email", student.getEmail());
     }
   }
 
   private void validatePhone(@NotNull Student student) {
-    if (student.getId() == null
-        && studentRepository.existsByPhoneAndIdIsNot(student.getPhone(), student.getId())) {
+    if (studentRepository.existsByPhoneAndIdIsNot(student.getPhone(), student.getId())) {
       throw new UniversityDuplicateResourceException(Student.class, "phone", student.getPhone());
     }
   }

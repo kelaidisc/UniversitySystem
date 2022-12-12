@@ -63,15 +63,13 @@ public class ProfessorService {
 
 
   private void validateEmail(@NotNull Professor professor) {
-    if (professor.getId() == null
-        && professorRepository.existsByEmailAndIdIsNot(professor.getEmail(), professor.getId())) {
+    if (professorRepository.existsByEmailAndIdIsNot(professor.getEmail(), professor.getId())) {
       throw new UniversityDuplicateResourceException(Professor.class, "email", professor.getEmail());
     }
   }
 
   private void validatePhone(@NotNull Professor professor) {
-    if (professor.getId() == null
-        && professorRepository.existsByPhoneAndIdIsNot(professor.getPhone(), professor.getId())) {
+    if (professorRepository.existsByPhoneAndIdIsNot(professor.getPhone(), professor.getId())) {
       throw new UniversityDuplicateResourceException(Professor.class, "phone", professor.getPhone());
     }
   }

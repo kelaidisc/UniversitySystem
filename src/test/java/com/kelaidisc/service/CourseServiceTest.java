@@ -112,7 +112,7 @@ class CourseServiceTest {
   }
 
   @Test
-  void willThrowWhenNameIneligible() {
+  void willThrowWhenNameIneligibleCreate() {
 
     // given
     Course course = Course.builder()
@@ -155,6 +155,29 @@ class CourseServiceTest {
 
     Course capturedCourse = courseArgumentCaptor.getValue();
     assertThat(capturedCourse).isEqualTo(course);
+  }
+
+  @Test
+  void willThrowWhenNameIneligibleUpdate() {
+
+    // given
+    Course course = Course.builder()
+        .id(1L)
+        .name("Sociology")
+        .description("Text")
+        .build();
+
+    given(courseRepository
+        .existsByNameAndIdIsNot(course.getName(), course.getId()))
+        .willReturn(true);
+
+    // when
+    // then
+
+    assertThatThrownBy(() -> underTest.update(course))
+        .isInstanceOf(UniversityDuplicateResourceException.class)
+        .hasMessageContaining
+            (Course.class + " with name: " + course.getName() + " already exists");
   }
 
   @Test

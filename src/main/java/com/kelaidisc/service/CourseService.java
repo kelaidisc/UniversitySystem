@@ -50,7 +50,7 @@ public class CourseService {
   }
 
   private void validateNameEligibility(@NotNull Course course) {
-    if (course.getId() == null && (courseRepository.existsByNameAndIdIsNot(course.getName(), course.getId()))) {
+    if (courseRepository.existsByNameAndIdIsNot(course.getName(), course.getId())) {
       throw new UniversityDuplicateResourceException(Course.class, "name", course.getName());
     }
   }

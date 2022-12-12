@@ -183,7 +183,7 @@ class StudentServiceTest {
   }
 
   @Test
-  void willThrowWhenEmailNotUnique() {
+  void willThrowWhenEmailNotUniqueCreate() {
 
     // given
     Student student = Student.builder()
@@ -208,7 +208,7 @@ class StudentServiceTest {
   }
 
   @Test
-  void willThrowWhenPhoneNotUnique() {
+  void willThrowWhenPhoneNotUniqueCreate() {
 
     // given
     Student student = Student.builder()
@@ -259,6 +259,58 @@ class StudentServiceTest {
 
     Student capturedStudent = studentArgumentCaptor.getValue();
     assertThat(capturedStudent).isEqualTo(student);
+  }
+
+  @Test
+  void willThrowWhenEmailNotUniqueUpdate() {
+
+    // given
+    Student student = Student.builder()
+        .id(1L)
+        .firstName("Fotis")
+        .lastName("Zoumpos")
+        .email("alexkel12@hotmail.com")
+        .phone("+306999550909")
+        .birthday(LocalDate.of(1993, 9, 12))
+        .registrationDate(LocalDate.of(2020, 11, 15))
+        .build();
+
+    given(studentRepository
+        .existsByEmailAndIdIsNot(student.getEmail(), student.getId()))
+        .willReturn(true);
+
+    // when
+    // then
+    assertThatThrownBy(() -> underTest.update(student))
+        .isInstanceOf(UniversityDuplicateResourceException.class)
+        .hasMessageContaining
+            (Student.class + " with email: " + student.getEmail() + " already exists");
+  }
+
+  @Test
+  void willThrowWhenPhoneNotUniqueUpdate() {
+
+    // given
+    Student student = Student.builder()
+        .id(1L)
+        .firstName("Fotis")
+        .lastName("Zoumpos")
+        .email("fotisZ@gmail.com")
+        .phone("+30 6922324252")
+        .birthday(LocalDate.of(1993, 9, 12))
+        .registrationDate(LocalDate.of(2020, 11, 15))
+        .build();
+
+    given(studentRepository
+        .existsByPhoneAndIdIsNot(student.getPhone(), student.getId()))
+        .willReturn(true);
+
+    // when
+    // then
+    assertThatThrownBy(() -> underTest.update(student))
+        .isInstanceOf(UniversityDuplicateResourceException.class)
+        .hasMessageContaining
+            (Student.class + " with phone: " + student.getPhone() + " already exists");
   }
 
   @Test

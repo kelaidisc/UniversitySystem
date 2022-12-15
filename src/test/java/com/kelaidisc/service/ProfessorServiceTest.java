@@ -44,16 +44,6 @@ class ProfessorServiceTest {
   }
 
   @Test
-  void canFindProfessorOptional() {
-
-    // when
-    underTest.find(1L);
-
-    // then
-    verify(professorRepository).findById(1L);
-  }
-
-  @Test
   void canFindProfessor() {
 
     // given

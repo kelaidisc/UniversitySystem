@@ -10,7 +10,6 @@ import com.kelaidisc.repository.ProfessorRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,10 +25,6 @@ public class ProfessorService {
 
   public List<Professor> findAll() {
     return professorRepository.findAll();
-  }
-
-  public Optional<Professor> find(Long id) {
-    return professorRepository.findById(id);
   }
 
   public Professor findOrThrow(Long id) {

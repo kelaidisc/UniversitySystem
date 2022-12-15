@@ -5,7 +5,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import com.kelaidisc.FlywayTestConfig;
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.exception.UniversityDuplicateResourceException;
 import com.kelaidisc.model.ProfessorSearchField;
@@ -21,13 +20,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-@ActiveProfiles("test")
-@Import(FlywayTestConfig.class)
 @ExtendWith(MockitoExtension.class)
 class ProfessorServiceTest {
 
@@ -48,16 +41,6 @@ class ProfessorServiceTest {
 
     // then
     verify(professorRepository).findAll();
-  }
-
-  @Test
-  void canFindProfessorOptional() {
-
-    // when
-    underTest.find(1L);
-
-    // then
-    verify(professorRepository).findById(1L);
   }
 
   @Test

@@ -9,7 +9,6 @@ import com.kelaidisc.repository.CourseRepository;
 import com.kelaidisc.repository.StudentRepository;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +27,6 @@ public class CourseService {
 
   public List<Course> findAll() {
     return courseRepository.findAll();
-  }
-
-  public Optional<Course> find(Long id) {
-    return courseRepository.findById(id);
   }
 
   @Transactional

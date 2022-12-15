@@ -11,7 +11,6 @@ import com.kelaidisc.repository.StudentRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,10 +25,6 @@ public class StudentService {
 
   public List<Student> findAll() {
     return studentRepository.findAll();
-  }
-
-  public Optional<Student> find(Long id) {
-    return studentRepository.findById(id);
   }
 
   public Student findOrThrow(Long id) {

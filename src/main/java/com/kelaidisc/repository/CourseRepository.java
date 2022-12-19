@@ -3,7 +3,6 @@ package com.kelaidisc.repository;
 import com.kelaidisc.domain.Course;
 import java.util.List;
 import java.util.Set;
-import javax.validation.constraints.NotNull;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CourseRepository extends CrudRepository<Course, Long> {
 
-  @NotNull List<Course> findAll();
+  List<Course> findAll();
 
   List<Course> findAllByNameContainingIgnoreCase(@Param("name") String name);
 

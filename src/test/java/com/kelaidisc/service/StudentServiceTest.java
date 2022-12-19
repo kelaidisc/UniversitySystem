@@ -44,16 +44,6 @@ class StudentServiceTest {
   }
 
   @Test
-  void canFindStudentOptional() {
-
-    // when
-    underTest.find(1L);
-
-    // then
-    verify(studentRepository).findById(1L);
-  }
-
-  @Test
   void canFindStudent() {
 
     // given

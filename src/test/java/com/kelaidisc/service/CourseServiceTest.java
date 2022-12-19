@@ -23,7 +23,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
 @ExtendWith(MockitoExtension.class)
 class CourseServiceTest {
 
@@ -50,16 +49,6 @@ class CourseServiceTest {
 
     // then
     verify(courseRepository).findAll();
-  }
-
-  @Test
-  void canFindCourseOptional() {
-
-    // when
-    underTest.find(1L);
-
-    // then
-    verify(courseRepository).findById(1L);
   }
 
   @Test

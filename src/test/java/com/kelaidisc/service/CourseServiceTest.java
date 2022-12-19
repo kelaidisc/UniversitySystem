@@ -5,7 +5,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import com.kelaidisc.FlywayTestConfig;
 import com.kelaidisc.domain.Course;
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.domain.Student;
@@ -23,13 +22,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-@ActiveProfiles("test")
-@Import(FlywayTestConfig.class)
+
 @ExtendWith(MockitoExtension.class)
 class CourseServiceTest {
 

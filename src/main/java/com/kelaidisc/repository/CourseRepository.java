@@ -3,7 +3,7 @@ package com.kelaidisc.repository;
 import com.kelaidisc.domain.Course;
 import java.util.List;
 import java.util.Set;
-import org.jetbrains.annotations.NotNull;
+import javax.validation.constraints.NotNull;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

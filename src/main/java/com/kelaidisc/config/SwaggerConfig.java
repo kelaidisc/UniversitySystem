@@ -29,7 +29,7 @@ public class SwaggerConfig {
         "Custom description of this API",
         "Version 1.0.0",
         "Terms of service",
-        new Contact("Christoforos Kelaidis", "www.myUrl.com", "kelaidisc@gmail.com"),
+        new Contact("Christoforos Kelaidis", "https://github.com/kelaidisc", "kelaidisc@gmail.com"),
         "License",
         "LicenseUrl",
         Collections.emptyList());

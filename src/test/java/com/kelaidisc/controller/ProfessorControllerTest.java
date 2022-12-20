@@ -2,7 +2,6 @@ package com.kelaidisc.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,7 +49,6 @@ class ProfessorControllerTest {
     final MvcResult mvcResult = mockMvc
         .perform(MockMvcRequestBuilders
             .get("/professor"))
-        .andDo(print())
         .andExpect(status().isOk())
         .andReturn();
 
@@ -64,7 +62,6 @@ class ProfessorControllerTest {
 
     this.mockMvc.perform(MockMvcRequestBuilders
             .get("/professor/{id}", professorId))
-        .andDo(print())
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1));
@@ -77,7 +74,6 @@ class ProfessorControllerTest {
 
     this.mockMvc.perform(MockMvcRequestBuilders
             .get("/professor/{id}", professorId))
-        .andDo(print())
         .andExpect(status().isNotFound());
   }
 
@@ -99,7 +95,6 @@ class ProfessorControllerTest {
             .content(objectMapper.writeValueAsString(professor)));
 
     response
-        .andDo(print())
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Marina"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Gioka"))
@@ -133,7 +128,6 @@ class ProfessorControllerTest {
             .content(objectMapper.writeValueAsString(professor)));
 
     response
-        .andDo(print())
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
         .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Marina"))
@@ -179,7 +173,6 @@ class ProfessorControllerTest {
             .content(objectMapper.writeValueAsString(professor)));
 
     response
-        .andDo(print())
         .andExpect(status().isBadRequest());
   }
 
@@ -198,7 +191,6 @@ class ProfessorControllerTest {
             .content(objectMapper.writeValueAsString(deleteDto)));
 
     response
-        .andDo(print())
         .andExpect(status().isOk());
 
     //TestData has a total of 5 professors
@@ -222,7 +214,6 @@ class ProfessorControllerTest {
             .content(objectMapper.writeValueAsString(deleteDto)));
 
     response
-        .andDo(print())
         .andExpect(status().isOk());
   }
 
@@ -233,7 +224,6 @@ class ProfessorControllerTest {
 
     mockMvc.perform(MockMvcRequestBuilders
             .get("/professor/{id}/courses", professorId))
-        .andDo(print())
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers
             .content()
@@ -247,7 +237,6 @@ class ProfessorControllerTest {
 
     mockMvc.perform(MockMvcRequestBuilders
             .get("/professor/{id}/courses", professorId))
-        .andDo(print())
         .andExpect(status().isNotFound())
         .andExpect(MockMvcResultMatchers
             .content()

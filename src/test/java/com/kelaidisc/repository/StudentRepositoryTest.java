@@ -40,7 +40,8 @@ class StudentRepositoryTest {
     String firstName = "thomas";
 
     // when
-    List<Student> students = underTest.findAllByFirstNameContainingIgnoreCase(firstName);
+    List<Student> students = underTest
+        .findAllByNameOrEmailOrPhoneOrBirthday(firstName, null, null, null);
     // after returning the list,the comparison in firstName's value is being done in lowercase
     List<String> firstNames = students.stream()
         .flatMap(s -> Stream.of(s.getFirstName()))
@@ -58,7 +59,8 @@ class StudentRepositoryTest {
     String firstName = "aNameThatDoesNotExist";
 
     // when
-    List<Student> students = underTest.findAllByFirstNameContainingIgnoreCase(firstName);
+    List<Student> students = underTest
+        .findAllByNameOrEmailOrPhoneOrBirthday(firstName, null, null, null);
     List<String> firstNames = students.stream()
         .flatMap(s -> Stream.of(s.getFirstName()))
         .toList();
@@ -82,7 +84,8 @@ class StudentRepositoryTest {
     String lastName = "kefalas";
 
     // when
-    List<Student> students = underTest.findAllByLastNameContainingIgnoreCase(lastName);
+    List<Student> students = underTest
+        .findAllByNameOrEmailOrPhoneOrBirthday(lastName, null, null, null);
     // after returning the list,the comparison in lastName's value is being done in lowercase
     List<String> lastNames = students.stream()
         .flatMap(s -> Stream.of(s.getLastName()))
@@ -100,7 +103,8 @@ class StudentRepositoryTest {
     String lastName = "aNameThatDoesNotExist";
 
     // when
-    List<Student> students = underTest.findAllByLastNameContainingIgnoreCase(lastName);
+    List<Student> students = underTest
+        .findAllByNameOrEmailOrPhoneOrBirthday(lastName, null, null, null);
     List<String> lastNames = students.stream()
         .flatMap(s -> Stream.of(s.getLastName()))
         .toList();
@@ -124,7 +128,8 @@ class StudentRepositoryTest {
     LocalDate birthday = LocalDate.of(1992, 3, 4);
 
     // when
-    List<Student> students = underTest.findAllByBirthday(birthday);
+    List<Student> students = underTest
+        .findAllByNameOrEmailOrPhoneOrBirthday(null, null, null, birthday);
     List<LocalDate> birthdays = students.stream()
         .flatMap(s -> Stream.of(s.getBirthday()))
         .toList();
@@ -148,7 +153,8 @@ class StudentRepositoryTest {
     LocalDate birthday = LocalDate.of(992, 3, 4);
 
     // when
-    List<Student> students = underTest.findAllByBirthday(birthday);
+    List<Student> students = underTest
+        .findAllByNameOrEmailOrPhoneOrBirthday(null, null, null, birthday);
     List<LocalDate> birthdays = students.stream()
         .flatMap(s -> Stream.of(s.getBirthday()))
         .toList();
@@ -172,10 +178,11 @@ class StudentRepositoryTest {
     String email = "kefthom@gmail.com";
 
     // when
-    Student expected = underTest.findByEmail(email);
+    List<Student> expected = underTest
+        .findAllByNameOrEmailOrPhoneOrBirthday(null, email, null, null);
 
     // then
-    assertThat(expected).isNotNull();
+    assertThat(expected.size()).isEqualTo(1);
   }
 
   @Test
@@ -193,10 +200,11 @@ class StudentRepositoryTest {
     String email = "anEmailThatDoesNotExist";
 
     // when
-    Student expected = underTest.findByEmail(email);
+    List<Student> expected = underTest
+        .findAllByNameOrEmailOrPhoneOrBirthday(null, email, null, null);
 
     // then
-    assertThat(expected).isNull();
+    assertThat(expected.isEmpty()).isTrue();
   }
 
   @Test
@@ -213,11 +221,11 @@ class StudentRepositoryTest {
      * registrationDate: 2021-03-04 */
     String phone = "+30 6994545556";
 
-    // when
-    Student expected = underTest.findByPhone(phone);
+    List<Student> expected = underTest
+        .findAllByNameOrEmailOrPhoneOrBirthday(null, null, phone, null);
 
     // then
-    assertThat(expected).isNotNull();
+    assertThat(expected.size()).isEqualTo(1);
   }
 
   @Test
@@ -234,11 +242,11 @@ class StudentRepositoryTest {
      * registrationDate: 2021-03-04 */
     String phone = "anEmailThatDoesNotExist";
 
-    // when
-    Student expected = underTest.findByPhone(phone);
+    List<Student> expected = underTest
+        .findAllByNameOrEmailOrPhoneOrBirthday(null, null, phone, null);
 
     // then
-    assertThat(expected).isNull();
+    assertThat(expected.isEmpty()).isTrue();
   }
 
   @Test

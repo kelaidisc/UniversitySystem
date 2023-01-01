@@ -1,19 +1,13 @@
 package com.kelaidisc.service;
 
 
-import static com.kelaidisc.common.Constants.DATE_FORMATTER;
-
 import com.kelaidisc.domain.Student;
 import com.kelaidisc.exception.UniversityDuplicateResourceException;
 import com.kelaidisc.exception.UniversityNotFoundException;
-import com.kelaidisc.model.StudentSearchField;
 import com.kelaidisc.repository.StudentRepository;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,16 +26,8 @@ public class StudentService {
         .orElseThrow(() -> new UniversityNotFoundException(Student.class, id));
   }
 
-  public List<Student> search(StudentSearchField searchField, String searchTerm) {
-    return switch (searchField) {
-      case FIRST_NAME -> (studentRepository.findAllByFirstNameContainingIgnoreCase(searchTerm));
-      case LAST_NAME -> (studentRepository.findAllByLastNameContainingIgnoreCase(searchTerm));
-      case EMAIL ->
-          Stream.of(studentRepository.findByEmail(searchTerm)).filter(Objects::nonNull).collect(Collectors.toList());
-      case PHONE ->
-          Stream.of(studentRepository.findByPhone(searchTerm)).filter(Objects::nonNull).collect(Collectors.toList());
-      case BIRTHDAY -> (studentRepository.findAllByBirthday(LocalDate.parse(searchTerm, DATE_FORMATTER)));
-    };
+  public List<Student> search(String name, String email, String phone, LocalDate birthday) {
+    return studentRepository.findAllByNameOrEmailOrPhoneOrBirthday(name, email, phone, birthday);
   }
 
   public Student create(Student student) {

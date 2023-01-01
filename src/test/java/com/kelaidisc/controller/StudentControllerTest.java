@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kelaidisc.FlywayTestConfig;
 import com.kelaidisc.domain.Student;
 import com.kelaidisc.dto.DeleteDto;
+import com.kelaidisc.dto.student.StudentCreateDto;
+import com.kelaidisc.dto.student.StudentUpdateDto;
 import com.kelaidisc.repository.StudentRepository;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -80,7 +82,7 @@ class StudentControllerTest {
   @Test
   public void givenStudentObject_WhenCreateStudent_thenVerifyResponse() throws Exception {
 
-    Student student = Student.builder()
+    StudentCreateDto student = StudentCreateDto.builder()
         .firstName("Marina")
         .lastName("Gioka")
         .email("marinag@gmail.com")
@@ -114,7 +116,7 @@ class StudentControllerTest {
 
     Long studentId = 1L;
 
-    Student student = Student.builder()
+    StudentUpdateDto student = StudentUpdateDto.builder()
         .id(studentId)
         .firstName("Marina")
         .lastName("Gioka")
@@ -162,7 +164,7 @@ class StudentControllerTest {
 
     Long studentId = 1L;
 
-    Student student = Student.builder()
+    StudentUpdateDto student = StudentUpdateDto.builder()
         .id(7L)
         .firstName("Marina")
         .lastName("Gioka")

@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kelaidisc.FlywayTestConfig;
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.dto.DeleteDto;
+import com.kelaidisc.dto.professor.ProfessorCreateDto;
+import com.kelaidisc.dto.professor.ProfessorUpdateDto;
 import com.kelaidisc.repository.ProfessorRepository;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -80,7 +82,7 @@ class ProfessorControllerTest {
   @Test
   public void givenProfessorObject_WhenCreateProfessor_thenVerifyResponse() throws Exception {
 
-    Professor professor = Professor.builder()
+    ProfessorCreateDto professor = ProfessorCreateDto.builder()
         .firstName("Marina")
         .lastName("Gioka")
         .email("marinag@gmail.com")
@@ -112,7 +114,7 @@ class ProfessorControllerTest {
 
     Long professorId = 1L;
 
-    Professor professor = Professor.builder()
+    ProfessorUpdateDto professor = ProfessorUpdateDto.builder()
         .id(professorId)
         .firstName("Marina")
         .lastName("Gioka")
@@ -157,7 +159,7 @@ class ProfessorControllerTest {
 
     Long professorId = 1L;
 
-    Professor professor = Professor.builder()
+    ProfessorUpdateDto professor = ProfessorUpdateDto.builder()
         .id(7L)
         .firstName("Marina")
         .lastName("Gioka")

@@ -11,6 +11,8 @@ import com.kelaidisc.domain.Course;
 import com.kelaidisc.domain.Student;
 import com.kelaidisc.dto.DeleteDto;
 import com.kelaidisc.dto.EnrollDto;
+import com.kelaidisc.dto.course.CourseCreateDto;
+import com.kelaidisc.dto.course.CourseUpdateDto;
 import com.kelaidisc.repository.CourseRepository;
 import java.util.HashSet;
 import java.util.Optional;
@@ -83,7 +85,7 @@ class CourseControllerTest {
   @Test
   public void givenCourseObject_whenCreateCourse_thenVerifyResponse() throws Exception {
 
-    Course course = Course.builder()
+    CourseCreateDto course = CourseCreateDto.builder()
         .name("Gym")
         .description("descr")
         .build();
@@ -110,7 +112,7 @@ class CourseControllerTest {
 
     Long courseId = 1L;
 
-    Course course = Course.builder()
+    CourseUpdateDto course = CourseUpdateDto.builder()
         .id(courseId)
         .name("Logic")
         .description("DescriptionText1234")
@@ -143,7 +145,7 @@ class CourseControllerTest {
   @Test
   public void givenMismatchCourseIdAndObject_whenUpdateCourse_thenVerifyBadRequest() throws Exception {
 
-    Course course = Course.builder()
+    CourseUpdateDto course = CourseUpdateDto.builder()
         .id(7L)
         .name("Logic")
         .description("DescriptionText1234")

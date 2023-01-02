@@ -273,7 +273,7 @@ class ProfessorServiceTest {
         .firstName("Fotis")
         .lastName("Zoumpos")
         .email("fotisZ@gmail.com")
-        .phone("+30 6999030405")
+        .phone("+306999030405")
         .birthday(LocalDate.of(1993, 9, 12))
         .build();
 

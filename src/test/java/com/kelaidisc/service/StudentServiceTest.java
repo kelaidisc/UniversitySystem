@@ -264,7 +264,7 @@ class StudentServiceTest {
         .firstName("Fotis")
         .lastName("Zoumpos")
         .email("fotisZ@gmail.com")
-        .phone("+30 6922324252")
+        .phone("+306922324252")
         .birthday(LocalDate.of(1993, 9, 12))
         .registrationDate(LocalDate.of(2020, 11, 15))
         .build();

@@ -1,24 +1,24 @@
 INSERT IGNORE INTO professor
-VALUES (1, 'John', 'Giannopoulos', 'johnnyg@gmail.com', '+30 6976770000', '1984-07-08');
+VALUES (1, 'John', 'Giannopoulos', 'johnnyg@gmail.com', '+306976770000', '1984-07-08');
 INSERT IGNORE INTO professor
-VALUES (2, 'Andy', 'Mazurcak', 'andym@hotmail.com', '+30 6999030405', '1983-09-10');
+VALUES (2, 'Andy', 'Mazurcak', 'andym@hotmail.com', '+306999030405', '1983-09-10');
 INSERT IGNORE INTO professor
-VALUES (3, 'Panos', 'Bazios', 'baziospan@gmail.com', '+30 6979011011', '1988-12-03');
+VALUES (3, 'Panos', 'Bazios', 'baziospan@gmail.com', '+306979011011', '1988-12-03');
 INSERT IGNORE INTO professor
-VALUES (4, 'Aglaia', 'Gioka', 'aiglig@gmail.com', '+30 6923040404', '1978-01-01');
+VALUES (4, 'Aglaia', 'Gioka', 'aiglig@gmail.com', '+306923040404', '1978-01-01');
 INSERT IGNORE INTO professor
-VALUES (5, 'Ifigeneia', 'Polyzou', 'polifi@gmail.com', '+30 6914201420', '1979-03-03');
+VALUES (5, 'Ifigeneia', 'Polyzou', 'polifi@gmail.com', '+306914201420', '1979-03-03');
 
 INSERT IGNORE INTO student
-VALUES (1, 'Thomas', 'Kefalas', 'kefthom@gmail.com', '+30 6994545556', '1992-03-04', '2021-03-04');
+VALUES (1, 'Thomas', 'Kefalas', 'kefthom@gmail.com', '+306994545556', '1992-03-04', '2021-03-04');
 INSERT IGNORE INTO student
-VALUES (2, 'Alexandra', 'Kelaidi', 'alexkel12@hotmail.com', '+30 6922324252', '1997-06-12', '2022-03-04');
+VALUES (2, 'Alexandra', 'Kelaidi', 'alexkel12@hotmail.com', '+306922324252', '1997-06-12', '2022-03-04');
 INSERT IGNORE INTO student
-VALUES (3, 'Themis', 'Pantzouris', 'themipantz@hotmail.com', '+30 6944454554', '1999-09-04', '2020-01-01');
+VALUES (3, 'Themis', 'Pantzouris', 'themipantz@hotmail.com', '+306944454554', '1999-09-04', '2020-01-01');
 INSERT IGNORE INTO student
-VALUES (4, 'Ioannis', 'Ioannou', 'ioannisioan@gmail.com', '+30 6991911132', '2001-02-22', '2019-05-05');
+VALUES (4, 'Ioannis', 'Ioannou', 'ioannisioan@gmail.com', '+306991911132', '2001-02-22', '2019-05-05');
 INSERT IGNORE INTO student
-VALUES (5, 'Maria', 'Papadopoulos', 'papa05mar@gmail.com', '+30 6922340599', '2003-05-05', '2022-09-09');
+VALUES (5, 'Maria', 'Papadopoulos', 'papa05mar@gmail.com', '+306922340599', '2003-05-05', '2022-09-09');
 
 INSERT IGNORE INTO course
 VALUES (1, 'Logistics', 'Description text1', 5);

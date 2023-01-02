@@ -169,7 +169,7 @@ class StudentControllerTest {
         .firstName("Marina")
         .lastName("Gioka")
         .email("marinag@gmail.com")
-        .phone("+30 6977123434")
+        .phone("+306977123434")
         .birthday(LocalDate.of(1967, 7, 31))
         .registrationDate(LocalDate.of(2020, 10, 5))
         .build();

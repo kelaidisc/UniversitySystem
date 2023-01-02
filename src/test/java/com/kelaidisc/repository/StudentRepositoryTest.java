@@ -34,7 +34,7 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
     String firstName = "thomas";
@@ -78,7 +78,7 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
     String lastName = "kefalas";
@@ -122,7 +122,7 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
     LocalDate birthday = LocalDate.of(1992, 3, 4);
@@ -147,7 +147,7 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
     LocalDate birthday = LocalDate.of(992, 3, 4);
@@ -172,7 +172,7 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
     String email = "kefthom@gmail.com";
@@ -194,7 +194,7 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
     String email = "anEmailThatDoesNotExist";
@@ -216,10 +216,10 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
-    String phone = "+30 6994545556";
+    String phone = "+306994545556";
 
     List<Student> expected = underTest
         .findAllByNameOrEmailOrPhoneOrBirthday(null, null, phone, null);
@@ -237,10 +237,10 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
-    String phone = "anEmailThatDoesNotExist";
+    String phone = "aPhoneThatDoesNotExist";
 
     List<Student> expected = underTest
         .findAllByNameOrEmailOrPhoneOrBirthday(null, null, phone, null);
@@ -292,7 +292,7 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
     String email = "kefthom@gmail.com";
@@ -314,7 +314,7 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
     String email = "kefthom@gmail.com";
@@ -336,10 +336,10 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
-    String phone = "+30 6994545556";
+    String phone = "+306994545556";
     Long id = 10L;
 
     // when
@@ -358,10 +358,10 @@ class StudentRepositoryTest {
      * firstName: Thomas
      * lastName: Kefalas
      * email: kefthom@gmail.com
-     * phone: +30 6994545556
+     * phone: +306994545556
      * birthday: 1992-03-04
      * registrationDate: 2021-03-04 */
-    String phone = "+30 6994545556";
+    String phone = "+306994545556";
     Long id = 1L;
 
     // when

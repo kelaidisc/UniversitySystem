@@ -7,7 +7,6 @@ import static org.mockito.Mockito.verify;
 
 import com.kelaidisc.domain.Professor;
 import com.kelaidisc.exception.UniversityDuplicateResourceException;
-import com.kelaidisc.model.ProfessorSearchField;
 import com.kelaidisc.repository.ProfessorRepository;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -31,16 +30,6 @@ class ProfessorServiceTest {
   @BeforeEach
   void setUp() {
     underTest = new ProfessorService(professorRepository);
-  }
-
-  @Test
-  void canFindAllProfessors() {
-
-    // when
-    underTest.findAll();
-
-    // then
-    verify(professorRepository).findAll();
   }
 
   @Test
@@ -70,70 +59,56 @@ class ProfessorServiceTest {
   void canSearchProfessorByFirstName() {
 
     // given
-    ProfessorSearchField firstName = ProfessorSearchField.FIRST_NAME;
-    String searchTerm = "some string";
+    String name = "some string";
 
     // when
-    underTest.search(firstName, searchTerm);
+    underTest.search(name, null, null, null);
 
     // then
-    verify(professorRepository).findAllByFirstNameContainingIgnoreCase(searchTerm);
-  }
-
-  @Test
-  void canSearchProfessorByLastName() {
-
-    // given
-    ProfessorSearchField lastName = ProfessorSearchField.LAST_NAME;
-    String searchTerm = "some string";
-
-    // when
-    underTest.search(lastName, searchTerm);
-
-    // then
-    verify(professorRepository).findAllByLastNameContainingIgnoreCase(searchTerm);
+    verify(professorRepository)
+        .findAllByNameOrEmailOrPhoneOrBirthday(name, null, null, null);
   }
 
   @Test
   void canSearchProfessorByEmail() {
 
     // given
-    ProfessorSearchField email = ProfessorSearchField.EMAIL;
-    String searchTerm = "some string";
+    String email = "some string";
 
     // when
-    underTest.search(email, searchTerm);
+    underTest.search(null, email, null, null);
 
     // then
-    verify(professorRepository).findByEmail(searchTerm);
+    verify(professorRepository)
+        .findAllByNameOrEmailOrPhoneOrBirthday(null, email, null, null);
   }
 
   @Test
   void canSearchProfessorByPhone() {
 
     // given
-    ProfessorSearchField phone = ProfessorSearchField.PHONE;
-    String searchTerm = "some string";
+    String phone = "some string";
 
     // when
-    underTest.search(phone, searchTerm);
+    underTest.search(null, null, phone, null);
 
     // then
-    verify(professorRepository).findByPhone(searchTerm);
+    verify(professorRepository)
+        .findAllByNameOrEmailOrPhoneOrBirthday(null, null, phone, null);
   }
 
   @Test
   void canSearchProfessorByBirthday() {
 
     // given
-    ProfessorSearchField birthday = ProfessorSearchField.BIRTHDAY;
-    String searchTerm = "1999-03-05";
+    LocalDate birthday = LocalDate.of(1992, 3, 5);
 
     // when
-    underTest.search(birthday, searchTerm);
+    underTest.search(null, null, null, birthday);
 
     // then
-    verify(professorRepository).findAllByBirthday(LocalDate.parse(searchTerm));
+    verify(professorRepository)
+        .findAllByNameOrEmailOrPhoneOrBirthday(null, null, null, birthday);
   }
 
   @Test

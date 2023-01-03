@@ -19,4 +19,3 @@ public class CourseCreateDto {
   protected String description;
 
 }
-

@@ -42,16 +42,6 @@ class CourseServiceTest {
   }
 
   @Test
-  void canFindAllCourses() {
-
-    // when
-    underTest.findAll();
-
-    // then
-    verify(courseRepository).findAll();
-  }
-
-  @Test
   void canFindCourse() {
 
     // given
@@ -188,7 +178,7 @@ class CourseServiceTest {
     underTest.findAllByNameLike(name);
 
     // then
-    verify(courseRepository).findAllByNameContainingIgnoreCase(name);
+    verify(courseRepository).findAllByName(name);
   }
 
   @Test

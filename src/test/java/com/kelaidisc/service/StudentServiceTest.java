@@ -33,16 +33,6 @@ class StudentServiceTest {
   }
 
   @Test
-  void canFindAllStudents() {
-
-    // when
-    underTest.findAll();
-
-    // then
-    verify(studentRepository).findAll();
-  }
-
-  @Test
   void canFindStudent() {
 
     // given

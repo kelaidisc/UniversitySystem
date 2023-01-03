@@ -1,6 +1,7 @@
-package com.kelaidisc.repository;
+package com.kelaidisc.repository.impl;
 
 import com.kelaidisc.domain.Student;
+import com.kelaidisc.repository.StudentRepositoryCustom;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

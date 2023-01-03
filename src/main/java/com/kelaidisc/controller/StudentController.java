@@ -48,8 +48,8 @@ public class StudentController {
                                @RequestParam(value = "email", required = false) String email,
                                @RequestParam(value = "phone", required = false) String phone,
                                @RequestParam(value = "birthday", required = false)
-                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                 LocalDate birthday) {
+                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                               LocalDate birthday) {
 
     validateName(name);
     validateEmail(email);

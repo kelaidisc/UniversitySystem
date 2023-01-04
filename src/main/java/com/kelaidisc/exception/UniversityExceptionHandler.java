@@ -32,24 +32,11 @@ public class UniversityExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(errorDetails, httpStatus);
   }
 
-  @ExceptionHandler({ConstraintViolationException.class})
+  @ExceptionHandler({ConstraintViolationException.class,
+      InvalidParameterException.class,
+      MethodArgumentTypeMismatchException.class})
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  protected ResponseEntity<Object> handleConstraintViolationException(
-      ConstraintViolationException e) {
-    return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-  }
-
-  @ExceptionHandler({InvalidParameterException.class})
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  protected ResponseEntity<Object> handleInvalidParameterException(
-      InvalidParameterException e) {
-    return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-  }
-
-  @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  protected ResponseEntity<Object> handleMethodArgumentTypeMismatchExceptionException(
-      MethodArgumentTypeMismatchException e) {
+  protected ResponseEntity<Object> handleGenericBadRequestException(Exception e) {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
   }
 }

@@ -142,14 +142,6 @@ class StudentRepositoryTest {
   void shouldNotFindAnyByBirthday() {
 
     // given
-    /* TestData
-     * id: 1
-     * firstName: Thomas
-     * lastName: Kefalas
-     * email: kefthom@gmail.com
-     * phone: +306994545556
-     * birthday: 1992-03-04
-     * registrationDate: 2021-03-04 */
     LocalDate birthday = LocalDate.of(992, 3, 4);
 
     // when
@@ -189,14 +181,6 @@ class StudentRepositoryTest {
   void shouldNotFindStudentByEmail() {
 
     // given
-    /* TestData
-     * id: 1
-     * firstName: Thomas
-     * lastName: Kefalas
-     * email: kefthom@gmail.com
-     * phone: +306994545556
-     * birthday: 1992-03-04
-     * registrationDate: 2021-03-04 */
     String email = "anEmailThatDoesNotExist";
 
     // when
@@ -232,14 +216,6 @@ class StudentRepositoryTest {
   void shouldNotFindStudentByPhone() {
 
     // given
-    /* TestData
-     * id: 1
-     * firstName: Thomas
-     * lastName: Kefalas
-     * email: kefthom@gmail.com
-     * phone: +306994545556
-     * birthday: 1992-03-04
-     * registrationDate: 2021-03-04 */
     String phone = "aPhoneThatDoesNotExist";
 
     List<Student> expected = underTest

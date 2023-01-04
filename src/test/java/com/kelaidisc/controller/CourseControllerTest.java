@@ -61,6 +61,16 @@ class CourseControllerTest {
   }
 
   @Test
+  public void givenCourseEmptyName_whenGetAllCourses_thenBadRequest() throws Exception {
+
+    String emptyName = "   ";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/course").param("name", emptyName))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   public void givenCourseId_whenGetCourseById_thenVerifyResponse() throws Exception {
 
     Long courseId = 1L;

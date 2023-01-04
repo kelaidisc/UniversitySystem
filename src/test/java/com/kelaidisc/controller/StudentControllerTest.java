@@ -58,6 +58,56 @@ class StudentControllerTest {
   }
 
   @Test
+  public void givenStudentEmptyName_whenGetAllStudents_thenBadRequest() throws Exception {
+
+    String emptyName = "  ";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/student").param("name", emptyName))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void givenStudentEmptyEmail_whenGetAllStudents_thenBadRequest() throws Exception {
+
+    String emptyEmail = "  ";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/student").param("email", emptyEmail))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void givenStudentInvalidEmail_whenGetAllStudents_thenBadRequest() throws Exception {
+
+    String invalidEmail = "invalid email";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/student").param("email", invalidEmail))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void givenStudentEmptyPhone_whenGetAllStudents_thenBadRequest() throws Exception {
+
+    String emptyPhone = "  ";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/student").param("phone", emptyPhone))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void givenStudentInvalidPhone_whenGetAllStudents_thenBadRequest() throws Exception {
+
+    String invalidPhone = "invalid phone";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/student").param("phone", invalidPhone))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   public void givenStudentId_whenGetStudentById_thenVerifyResponse() throws Exception {
 
     Long studentId = 1L;

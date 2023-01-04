@@ -17,10 +17,6 @@ import org.springframework.stereotype.Service;
 public class StudentService {
   private final StudentRepository studentRepository;
 
-  public List<Student> findAll() {
-    return studentRepository.findAll();
-  }
-
   public Student findOrThrow(Long id) {
     return studentRepository.findById(id)
         .orElseThrow(() -> new UniversityNotFoundException(Student.class, id));

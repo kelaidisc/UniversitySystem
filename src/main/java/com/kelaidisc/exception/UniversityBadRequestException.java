@@ -5,17 +5,14 @@ import org.springframework.http.HttpStatus;
 public class UniversityBadRequestException extends UniversityException {
 
   protected String message;
-  protected Object className;
-  protected String fieldName;
+
+  private static final String businessCode = "10001";
 
   private static final HttpStatus HTTP_STATUS = HttpStatus.BAD_REQUEST;
 
-  public UniversityBadRequestException(Object className, String fieldName, String message) {
+  public UniversityBadRequestException(String message) {
 
-    super(String.format("%s not found.%s %s", className, fieldName, message), HTTP_STATUS);
-    this.className = className;
-    this.fieldName = fieldName;
+    super(String.format(message), HTTP_STATUS, businessCode);
     this.message = message;
-
   }
 }

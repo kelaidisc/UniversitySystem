@@ -36,7 +36,7 @@ class CourseRepositoryTest {
     String name = "logistics";
 
     // when
-    List<Course> courses = underTest.findAllByNameContainingIgnoreCase(name);
+    List<Course> courses = underTest.findAllByName(name);
     // after returning the list,the comparison in name's value is being done in lowercase
     List<String> names = courses.stream()
         .flatMap(c -> Stream.of(c.getName()))
@@ -54,7 +54,7 @@ class CourseRepositoryTest {
     String name = "aNameThatDoesNotExist";
 
     // when
-    List<Course> courses = underTest.findAllByNameContainingIgnoreCase(name);
+    List<Course> courses = underTest.findAllByName(name);
     List<String> names = courses.stream()
         .flatMap(c -> Stream.of(c.getName()))
         .toList();

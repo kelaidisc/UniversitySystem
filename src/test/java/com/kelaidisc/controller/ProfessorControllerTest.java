@@ -58,6 +58,56 @@ class ProfessorControllerTest {
   }
 
   @Test
+  public void givenProfessorEmptyName_whenGetAllProfessors_thenBadRequest() throws Exception {
+
+    String emptyName = "  ";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/professor").param("name", emptyName))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void givenProfessorEmptyEmail_whenGetAllProfessors_thenBadRequest() throws Exception {
+
+    String emptyEmail = "  ";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/professor").param("email", emptyEmail))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void givenProfessorInvalidEmail_whenGetAllProfessors_thenBadRequest() throws Exception {
+
+    String invalidEmail = "invalid email";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/professor").param("email", invalidEmail))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void givenProfessorEmptyPhone_whenGetAllProfessors_thenBadRequest() throws Exception {
+
+    String emptyPhone = "  ";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/professor").param("phone", emptyPhone))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void givenProfessorInvalidPhone_whenGetAllProfessors_thenBadRequest() throws Exception {
+
+    String invalidPhone = "invalid phone";
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+            .get("/professor").param("phone", invalidPhone))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   public void givenProfessorId_whenGetProfessorById_thenVerifyResponse() throws Exception {
 
     Long professorId = 1L;
@@ -175,7 +225,8 @@ class ProfessorControllerTest {
             .content(objectMapper.writeValueAsString(professor)));
 
     response
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.businessCode").value("10001"));
   }
 
   @Test

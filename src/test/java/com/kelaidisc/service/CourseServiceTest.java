@@ -42,16 +42,6 @@ class CourseServiceTest {
   }
 
   @Test
-  void canFindAllCourses() {
-
-    // when
-    underTest.findAll();
-
-    // then
-    verify(courseRepository).findAll();
-  }
-
-  @Test
   void canFindCourse() {
 
     // given
@@ -113,7 +103,7 @@ class CourseServiceTest {
     assertThatThrownBy(() -> underTest.create(course))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Course.class + " with name: " + course.getName() + " already exists");
+            ("Course with name: " + course.getName() + " already exists");
   }
 
   @Test
@@ -146,8 +136,7 @@ class CourseServiceTest {
     // given
     Course course = Course.builder()
         .id(1L)
-        .name("Sociology" +
-            "")
+        .name("Sociology")
         .description("Text")
         .build();
 
@@ -161,7 +150,7 @@ class CourseServiceTest {
     assertThatThrownBy(() -> underTest.update(course))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Course.class + " with name: " + course.getName() + " already exists");
+            ("Course with name: " + course.getName() + " already exists");
   }
 
   @Test
@@ -189,7 +178,7 @@ class CourseServiceTest {
     underTest.findAllByNameLike(name);
 
     // then
-    verify(courseRepository).findAllByNameContainingIgnoreCase(name);
+    verify(courseRepository).findAllByName(name);
   }
 
   @Test

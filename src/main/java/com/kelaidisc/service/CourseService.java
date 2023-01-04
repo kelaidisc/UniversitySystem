@@ -25,10 +25,6 @@ public class CourseService {
   private final StudentRepository studentRepository;
   private final ProfessorService professorService;
 
-  public List<Course> findAll() {
-    return courseRepository.findAll();
-  }
-
   @Transactional
   public Course findOrThrow(Long id) {
     return courseRepository.findById(id).orElseThrow(() -> new UniversityNotFoundException(Course.class, id));
@@ -55,7 +51,7 @@ public class CourseService {
   }
 
   public List<Course> findAllByNameLike(String name) {
-    return courseRepository.findAllByNameContainingIgnoreCase(name);
+    return courseRepository.findAllByName(name);
   }
 
 

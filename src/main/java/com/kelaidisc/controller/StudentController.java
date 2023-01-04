@@ -48,8 +48,8 @@ public class StudentController {
                                @RequestParam(value = "email", required = false) String email,
                                @RequestParam(value = "phone", required = false) String phone,
                                @RequestParam(value = "birthday", required = false)
-                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                 LocalDate birthday) {
+                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                               LocalDate birthday) {
 
     validateName(name);
     validateEmail(email);
@@ -72,8 +72,7 @@ public class StudentController {
   public Student update(@NotNull @Positive @PathVariable("id") Long id, @Valid @RequestBody StudentUpdateDto student) {
 
     if (!Objects.equals(student.getId(), id)) {
-      throw new UniversityBadRequestException(Student.class, "id",
-          "Must be the same as the path variable that is used");
+      throw new UniversityBadRequestException("Invalid request, Id must be the same as the path variable that is used");
     }
     return studentService.update(Objects.requireNonNull(conversionService.convert(student, Student.class)));
   }

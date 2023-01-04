@@ -33,16 +33,6 @@ class StudentServiceTest {
   }
 
   @Test
-  void canFindAllStudents() {
-
-    // when
-    underTest.findAll();
-
-    // then
-    verify(studentRepository).findAll();
-  }
-
-  @Test
   void canFindStudent() {
 
     // given
@@ -172,7 +162,7 @@ class StudentServiceTest {
     assertThatThrownBy(() -> underTest.create(student))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Student.class + " with email: " + student.getEmail() + " already exists");
+            ("Student with email: " + student.getEmail() + " already exists");
   }
 
   @Test
@@ -197,7 +187,7 @@ class StudentServiceTest {
     assertThatThrownBy(() -> underTest.create(student))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Student.class + " with phone: " + student.getPhone() + " already exists");
+            ("Student with phone: " + student.getPhone() + " already exists");
   }
 
   @Test
@@ -252,7 +242,7 @@ class StudentServiceTest {
     assertThatThrownBy(() -> underTest.update(student))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Student.class + " with email: " + student.getEmail() + " already exists");
+            ("Student with email: " + student.getEmail() + " already exists");
   }
 
   @Test
@@ -278,7 +268,7 @@ class StudentServiceTest {
     assertThatThrownBy(() -> underTest.update(student))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Student.class + " with phone: " + student.getPhone() + " already exists");
+            ("Student with phone: " + student.getPhone() + " already exists");
   }
 
   @Test

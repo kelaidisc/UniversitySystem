@@ -10,6 +10,7 @@ import com.kelaidisc.dto.course.CourseCreateDto;
 import com.kelaidisc.dto.course.CourseUpdateDto;
 import com.kelaidisc.exception.UniversityBadRequestException;
 import com.kelaidisc.service.CourseService;
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/course")
 public class CourseController {
 
@@ -40,10 +43,9 @@ public class CourseController {
 
   @GetMapping
   public List<Course> findAll(@RequestParam(value = "name", required = false) String name) {
-    if (nonNull(name) && name.trim().length() > 0) {
-      return courseService.findAllByNameLike(name);
-    }
-    return courseService.findAll();
+
+    validateName(name);
+    return courseService.findAllByNameLike(name);
   }
 
   @GetMapping("/{id}")
@@ -59,8 +61,7 @@ public class CourseController {
   @PutMapping("/{id}")
   public Course update(@NotNull @Positive @PathVariable("id") Long id, @Valid @RequestBody CourseUpdateDto course) {
     if (!Objects.equals(course.getId(), id)) {
-      throw new UniversityBadRequestException(Course.class, "id",
-          "Must be the same as the path variable that is used");
+      throw new UniversityBadRequestException("Invalid request, Id must be the same as the path variable that is used");
     }
 
     return courseService.update(Objects.requireNonNull(conversionService.convert(course, Course.class)));
@@ -106,4 +107,10 @@ public class CourseController {
     courseService.disEnrollStudents(courseId, deleteDto.getIds());
   }
 
+  private void validateName(String name) {
+
+    if (nonNull(name) && name.trim().length() == 0) {
+      throw new InvalidParameterException("Invalid name");
+    }
+  }
 }

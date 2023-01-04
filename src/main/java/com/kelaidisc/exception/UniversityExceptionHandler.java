@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
@@ -25,23 +26,17 @@ public class UniversityExceptionHandler extends ResponseEntityExceptionHandler {
     ErrorDetails errorDetails = new ErrorDetails(
         e.getMessage(),
         httpStatus,
-        ZonedDateTime.now(ZoneId.of("Europe/Athens"))
+        ZonedDateTime.now(ZoneId.of("Europe/Athens")),
+        e.getBusinessCode()
     );
     return new ResponseEntity<>(errorDetails, httpStatus);
   }
 
-  @ExceptionHandler ({ConstraintViolationException.class})
+  @ExceptionHandler({ConstraintViolationException.class,
+      InvalidParameterException.class,
+      MethodArgumentTypeMismatchException.class})
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  protected ResponseEntity<Object> handleConstraintViolationException(
-      ConstraintViolationException e) {
+  protected ResponseEntity<Object> handleGenericBadRequestException(Exception e) {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
   }
-
-  @ExceptionHandler ({InvalidParameterException.class})
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  protected ResponseEntity<Object> handleInvalidParameterException(
-      InvalidParameterException e) {
-    return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-  }
-
 }

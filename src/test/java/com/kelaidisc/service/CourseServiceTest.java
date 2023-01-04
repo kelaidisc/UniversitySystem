@@ -103,7 +103,7 @@ class CourseServiceTest {
     assertThatThrownBy(() -> underTest.create(course))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Course.class + " with name: " + course.getName() + " already exists");
+            ("Course with name: " + course.getName() + " already exists");
   }
 
   @Test
@@ -150,7 +150,7 @@ class CourseServiceTest {
     assertThatThrownBy(() -> underTest.update(course))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Course.class + " with name: " + course.getName() + " already exists");
+            ("Course with name: " + course.getName() + " already exists");
   }
 
   @Test

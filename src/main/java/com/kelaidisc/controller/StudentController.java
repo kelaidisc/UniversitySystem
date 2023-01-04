@@ -72,8 +72,7 @@ public class StudentController {
   public Student update(@NotNull @Positive @PathVariable("id") Long id, @Valid @RequestBody StudentUpdateDto student) {
 
     if (!Objects.equals(student.getId(), id)) {
-      throw new UniversityBadRequestException(Student.class, "id",
-          "Must be the same as the path variable that is used");
+      throw new UniversityBadRequestException("Invalid request, Id must be the same as the path variable that is used");
     }
     return studentService.update(Objects.requireNonNull(conversionService.convert(student, Student.class)));
   }

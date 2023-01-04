@@ -45,11 +45,11 @@ public class ProfessorController {
 
   @GetMapping
   public List<Professor> findAll(@RequestParam(value = "name", required = false) String name,
-                               @RequestParam(value = "email", required = false) String email,
-                               @RequestParam(value = "phone", required = false) String phone,
-                               @RequestParam(value = "birthday", required = false)
-                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                               LocalDate birthday) {
+                                 @RequestParam(value = "email", required = false) String email,
+                                 @RequestParam(value = "phone", required = false) String phone,
+                                 @RequestParam(value = "birthday", required = false)
+                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                 LocalDate birthday) {
 
     validateName(name);
     validateEmail(email);
@@ -73,8 +73,7 @@ public class ProfessorController {
                           @Valid @RequestBody ProfessorUpdateDto professor) {
 
     if (!Objects.equals(professor.getId(), id)) {
-      throw new UniversityBadRequestException(Professor.class, "id",
-          "Must be the same as the path variable that is used");
+      throw new UniversityBadRequestException("Invalid request, Id must be the same as the path variable that is used");
     }
     return
         professorService.update(Objects.requireNonNull(conversionService.convert(professor, Professor.class)));

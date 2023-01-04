@@ -15,5 +15,5 @@ public class ErrorDetails {
   private final HttpStatus httpStatus;
   private final ZonedDateTime timestamp;
 
-
+  private final String businessCode;
 }

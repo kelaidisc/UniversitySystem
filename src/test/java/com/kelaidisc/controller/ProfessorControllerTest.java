@@ -175,7 +175,8 @@ class ProfessorControllerTest {
             .content(objectMapper.writeValueAsString(professor)));
 
     response
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.businessCode").value("10001"));
   }
 
   @Test

@@ -61,8 +61,7 @@ public class CourseController {
   @PutMapping("/{id}")
   public Course update(@NotNull @Positive @PathVariable("id") Long id, @Valid @RequestBody CourseUpdateDto course) {
     if (!Objects.equals(course.getId(), id)) {
-      throw new UniversityBadRequestException(Course.class, "id",
-          "Must be the same as the path variable that is used");
+      throw new UniversityBadRequestException("Invalid request, Id must be the same as the path variable that is used");
     }
 
     return courseService.update(Objects.requireNonNull(conversionService.convert(course, Course.class)));

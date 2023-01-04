@@ -26,7 +26,8 @@ public class UniversityExceptionHandler extends ResponseEntityExceptionHandler {
     ErrorDetails errorDetails = new ErrorDetails(
         e.getMessage(),
         httpStatus,
-        ZonedDateTime.now(ZoneId.of("Europe/Athens"))
+        ZonedDateTime.now(ZoneId.of("Europe/Athens")),
+        e.getBusinessCode()
     );
     return new ResponseEntity<>(errorDetails, httpStatus);
   }

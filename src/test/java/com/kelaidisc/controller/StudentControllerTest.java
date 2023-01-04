@@ -181,7 +181,8 @@ class StudentControllerTest {
             .content(objectMapper.writeValueAsString(student)));
 
     response
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.businessCode").value("10001"));
   }
 
   @Test

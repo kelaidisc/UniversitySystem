@@ -159,7 +159,7 @@ class ProfessorServiceTest {
     assertThatThrownBy(() -> underTest.create(professor))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Professor.class + " with email: " + professor.getEmail() + " already exists");
+            ("Professor with email: " + professor.getEmail() + " already exists");
   }
 
   @Test
@@ -183,7 +183,7 @@ class ProfessorServiceTest {
     assertThatThrownBy(() -> underTest.create(professor))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Professor.class + " with phone: " + professor.getPhone() + " already exists");
+            ("Professor with phone: " + professor.getPhone() + " already exists");
   }
 
   @Test
@@ -236,7 +236,7 @@ class ProfessorServiceTest {
     assertThatThrownBy(() -> underTest.update(professor))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Professor.class + " with email: " + professor.getEmail() + " already exists");
+            ("Professor with email: " + professor.getEmail() + " already exists");
   }
 
   @Test
@@ -261,7 +261,7 @@ class ProfessorServiceTest {
     assertThatThrownBy(() -> underTest.create(professor))
         .isInstanceOf(UniversityDuplicateResourceException.class)
         .hasMessageContaining
-            (Professor.class + " with phone: " + professor.getPhone() + " already exists");
+            ("Professor with phone: " + professor.getPhone() + " already exists");
   }
 
   @Test
